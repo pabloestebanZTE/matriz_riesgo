@@ -170,6 +170,7 @@ create table riesgo
    k_id_riesgo          varchar(50) not null,
    n_riesgo             varchar(100) default null,
    n_riesgo_descripcion varchar(250) default null,
+   n_responsable        varchar(50) default null,
    primary key (k_id_riesgo)
 );
 

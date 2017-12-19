@@ -18,6 +18,15 @@
                         <legend>Administrador de Controles</legend>
                         <fieldset class="col-md-6 control-label">
                             <div class="form-group">
+                                <label for="k_id_control" class="col-md-3 control-label">ID:</label>
+                                <div class="col-md-8 selectContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-fw fa-street-view"></i></span>
+                                        <input type='text' name="k_id_control" id="k_id_control" class="form-control" >
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <label for="n_descripcion" class="col-md-3 control-label">Descripción del Control:</label>
                                 <div class="col-md-8 selectContainer">
                                     <div class="input-group">
@@ -227,8 +236,6 @@
                                 </div>
                             </div>
                         </fieldset>
-                        <input type='hidden' name="k_id_control" id="k_id_control" class="form-control" >
-
                         <!--   fin seccion derecha---->
 
                         <!-- Button -->
