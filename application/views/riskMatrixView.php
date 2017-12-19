@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <?php $this->load->view('parts/generic/head'); ?>
-    <link rel="stylesheet" href="<?= URL::to('assets/css/styleRiskMatrix.css') ?>" />
+    <link rel="stylesheet" href="<?= URL::to('assets/css/styleRiskMatrix.css') ?>" />    
     <body data-base="<?= URL::base() ?>">
         <?php $this->load->view('parts/generic/header'); ?>
         <div class="container autoheight">
@@ -23,16 +23,19 @@
                             </a>
                         </div>
                     </div>
-                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 bhoechie-tab">
-
-                        <!-- establecer contexto section -->
-                        <div class="bhoechie-tab-content active" id="contentTab1">
-                            <center>
-                                <form class="well form-horizontal" action="" method="post">
+                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 bhoechie-tab" >
+                        <form action="Matriz/insertContext" data-action-updated="Matriz/updateContext" method="post" id="formsRisk">
+                            <!-- establecer contexto section -->
+                            <div class="bhoechie-tab-content active" id="contentTab1">
+                                <div class="content-center m-b-20 well form-horizontal" id="form1">
+                                    <div class="alert alert-success alert-dismissable hidden">
+                                        <a href="#" class="close" >&times;</a>
+                                        <p class="p-b-0" id="text"></p>
+                                    </div>
                                     <div class="form-group">
                                         <label for="cmbPlataforma" class="col-sm-2 control-label">Plataforma</label>
                                         <div class="col-sm-10">
-                                            <select class="form-control" id="cmbPlataforma" name="cmbPlataforma">
+                                            <select class="form-control" id="cmbPlataforma" name="riesgo_especifico.k_id_plataforma" data-combox="5">
                                                 <option value="">Seleccione</option>
                                             </select>
                                         </div>
@@ -40,19 +43,19 @@
                                     <div class="form-group">
                                         <label for="txtMacroProceso" class="col-sm-2 control-label">Macro proceso</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="txtMacroProceso" name="txtMacroProceso">
+                                            <input type="text" class="form-control" id="txtMacroProceso" name="riesgo_especifico.n_macro_proceso">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="txtProceso" class="col-sm-2 control-label">Proceso</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="txtProceso" name="txtProceso">
+                                            <input type="text" class="form-control" id="txtProceso" name="txtProceso" name="riesgo_especifico.n_proceso">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="txtServicios" class="col-sm-2 control-label">Servicios</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="txtServicios" name="txtServicios">
+                                            <input type="text" class="form-control" id="txtServicios" name="riesgo_especifico.n_servicio">
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -64,7 +67,7 @@
                                     <div class="form-group">
                                         <label for="txtResponsablePlataforma" class="col-sm-2 control-label">Responsable Plataforma</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="txtResponsablePlataforma" name="txtResponsablePlataforma">
+                                            <input type="text" class="form-control" id="txtResponsablePlataforma" name="riesgo_especifico.n_responsable">
                                         </div>
                                     </div>
 
@@ -73,18 +76,20 @@
                                             <button type="submit" class="btn btn-primary"><span class="fa fa-fw fa-floppy-o"></span>&nbsp;&nbsp;Guardar</button>
                                         </div>
                                     </div>
-                                </form>
-                            </center>
-                        </div>
+                                </div>
+                            </div>
 
-                        <!-- identificar riesgos section -->
-                        <div class="bhoechie-tab-content" id="contentTab2">
-                            <center>
-                                <form class="well form-horizontal" action="" method="post">
+                            <!-- identificar riesgos section -->
+                            <div class="bhoechie-tab-content" id="contentTab2">
+                                <div class="content-center m-b-20 well form-horizontal" id="form2" >
+                                    <div class="alert alert-success alert-dismissable hidden">
+                                        <a href="#" class="close" >&times;</a>
+                                        <p class="p-b-0" id="text"></p>
+                                    </div>
                                     <div class="form-group">
                                         <label for="cmbRiesgoId" class="col-sm-2 control-label">Riesgo</label>
                                         <div class="col-sm-10">
-                                            <select class="form-control" id="cmbRiesgoId" name="cmbRiesgoId">
+                                            <select class="form-control" id="cmbRiesgoId" name="riesgo_especifico.k_id_riesgo" data-combox="1">
                                                 <option value="">Seleccione</option>
                                             </select>
                                         </div>
@@ -97,30 +102,25 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="txtTipoEventoNivel1" class="col-sm-2 control-label">Tipo de evento (nivel 1)</label>
+                                        <label for="cmbTipoEventoNivel1" class="col-sm-2 control-label">Tipo de evento (nivel 1)</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="txtTipoEventoNivel1" name="txtTipoEventoNivel1">
+                                            <select class="form-control" id="cmbTipoEventoNivel1" name="riesgo_especifico.k_id_tipo_evento_1" >
+                                                <option>Seleccione</option>
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="txtTipoEventoNivel2" class="col-sm-2 control-label">Tipo de evento (nivel 2)</label>
+                                        <label for="cmbTipoEventoNivel2" class="col-sm-2 control-label">Tipo de evento (nivel 2)</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="txtTipoEventoNivel2" name="txtTipoEventoNivel2">
+                                            <select class="form-control" id="cmbTipoEventoNivel2" name="riesgo_especifico.k_id_tipo_evento_2" >
+                                                <option>Seleccione</option>
+                                            </select>
                                         </div>
-                                    </div>
-                                    <div id="contenedorCausas">
-                                        <div class="form-inline form-group">
-                                            <label for="txtCausa" class="col-sm-2 control-label">Causa</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="txtCausa" name="txtCausa[]" style="width: 93%;">
-                                                <button type="button" class="btn btn-success" onclick="AgregarCausas()"><i class="fa fa-plus" aria-hidden="true"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    </div>                                    
                                     <div class="form-group">
                                         <label for="cmbFactorRiesgo" class="col-sm-2 control-label">Factor de riesgo</label>
                                         <div class="col-sm-10">
-                                            <select class="form-control" id="cmbFactorRiesgo" name="cmbFactorRiesgo">
+                                            <select class="form-control" id="cmbFactorRiesgo" name="cmbFactorRiesgo" data-combox="2">
                                                 <option value="">Seleccione</option>
                                             </select>
                                         </div>
@@ -128,7 +128,7 @@
                                     <div class="form-group">
                                         <label for="cmbProbabilidad" class="col-sm-2 control-label">Probabilidad</label>
                                         <div class="col-sm-10">
-                                            <select class="form-control" id="cmbProbabilidad" name="cmbProbabilidad">
+                                            <select class="form-control" id="cmbProbabilidad" name="cmbProbabilidad" data-combox="3">
                                                 <option value="">Seleccione</option>
                                             </select>
                                         </div>
@@ -149,7 +149,7 @@
                                     <div class="form-group">
                                         <label for="cmbImpacto" class="col-sm-2 control-label">Impacto</label>
                                         <div class="col-sm-10">
-                                            <select class="form-control" id="cmbImpacto" name="cmbImpacto">
+                                            <select class="form-control" id="cmbImpacto" name="riesgo_especifico.n_impacto" data-combox="4">
                                                 <option value="">Seleccione</option>
                                             </select>
                                         </div>
@@ -157,13 +157,13 @@
                                     <div class="form-group">
                                         <label for="cmbSoporteImpacto1" class="col-sm-2 control-label">Soporte Impacto</label>
                                         <div class="col-sm-10">
-                                            <select class="form-control" id="cmbSoporteImpacto1" name="cmbSoporteImpacto1">
+                                            <select class="form-control" id="cmbSoporteImpacto1" name="cmbSoporteImpacto1" >
                                                 <option value="">Seleccione</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="cmbSoporteImpacto2" class="col-sm-2 control-label">Soporte Impacto</label>
+                                        <label for="cmbSoporteImpacto2" class="col-sm-2 control-label">Soporte Impacto2</label>
                                         <div class="col-sm-10">
                                             <select class="form-control" id="cmbSoporteImpacto2" name="cmbSoporteImpacto2">
                                                 <option value="">Seleccione</option>
@@ -188,23 +188,33 @@
                                             <button type="submit" class="btn btn-primary"><span class="fa fa-fw fa-floppy-o"></span>&nbsp;&nbsp;Guardar</button>
                                         </div>
                                     </div>
-                                </form>
-                            </center>
-                        </div>
+                                </div>
+                            </div>
 
-                        <!-- analizar riegos section -->
-                        <div class="bhoechie-tab-content" id="contentTab3">
-                            <center>
-                                <!--<div class="row form-md">-->
-                                <form class="well form-horizontal" action="" method="post">
+                            <!-- analizar riegos section -->
+                            <div class="bhoechie-tab-content" id="contentTab3">
+                                <div class="m-b-20 content-center well form-horizontal" id="form3">
+                                    <div id="contenedorCausas">
+                                        <div class="form-inline form-group">
+                                            <label for="txtCausa" class="col-sm-2 control-label">Causa</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="txtCausa" name="causas[]" style="width: 93%;">
+                                                <button type="button" class="btn btn-success" onclick="AgregarCausas()"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div id="contenedorControles">
-                                        <div class="form-inline form-group" >
+                                        <div class="form-group" >
                                             <label for="cmbControles" class="col-sm-2 control-label">Control</label>
                                             <div class="col-sm-10">
-                                                <select class="form-control" id="cmbControles" name="cmbControles[]" style="width: 93%;">
-                                                    <option value="">Seleccione</option>
-                                                </select>
-                                                <button type="button" class="btn btn-success" onclick="AgregarControles()"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                                                <div class="input-group">
+                                                    <select class="form-control" id="cmbControles" name="controles[]" data-combox="6">
+                                                        <option value="">Seleccione</option>
+                                                    </select>
+                                                    <div class="input-group-btn">
+                                                        <button type="button" class="btn btn-success" onclick="AgregarControles()"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -213,10 +223,9 @@
                                             <button type="submit" class="btn btn-primary"><span class="fa fa-fw fa-floppy-o"></span>&nbsp;&nbsp;Guardar</button>
                                         </div>
                                     </div>
-                                </form>
-                                <!--</div>-->
-                            </center>
-                        </div>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
