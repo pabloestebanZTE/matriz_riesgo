@@ -5,6 +5,7 @@ class RiesgoModel extends Model {
     protected $k_id_riesgo;
     protected $n_riesgo;
     protected $n_riesgo_descripcion;
+    protected $n_responsable;
     
     //Los campos que desea ocultar para que no se reflejen en la vista.    
     protected $table = "riesgo";
@@ -33,6 +34,12 @@ class RiesgoModel extends Model {
     }
     public function getNRiesgoDescripcion() {
         return $this->n_riesgo_descripcion;
+    }
+    public function setNResponsable($n_responsable) {
+        $this->n_responsable = $n_responsable;
+    }
+    public function getNResponsable() {
+        return $this->n_responsable;
     }
 
 

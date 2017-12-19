@@ -89,7 +89,7 @@ create table causa
 /*==============================================================*/
 create table control
 (
-   k_id_control         int(11) not null,
+   k_id_control         varchar(50) not null,
    n_descripcion        varchar(250) default null,
    n_asignacion         varchar(50) default null,
    n_cargo              varchar(50) default null,
@@ -115,7 +115,7 @@ create table control_especifico
 (
    k_id_control_especifico int(11) not null auto_increment,
    k_id_riesgo_especifico int(11) default null,
-   k_id_control         int(11) default null,
+   k_id_control         varchar(50) default null,
    k_id_causa           int(11) default null,
    k_id_factor_riesgo   int(11) default null,
    k_id_calificacion    int(11) default null,
@@ -167,7 +167,7 @@ create table probabilidad
 /*==============================================================*/
 create table riesgo
 (
-   k_id_riesgo          int(11) not null,
+   k_id_riesgo          varchar(50) not null,
    n_riesgo             varchar(100) default null,
    n_riesgo_descripcion varchar(250) default null,
    primary key (k_id_riesgo)
@@ -179,7 +179,7 @@ create table riesgo
 create table riesgo_actividad
 (
    k_id_riesgo_actividad int(11) not null auto_increment,
-   k_id_riesgo          int(11) default null,
+   k_id_riesgo          varchar(50) default null,
    k_id_actividad       int(11) default null,
    primary key (k_id_riesgo_actividad)
 );
@@ -191,7 +191,7 @@ create table riesgo_especifico
 (
    k_id_riesgo_especifico int(11) not null auto_increment,
    k_id_plataforma      int(11)  default null,
-   k_id_riesgo          int(11) default null,
+   k_id_riesgo          varchar(50) default null,
    k_id_zona_geografica int(11) default null,
    k_id_tipo_evento_2   int(11) default null,
    k_id_soporte         int(11) default null,

@@ -11,24 +11,28 @@
             <div class='tab-content' id='tab3'><br><br>
                 <div class="container">
                     <form class="well form-horizontal" action="" method="post"  id="controls" name="controls">
+                        <div class="alert alert-success alert-dismissable hidden">
+                            <a href="#" class="close" >&times;</a>
+                            <p class="p-b-0" id="text"></p>
+                        </div>
                         <legend>Administrador de Riesgo</legend>
                         <fieldset class="col-md-6 control-label">
                             <div class="form-group">
-                                <label for="txtID" class="col-md-3 control-label">ID:</label>
+                                <label for="k_id_riesgo" class="col-md-3 control-label">ID:</label>
                                 <div class="col-md-8 selectContainer">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-fw fa-street-view"></i></span>
-                                        <input type='text' name="txtID" id="txtID" class="form-control" >
+                                        <input type='text' name="k_id_riesgo" id="k_id_riesgo" class="form-control" >
                                     </div>
                                 </div>
                             </div>
                             
                             <div class="form-group">
-                                <label for="txtResponsableRiesgo" class="col-md-3 control-label">Responsable Riesgo:</label>
+                                <label for="n_responsable" class="col-md-3 control-label">Responsable Riesgo:</label>
                                 <div class="col-md-8 selectContainer">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-fw fa-globe"></i></span>
-                                        <input type='text' name="txtResponsableRiesgo" id="txtResponsableRiesgo" class="form-control" >
+                                        <input type='text' name="n_responsable" id="n_responsable" class="form-control" >
                                     </div>
                                 </div>
                             </div>
@@ -38,11 +42,11 @@
                         <!--  inicio seccion derecha form---->
                         <fieldset>
                             <div class="form-group">
-                                <label for="txtRiesgo" class="col-md-3 control-label">Riesgo:</label>
+                                <label for="n_riesgo" class="col-md-3 control-label">Riesgo:</label>
                                 <div class="col-md-8 selectContainer">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-fw fa-tablet"></i></span>
-                                        <input type="text" name="txtRiesgo" id="txtRiesgo" class="form-control">
+                                        <input type="text" name="n_riesgo" id="n_riesgo" class="form-control">
                                     </div>
                                 </div>
                             </div>
@@ -52,7 +56,7 @@
                                 <div class="col-md-8 selectContainer">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-fw fa-briefcase"></i></span>
-                                        <textarea id="txtDescripcionRiesgo" name="txtDescripcionRiesgo" class="form-control"></textarea>
+                                        <textarea id="n_riesgo_descripcion" name="n_riesgo_descripcion" class="form-control"></textarea>
                                     </div>
                                 </div>
                             </div>    
