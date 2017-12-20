@@ -24,7 +24,7 @@
                         </div>
                     </div>
                     <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 bhoechie-tab" >
-                        <div id="formsRisk" data-action="Matriz/insertContext" data-action-update="Matriz/updateContext">
+                        <div id="formsRisk" data-action="Risk/insertRiskFull" data-action-update="Risk/updateRiskFull" >
                             <input type="hidden" value="" id="idRecord" />
                             <!-- establecer contexto section -->
                             <div class="bhoechie-tab-content active" id="contentTab1">
@@ -97,7 +97,7 @@
                                     <div class="form-group">
                                         <label for="txtTipoActividad" class="col-sm-2 control-label">Tipo de Actividad</label>
                                         <div class="col-sm-10">
-                                            <select class="form-control" name="n_tipo_activad">
+                                            <select class="form-control" name="riesgo_especifico.n_tipo_activad">
                                                 <option>Seleccione</option>
                                                 <option value="OT">OT</option>
                                                 <option value="MANTENIMIENTO">MANTENIMIENTO</option>
@@ -224,7 +224,6 @@
                                             <input type="text" class="form-control" id="txtSeveridadRiesgoInherente" name="riesgo_especifico.n_severidad_riesgo_inherente" disabled="true">
                                         </div>
                                     </div>
-
                                     <div class="form-group">
                                         <div class="col-sm-offset-2 col-sm-10">
                                             <button type="submit" class="btn btn-primary"><span class="fa fa-fw fa-floppy-o"></span>&nbsp;&nbsp;Guardar</button>
@@ -255,71 +254,44 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="body-causa">
-                                                    <div class="item-control bg-gray">
+                                                <div class="body-causa" id="content_controls">
+                                                    <div class="item-control bg-gray" id="controlIndex">
                                                         <!--<span class="icon-control"><i class="fa fa-fw fa-tag"></i></span>-->
                                                         <div class="content-control p-r-15">
+                                                            <!--<div class="col-md-6">-->
                                                             <label class="small">Control <span id="numControl">1:</span></label>
                                                             <div class="input-group">
-                                                                <input type="text" class="form-control input-sm" />                                                                
+                                                                <select class="form-control input-sm" id="cmbCodControl" data-combox="6">
+                                                                    <option value="">Seleccione</option>
+                                                                </select>
                                                                 <div class="input-group-btn">
                                                                     <button type="button" class="btn btn-primary btn-sm btn-add-control" title="Agregar control"><i class="fa fa-fw fa-plus"></i></button>
                                                                     <button type="button" class="btn btn-danger btn-sm btn-remove-control" title="Remover causa"><i class="fa fa-fw fa-minus"></i></button>
                                                                 </div>
                                                             </div>
+                                                            <!--</div>-->
+                                                            <!--<div class="col-md-6">-->
                                                             <div class="display-block with-300 m-t-10">
                                                                 <label class="small">Factor de riesgo:</label>
                                                                 <select class="form-control input-sm" id="cmbFactorRiesgo" name="cmbFactorRiesgo" data-combox="2">
                                                                     <option value="">Seleccione</option>
                                                                 </select>
                                                             </div>
+                                                            <!--</div>-->
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+                                        <button type="button" class="btn btn-primary" id="btnAddCausa" onclick="vista.addCausa()"><i class="fa fa-fw fa-plus"></i> Agregar causa</button>
+                                    </div>
+                                    <div class="form-group p-t-15">
+                                        <div class="col-xs-12">
+                                            <button type="submit" class="btn btn-primary hidden"><span class="fa fa-fw fa-floppy-o"></span>&nbsp;&nbsp;Guardar</button>
+                                        </div>
                                     </div>
                                     <!--</div>-->
-                                </form>
-                                <form class="m-b-20 content-center well form-horizontal hidden" id="form4">
-                                    <div id="contenedorCausas">
-                                        <div class="form-inline form-group">
-                                            <label for="txtCausa" class="col-sm-2 control-label">Causa</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="txtCausa" name="causas[]" style="width: 93%;">
-                                                <button type="button" class="btn btn-success" onclick="AgregarCausas()"><i class="fa fa-plus" aria-hidden="true"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div id="contenedorControles">
-                                        <div class="form-group" >
-                                            <label for="cmbControles" class="col-sm-2 control-label">Control</label>
-                                            <div class="col-sm-10">
-                                                <div class="input-group">
-                                                    <select class="form-control" id="cmbControles" name="controles[]" data-combox="6">
-                                                        <option value="">Seleccione</option>
-                                                    </select>
-                                                    <div class="input-group-btn">
-                                                        <button type="button"  class="btn btn-success" onclick="AgregarControles()"><i class="fa fa-plus" aria-hidden="true"></i></button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="cmbFactorRiesgo" class="col-sm-2 control-label">Factor de riesgo</label>
-                                        <div class="col-sm-10">
-                                            <select class="form-control" id="cmbFactorRiesgo" name="cmbFactorRiesgo" data-combox="2">
-                                                <option value="">Seleccione</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-sm-offset-2 col-sm-10">
-                                            <button type="submit" class="btn btn-primary"><span class="fa fa-fw fa-floppy-o"></span>&nbsp;&nbsp;Guardar</button>
-                                        </div>
-                                    </div>
-                                </form>
+                                </form>                                
                             </div>
                         </div>
                     </div>

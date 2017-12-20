@@ -12,8 +12,11 @@ class RiesgoEspecificoModel extends Model {
     protected $n_proceso;
     protected $n_servicio;
     protected $n_responsable;
-    protected $n_probabilidad;
-    protected $n_impacto;
+    protected $k_id_probabilidad;
+    protected $k_id_impacto;
+    protected $n_objetivo;
+    protected $n_tipo_activad;
+    protected $n_severidad_riesgo_inherente;
     
     //Los campos que desea ocultar para que no se reflejen en la vista.    
     protected $table = "riesgo_especifico";
@@ -85,17 +88,35 @@ class RiesgoEspecificoModel extends Model {
     public function getNResponsable() {
         return $this->n_responsable;
     }
-    public function setNProbabilidad($n_probabilidad) {
-        $this->n_probabilidad = $n_probabilidad;
+    public function setKIdProbabilidad($k_id_probabilidad) {
+        $this->k_id_probabilidad = $k_id_probabilidad;
     }
-    public function getNProbabilidad() {
-        return $this->n_probabilidad;
+    public function getKIdProbabilidad() {
+        return $this->k_id_probabilidad;
     }
-    public function setNImpacto($n_impacto) {
-        $this->n_impacto = $n_impacto;
+    public function setKIdImpacto($k_id_impacto) {
+        $this->k_id_impacto = $k_id_impacto;
     }
-    public function getNImpacto() {
-        return $this->n_impacto;
+    public function getKIdImpacto() {
+        return $this->k_id_impacto;
+    }
+    public function setNObjetivo($n_objetivo) {
+        $this->n_objetivo = $n_objetivo;
+    }
+    public function getNObjetivo() {
+        return $this->n_objetivo;
+    }
+    public function setNTipoActivad($n_tipo_activad) {
+        $this->n_tipo_activad = $n_tipo_activad;
+    }
+    public function getNTipoActivad() {
+        return $this->n_tipo_activad;
+    }
+    public function setNSeveridadRiesgoInherente($n_severidad_riesgo_inherente) {
+        $this->n_severidad_riesgo_inherente = $n_severidad_riesgo_inherente;
+    }
+    public function getNSeveridadRiesgoInherente() {
+        return $this->n_severidad_riesgo_inherente;
     }
 
 
