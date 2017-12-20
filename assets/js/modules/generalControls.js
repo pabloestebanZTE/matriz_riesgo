@@ -41,12 +41,12 @@ $(function () {
             
             var m = "";
             if (obj.k_control_asinado) {
-                if (obj.k_control_asinado < 0) {
+                if (obj.k_control_asinado === 0) {
                     m = "style= 'display: none'";
                 }
             }
             return '<div class="btn-group">'
-                    + '<a href="' + app.urlTo('User/trackingDetails?id=' + obj.k_id_onair) + '" class="btn btn-default btn-xs" data-toggle="tooltip" title="Editar Control"><span class="fa fa-fw fa-pencil-square-o"></span></a>'
+                    + '<a href="' + app.urlTo('Control/findControlById?idControl=' + obj.k_id_control) + '" class="btn btn-default btn-xs" data-toggle="tooltip" title="Editar Control"><span class="fa fa-fw fa-pencil-square-o"></span></a>'
                     + '<a  href="' + app.urlTo('User/doPrecheck?idOnair=' + obj.k_id_onair) + '" class="btn btn-default btn-xs" data-toggle="tooltip" title="ver Riesgos Asociados"' + m + '><span class="fa fa-fw fa-list-ul"></span></a>'
                     + '</div>';
         },

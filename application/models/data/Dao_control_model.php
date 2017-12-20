@@ -27,7 +27,21 @@ class Dao_control_model extends CI_Model {
             $db = new DB();
             $datos = $db->select("SELECT co.*, count(coe.k_id_control) k_control_asinado
                                 FROM control co
-                                LEFT JOIN control_especifico coe ON coe.k_id_control = co.k_id_control")->get();
+                                LEFT JOIN control_especifico coe ON coe.k_id_control = co.k_id_control
+                                GROUP BY coe.k_id_control")->get();
+            $response = new Response(EMessages::SUCCESS);
+            $response->setData($datos);
+            return $response;
+        } catch (ZolidException $ex) {
+            return $ex;
+        }
+    }
+
+    public function findById($id) {
+        try {
+            $user = new UserModel();
+            $datos = $user->where("k_id_control", "=", $id)
+                    ->first();
             $response = new Response(EMessages::SUCCESS);
             $response->setData($datos);
             return $response;
