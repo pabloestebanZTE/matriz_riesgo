@@ -71,6 +71,14 @@ class Matriz extends CI_Controller {
     public function generalRisksMatrixView() {
         $this->load->view('generalRisksMatrixView');
     }
+    
+    public function qualificationControlsView() {
+        $this->load->view('qualificationControlsView');
+    }
+    
+    public function gridView() {
+        $this->load->view('gridView');
+    }
 
 
 }

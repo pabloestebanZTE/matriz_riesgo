@@ -10,7 +10,7 @@
 
             <div class='tab-content' id='tab3'><br><br>
                 <div class="container">
-                    <form class="well form-horizontal" action="Controls/insertControl" method="post"  id="controls" name="controls">
+                    <form class="well form-horizontal" action="Control/insertControl" method="post"  id="controls" name="controls">
                         <div class="alert alert-success alert-dismissable hidden">
                             <a href="#" class="close" >&times;</a>
                             <p class="p-b-0" id="text"></p>
@@ -22,7 +22,7 @@
                                 <div class="col-md-8 selectContainer">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-fw fa-street-view"></i></span>
-                                        <input type='text' name="k_id_control" id="k_id_control" class="form-control" >
+                                        <input type='text' name="k_id_control" id="k_id_control" class="form-control" required>
                                     </div>
                                 </div>
                             </div>

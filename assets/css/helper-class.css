@@ -7,7 +7,12 @@ and open the template in the editor.
     Created on : 21-dic-2016, 16:46:25
     Author     : johnv
 */
-
+.widget{    
+    box-shadow: #333 0px 0px 1px;
+    box-shadow: #333 0px 0px 1px;
+    border-radius: 5px;
+    padding: 15px;
+}
 /*BEGIN:: HELPER CLASS*/
 /*MARGIN*/
 .m-all-0{
@@ -341,4 +346,27 @@ a.link-normal:hover{
 .with-nav-tabs.panel-primary .nav-tabs > li.dropdown .dropdown-menu > .active > a:hover,
 .with-nav-tabs.panel-primary .nav-tabs > li.dropdown .dropdown-menu > .active > a:focus {
     background-color: #4a9fe9;
+}
+
+.bg-white{
+    background-color:  #FFF;
+}
+.bg-gray{
+    background-color: #f9f9f9;
+}
+.text-capitalize{
+    text-transform: capitalize !important;
+}
+.text-uppercase{
+    text-transform: uppercase;
+}
+.text-lowercase{
+    text-transform: lowercase;
+}
+
+.bg-gray{
+    background-color: #f5f5f5 !important;
+}
+.bg-white{
+    background-color: #FFF !important;
 }
