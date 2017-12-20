@@ -6,6 +6,7 @@ class SoporteModel extends Model {
     protected $k_id_probabilidad;
     protected $k_id_impacto;
     protected $k_tipo;
+    protected $n_nombre;
     
     //Los campos que desea ocultar para que no se reflejen en la vista.    
     protected $table = "soporte";
@@ -40,6 +41,12 @@ class SoporteModel extends Model {
     }
     public function getKTipo() {
         return $this->k_tipo;
+    }
+    public function setNNombre($n_nombre) {
+        $this->n_nombre = $n_nombre;
+    }
+    public function getNNombre() {
+        return $this->n_nombre;
     }
 
 

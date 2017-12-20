@@ -14,7 +14,7 @@ class Risk extends CI_Controller {
         $response = $vm->insertRisk($this->request);
         $this->json($response);
     }
-    
+
     public function getALLRisks() {
         //Se comprueba si no hay sesión.
         if (!Auth::check()) {
@@ -31,6 +31,19 @@ class Risk extends CI_Controller {
             $response = new Response(EMessages::NOT_ALLOWED);
         }
     }
-    
-    
+
+    public function insertRiskFull() {
+        return;
+        $dao = new Dao_risk_model();
+        $response = $dao->insertRisk($this->request);
+        $this->json($response);
+    }
+
+    public function updateRiskFull() {
+        return;
+        $dao = new Dao_risk_model();
+        $response = $dao->updateRiskFull($this->request);
+        $this->json($response);
+    }
+
 }

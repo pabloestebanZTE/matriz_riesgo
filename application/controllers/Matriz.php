@@ -6,7 +6,6 @@ class Matriz extends CI_Controller {
 
     function __construct() {
         parent::__construct();
-//        $this->load->model('data/Dao_ticketOnair_model');
     }
 
     private function validUser($request) {
@@ -62,14 +61,6 @@ class Matriz extends CI_Controller {
 
     public function generalRisksMatrixView() {
         $this->load->view('generalRisksMatrixView');
-    }
-
-    public function insertContext() {
-        $this->json(new Response(EMessages::INSERT));
-    }
-
-    public function updateContext() {
-        $this->json(new Response(EMessages::UPDATE));
     }
 
     public function grid() {
