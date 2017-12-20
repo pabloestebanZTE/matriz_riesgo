@@ -31,5 +31,14 @@ class Control extends CI_Controller {
             $response = new Response(EMessages::NOT_ALLOWED);
         }
     }
+    
+    public function findControlById() {
+        $id = $this->request->idControl;
+        $vm = new Dao_control_model();
+        $response = $vm->findById($id);
+        $answer['control'] = json_encode($response->data);
+        
+        $this->json($response);
+    }
 
 }
