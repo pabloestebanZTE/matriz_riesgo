@@ -139,7 +139,7 @@
                                     <div class="form-group">
                                         <label for="cmbSoporteProbabilidad" class="col-sm-2 control-label">Soporte Probabilidad</label>
                                         <div class="col-sm-10">
-                                            <select class="form-control" id="cmbSoporteProbabilidad" name="soporte_probabilidad" onchange="cambiarSoporteImpacto()">
+                                            <select class="form-control" id="cmbSoporteProbabilidad" name="soporte_probabilidad" >
                                                 <option value="">Seleccione</option>
                                                 <option value="Soporte probabilidad 1">Soporte probabilidad 1</option>
                                                 <option value="Soporte probabilidad 2">Soporte probabilidad 2</option>
