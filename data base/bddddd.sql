@@ -108,7 +108,7 @@ CREATE TABLE IF NOT EXISTS `factor_riesgo` (
   `k_id_factor_riesgo` int(11) NOT NULL AUTO_INCREMENT,
   `n_descripcion` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`k_id_factor_riesgo`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 -- La exportación de datos fue deseleccionada.
 -- Volcando estructura para tabla matriz_riesgo.impacto
@@ -117,7 +117,7 @@ CREATE TABLE IF NOT EXISTS `impacto` (
   `k_id_impacto` int(11) NOT NULL AUTO_INCREMENT,
   `n_descripcion` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`k_id_impacto`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 -- La exportación de datos fue deseleccionada.
 -- Volcando estructura para tabla matriz_riesgo.plataforma
@@ -126,7 +126,7 @@ CREATE TABLE IF NOT EXISTS `plataforma` (
   `k_id_plataforma` int(11) NOT NULL AUTO_INCREMENT,
   `n_nombre` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`k_id_plataforma`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 -- La exportación de datos fue deseleccionada.
 -- Volcando estructura para tabla matriz_riesgo.probabilidad
@@ -135,7 +135,7 @@ CREATE TABLE IF NOT EXISTS `probabilidad` (
   `k_id_probabilidad` int(11) NOT NULL AUTO_INCREMENT,
   `n_descripcion` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`k_id_probabilidad`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 -- La exportación de datos fue deseleccionada.
 -- Volcando estructura para tabla matriz_riesgo.ref_combox
@@ -148,7 +148,7 @@ CREATE TABLE IF NOT EXISTS `ref_combox` (
   `n_sql` varchar(300) DEFAULT NULL,
   `d_created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`k_id_combox`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 -- La exportación de datos fue deseleccionada.
 -- Volcando estructura para tabla matriz_riesgo.riesgo
@@ -230,7 +230,7 @@ CREATE TABLE IF NOT EXISTS `tipo_evento_1` (
   `k_id_tipo_evento_1` int(11) NOT NULL AUTO_INCREMENT,
   `n_descripcion` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`k_id_tipo_evento_1`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 -- La exportación de datos fue deseleccionada.
 -- Volcando estructura para tabla matriz_riesgo.tipo_evento_2
@@ -242,7 +242,7 @@ CREATE TABLE IF NOT EXISTS `tipo_evento_2` (
   PRIMARY KEY (`k_id_tipo_evento_2`),
   KEY `fk_fk_te2_tipo_evento` (`k_id_tipo_evento_1`),
   CONSTRAINT `fk_fk_te2_tipo_evento` FOREIGN KEY (`k_id_tipo_evento_1`) REFERENCES `tipo_evento_1` (`k_id_tipo_evento_1`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 -- La exportación de datos fue deseleccionada.
 -- Volcando estructura para tabla matriz_riesgo.usuarios
@@ -258,7 +258,7 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   `n_password` varchar(30) DEFAULT NULL,
   `n_rol_ususario` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`k_id_usuarios`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 -- La exportación de datos fue deseleccionada.
 -- Volcando estructura para tabla matriz_riesgo.zona_geografica
