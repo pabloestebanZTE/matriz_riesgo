@@ -14,6 +14,34 @@ var vista = {
         $("div.bhoechie-tab-menu>div.list-group>a").on('click', vista.onClickTab);
         $('form').on('submit', vista.onSubmitForm);
         $('#cmbTipoEventoNivel1').on('change', vista.onChangeCmbTipoEventoNivel1);
+        $('#form3').on('click', '.btn-add-causa', vista.onClickAddCausa);
+        $('#form3').on('click', '.btn-remove-causa', vista.onClickRemoveCausa);
+        $('#form3').on('click', '.btn-add-control', vista.onClickAddControl);
+        $('#form3').on('click', '.btn-remove-control', vista.onClickRemoveControl);
+    },
+    onClickAddCausa: function () {
+        console.log("ADD CAUSA");
+        vista.addCausa();
+    },
+    onClickRemoveCausa: function () {
+        console.log("REMOVE CAUSA");
+        var btn = $(this);
+        btn.parents('');
+    },
+    onClickAddControl: function () {
+        console.log("ADD CONTROL");
+    },
+    onClickRemoveControl: function () {
+        console.log("REMOVE CAUSA");
+    },
+    addCausa: function () {
+        var model = $('#itemCausaIndex');
+        var clon = model.clone();
+        clon.removeAttr('id').removeClass('hidden');
+        var select = clon.find('select');
+        select.html(model.find('select').html()).select2({'width': '100%'});
+        select.next().remove();
+        $('#contentCausas').append(clon);
     },
     onSubmitForm: function (e) {
         var form = $(this);

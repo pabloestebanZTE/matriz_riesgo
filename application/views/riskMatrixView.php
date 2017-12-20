@@ -210,8 +210,8 @@
                                     <!--<div class="widget bg-gray text-left m-t-25 display-block">-->
                                     <h2 class="h4"><i class="fa fa-fw fa-check-square-o"></i> Causas y controles.</h2>
                                     <p class="muted m-b-0">Por favor, verifique los procesos a continuación y complete el checklist según sea el caso.</p>
-                                    <div class="widget bg-white">
-                                        <div class="item-causa" id="itemCausaIndex">
+                                    <div class="widget bg-white" id="contentCausas">
+                                        <div class="item-causa hidden" id="itemCausaIndex">
                                             <div class="item-icon">
                                                 <i class="fa fa-fw fa-warning"></i>
                                             </div>
@@ -221,22 +221,28 @@
                                                     <div class="input-group">
                                                         <input type="text" class="form-control input-sm" />
                                                         <div class="input-group-btn">
-                                                            <button class="btn btn-primary btn-sm" title="Agregar"><i class="fa fa-fw fa-plus"></i></button>
-                                                            <button class="btn btn-danger btn-sm" title="Remover"><i class="fa fa-fw fa-minus"></i></button>
+                                                            <button type="button" class="btn btn-primary btn-sm btn-add-causa" title="Agregar causa"><i class="fa fa-fw fa-plus"></i></button>
+                                                            <button type="button" class="btn btn-danger btn-sm btn-remove-causa" title="Remover causa"><i class="fa fa-fw fa-minus"></i></button>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="body-causa">                                                    
-                                                    <div class="item-control">
-                                                        <span class="icon-control"><i class="fa fa-fw fa-tag"></i></span>
-                                                        <div class="content-control">
+                                                <div class="body-causa">
+                                                    <div class="item-control bg-gray">
+                                                        <!--<span class="icon-control"><i class="fa fa-fw fa-tag"></i></span>-->
+                                                        <div class="content-control p-r-15">
                                                             <label class="small">Control <span id="numControl">1:</span></label>
                                                             <div class="input-group">
-                                                                <input type="text" class="form-control input-sm" />
+                                                                <input type="text" class="form-control input-sm" />                                                                
                                                                 <div class="input-group-btn">
-                                                                    <button class="btn btn-primary btn-sm"><i class="fa fa-fw fa-plus"></i></button>
-                                                                    <button class="btn btn-danger btn-sm"><i class="fa fa-fw fa-minus"></i></button>
+                                                                    <button type="button" class="btn btn-primary btn-sm btn-add-control" title="Agregar control"><i class="fa fa-fw fa-plus"></i></button>
+                                                                    <button type="button" class="btn btn-danger btn-sm btn-remove-control" title="Remover causa"><i class="fa fa-fw fa-minus"></i></button>
                                                                 </div>
+                                                            </div>
+                                                            <div class="display-block with-300 m-t-10">
+                                                                <label class="small">Factor de riesgo:</label>
+                                                                <select class="form-control input-sm" id="cmbFactorRiesgo" name="cmbFactorRiesgo" data-combox="2">
+                                                                    <option value="">Seleccione</option>
+                                                                </select>
                                                             </div>
                                                         </div>
                                                     </div>

@@ -867,7 +867,7 @@ table td{
     
 }
 .item-causa .header-causa{
-    margin-bottom: 15px;
+    padding-bottom: 15px;
 }
 .item-causa:last-child{
     border-bottom: 0px;
@@ -890,10 +890,12 @@ table td{
     color: #FFF;
 }
 .item-control{
+    position: relative;
     display: block;
     padding: 15px 0px;
-    padding-left: 30px;    
-    border-top: 1px dashed #ccc;    
+    padding-left: 15px;
+    border-top: 1px dashed #ccc;
+    -webkit-border-start-width: 10px;
 }
 .item-control .icon-control{
     width: 23px;
@@ -911,4 +913,20 @@ table td{
 .item-control .content-control{
     display: block;
     margin-left: 35px;
+}
+.item-control:before{
+    content: "";
+    position: absolute;
+    border: 0.5px dashed #ccc;
+    left: 0px;
+    top: 0px;
+    height: 100%;
+}
+.item-control:after{
+    content: "";
+    position: absolute;
+    top: 30%;
+    left: 0px;
+    width: 23px;
+    border: 0.5px dashed #ccc;
 }
