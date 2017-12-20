@@ -51,16 +51,16 @@ var vista = {
         select.attr('class', 'form-control');
         select.removeAttr('tabindex');
         select.removeAttr('aria-hidden');
-        select.html(model.find('select').html());
+        select.html(model.find('select:eq(0)').html());
         select.next().remove();
         select.select2({'width': '100%'});
-        select = clon.find('select:eq(1)');
-        select.attr('class', 'form-control');
-        select.removeAttr('tabindex');
-        select.removeAttr('aria-hidden');
-        select.html(model.find('select').html());
-        select.next().remove();
-        select.select2({'width': '100%'});
+        var select2 = clon.find('select:eq(1)');
+        select2.attr('class', 'form-control');
+        select2.removeAttr('tabindex');
+        select2.removeAttr('aria-hidden');
+        select2.html(model.find('select:eq(1)').html());
+        select2.next().remove();
+        select2.select2({'width': '100%'});
         $('#contentCausas').append(clon);
         clon.find('#numCausa').html($('.causa-added').length);
         clon.find('input:eq(0)').focus();
@@ -98,7 +98,7 @@ var vista = {
             var controls = [];
             for (var j = 0; j < controlsItems.length; j++) {
                 var controlItem = $(controlsItems[i]);
-                if (controlItem.find('input').val().trim() != "" && controlItem.find('select').val().trim() != "") {
+                if (controlItem.find('select:eq(0)').val().trim() != "" && controlItem.find('select:eq(1)').val().trim() != "") {
                     controls.push({
                         id: controlItem.find('select:eq(0)').val(),
                         factorRiesgo: controlItem.find('select:eq(1)').val()
@@ -118,6 +118,7 @@ var vista = {
         var forUpdate = false;
         if (formGlobal.attr('data-mode') === "FOR_UPDATE") {
             uri = formGlobal.attr('data-action-update');
+            obj.idRecord = $('#idRecord').val();
             forUpdate = true;
         }
 

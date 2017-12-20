@@ -119,7 +119,7 @@
                                         <label for="cmbTipoEventoNivel2" class="col-sm-2 control-label">Tipo de evento (nivel 2)</label>
                                         <div class="col-sm-10">
                                             <select class="form-control" id="cmbTipoEventoNivel2" name="riesgo_especifico.k_id_tipo_evento_2" >
-                                                <option>Seleccione un tipo de evento (nivel 1)</option>
+                                                <option value="">Seleccione un tipo de evento (nivel 1)</option>
                                             </select>
                                         </div>
                                     </div>                                    

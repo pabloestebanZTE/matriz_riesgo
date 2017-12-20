@@ -33,14 +33,12 @@ class Risk extends CI_Controller {
     }
 
     public function insertRiskFull() {
-        return;
         $dao = new Dao_risk_model();
-        $response = $dao->insertRisk($this->request);
+        $response = $dao->insertRiskFull($this->request);
         $this->json($response);
     }
 
     public function updateRiskFull() {
-        return;
         $dao = new Dao_risk_model();
         $response = $dao->updateRiskFull($this->request);
         $this->json($response);
