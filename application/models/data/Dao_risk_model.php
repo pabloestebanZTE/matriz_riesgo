@@ -117,54 +117,55 @@ class Dao_risk_model extends CI_Model {
 
 
             //Verificamos, actualizmos e insertamos los nuevos soportes de impacto...
-            $soporteRecords = $request->soporte_impacto->all();
-            $valid = new Validator();
-            foreach ($soporteRecords as $value) {
-                if ($valid->required(null, $value)) {
-                    $soporteModel = new SoporteModel();
-//                    var_dump($riesgoEspecifico);
-                    $soporteModel->insert([
-                        "k_id_impacto" => $riesgoEspecifico->k_id_impacto,
-                        "k_tipo" => "2",
-                        "n_nombre" => $value
-                    ]);
-                }
-            }
+//            $soporteRecords = $request->soporte_impacto->all();
+//            $valid = new Validator();
+//            $soporteModel = new SoporteModel();
+//            foreach ($soporteRecords as $value) {
+//                if ($valid->required(null, $value)) {
+//                    $soporteModel = new SoporteModel();
+//                    //Comprobamos que no exista...
+//                    $soporteModel->insert([
+//                        "k_id_impacto" => $riesgoEspecifico->k_id_impacto,
+//                        "k_tipo" => "2",
+//                        "n_nombre" => $value
+//                    ]);
+//                }
+//            }
 
             //Insertamos los soportes de probabilidad.
-            $value = $request->soporte_probabilidad;
-            if ($valid->required(null, $value)) {
-                $soporteModel = new SoporteModel();
-                $soporteModel->insert([
-                    "k_id_probabilidad" => $riesgoEspecifico->k_id_probabilidad,
-                    "k_tipo" => "1",
-                    "n_nombre" => $value
-                ]);
-            }
+//            $value = $request->soporte_probabilidad;
+//            if ($valid->required(null, $value)) {
+//                $soporteModel = new SoporteModel();
+//                $soporteModel->insert([
+//                    "k_id_probabilidad" => $riesgoEspecifico->k_id_probabilidad,
+//                    "k_tipo" => "1",
+//                    "n_nombre" => $value
+//                ]);
+//            }
             //Insertamos las causas...
-            $causas = $request->causas;
-            if ($causas) {
-                $causas = $request->causas->all();
-                foreach ($causas as $value) {
-                    $causa = new ObjUtil($value->all());
-                    $causaModel = new CausaModel();
-                    //Insertamos la causa...
-                    $idCausa = $causaModel->insert([
-                                "n_nombre" => $causa->text
-                            ])->data;
-                    //Insertamos los controles...
-                    $controls = $causa->controls->all();
-                    foreach ($controls as $control) {
-                        $controlEspecificoModel = new ControlEspecificoModel();
-                        $controlEspecificoModel->insert([
-                            "k_id_riesgo_especifico" => $idRiesgo,
-                            "k_id_control" => $control->id,
-                            "k_id_causa" => $idCausa,
-                            "k_id_factor_riesgo" => $control->factorRiesgo,
-                        ]);
-                    }
-                }
-            }
+//            $causas = $request->causas;
+//            if ($causas) {
+//                $causas = $request->causas->all();
+//                foreach ($causas as $value) {
+//                    $causa = new ObjUtil($value->all());
+//                    $causaModel = new CausaModel();
+//                    //Insertamos la causa...
+//                    $idCausa = $causaModel->insert([
+//                                "n_nombre" => $causa->text
+//                            ])->data;
+//                    //Insertamos los controles...
+//                    $controls = $causa->controls->all();
+//                    foreach ($controls as $control) {
+//                        $controlEspecificoModel = new ControlEspecificoModel();
+//                        $controlEspecificoModel->insert([
+//                            "k_id_riesgo_especifico" => $idRiesgo,
+//                            "k_id_control" => $control->id,
+//                            "k_id_causa" => $idCausa,
+//                            "k_id_factor_riesgo" => $control->factorRiesgo,
+//                        ]);
+//                    }
+//                }
+//            }
             return new Response(EMessages::INSERT, "ADFKJASDF", $idRiesgo);
         } catch (ZolidException $ex) {
             return $ex;
