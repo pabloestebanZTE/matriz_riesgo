@@ -17,7 +17,7 @@ $(function () {
             // ini.fillTable([]);
             //Realiza la petición AJAX para traer los datos...
             var alert = dom.printAlert('Consultando registros, por favor espere.', 'loading', $('#principalAlert'));
-            app.post('TicketOnair/ticketUser')
+            app.post('Risk/getALLRisks')
                     .complete(function () {
                         alert.hide();
                         $('.contentPrincipal').removeClass('hidden');
@@ -49,10 +49,10 @@ $(function () {
             }
             ini.tablaPrincipal = $('#tablaPrincipal').DataTable(dom.configTable(data,
                     [
-                        {title: "ID", data: ini.fillNA},
-                        {title: "Riesgo", data: ini.fillNA},
-                        {title: "Descripción del Riesgo", data: ini.fillNA},
-                        {title: "Responsable Riesgo", data: ini.fillNA},
+                        {title: "ID", data: "k_id_riesgo"},
+                        {title: "Riesgo", data: "n_riesgo"},
+                        {title: "Descripción del Riesgo", data: "n_riesgo_descripcion"},
+                        {title: "Responsable Riesgo", data: "n_responsable"},
                         {title: "Opciones", data: ini.getButtons},
                     ],
                     ));

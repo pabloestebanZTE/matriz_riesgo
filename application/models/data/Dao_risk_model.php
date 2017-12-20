@@ -4,16 +4,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 //    session_start();
 
-class Dao_control_model extends CI_Model {
+class Dao_risk_model extends CI_Model {
 
     public function __construct() {
-        $this->load->model('dto/ControlModel');
+        $this->load->model('dto/RiesgoModel');
     }
 
-    public function insertControl($request) {
+    public function insertRisk($request) {
         try {
-            $cvm = new ControlModel();
-            $datos = $cvm->insert($request->all());
+            $riesgo = new RiesgoModel();
+            $datos = $riesgo->insert($request->all());
             $response = new Response(EMessages::SUCCESS);
             $response->setData($datos);
             return $response;
@@ -22,12 +22,10 @@ class Dao_control_model extends CI_Model {
         }
     }
 
-    public function getAllControlsAssigned() {
+    public function getAll() {
         try {
-            $db = new DB();
-            $datos = $db->select("SELECT co.*, count(coe.k_id_control) k_control_asinado
-                                FROM control co
-                                LEFT JOIN control_especifico coe ON coe.k_id_control = co.k_id_control")->get();
+            $user = new RiesgoModel();
+            $datos = $user->get();
             $response = new Response(EMessages::SUCCESS);
             $response->setData($datos);
             return $response;
