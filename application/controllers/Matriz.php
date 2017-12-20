@@ -79,6 +79,10 @@ class Matriz extends CI_Controller {
     public function updateContext() {
         $this->json(new Response(EMessages::UPDATE));
     }
+    
+    public function grid(){
+        $this->load->view('grid');
+    }
 
 }
 
