@@ -12,7 +12,74 @@ var vista = {
     },
     evetns: function () {
         $("div.bhoechie-tab-menu>div.list-group>a").on('click', vista.onClickTab);
-        dom.submit($('#formsRisk'), null, false);
+        $('form').on('submit', vista.onSubmitForm);
+        $('#cmbTipoEventoNivel1').on('change', vista.onChangeCmbTipoEventoNivel1);
+    },
+    onSubmitForm: function (e) {
+        var form = $(this);
+        form.validate();
+
+        if (e.isDefaultPrevented())
+        {
+            return;
+        }
+
+        //Se envia la información de los formularios...
+        app.stopEvent(e);
+
+        var form1 = $('#form1');
+        var form2 = $('#form2');
+        var form3 = $('#form3');
+
+        var obj = new Object();
+        __mergeObj(obj, form1.getFormData());
+        __mergeObj(obj, form2.getFormData());
+        __mergeObj(obj, form3.getFormData());
+
+        var formGlobal = $('#formsRisk');
+        var uri = formGlobal.attr('data-action');
+        var forUpdate = false;
+        if (formGlobal.attr('data-mode') === "FOR_UPDATE") {
+            uri = formGlobal.attr('data-action-update');
+            forUpdate = true;
+        }
+
+        //Se hace la petición AJAX y se envia el objeto completo con toda la información de los tres formularios para ser procesada...
+        app.post(uri, obj)
+                .success(function (response) {
+                    console.log(response);
+                    var v = app.validResponse(response);
+                    if (v) {
+                        swal((forUpdate ? "Actualizado" : "Guardado"), (forUpdate ? "Se ha actualizado correctamente el registro." : "Se ha guardado correctamente el registro."), "success");
+                        $('#idRecord').val(response.data);
+                        formGlobal.attr('data-mode', 'FOR_UPDATE');
+                        form.find('button:submit').html('<i class="fa fa-fw fa-save"></i> Actualizar');
+                    } else {
+                        swal((forUpdate ? "Error al actualizar" : "Error al guardar"), (forUpdate ? "Se ha producido un error al intentar actualizar el registro." : "Se ha producido un error al intentar guardar el registro."), "warning");
+                    }
+                })
+                .error(function () {
+                    swal("Error inesperado", "Lo sentimos, se ha producido un error inesperado.", "error");
+                }).send();
+    },
+    onChangeCmbTipoEventoNivel1: function () {
+        if ($('#cmbTipoEventoNivel1').val().trim("") === "") {
+            return;
+        }
+        var cmb = $('#cmbTipoEventoNivel2');
+        app.get('Utils/getListComboxCmbTipoEventoNvl2', {
+            idNivel1: $('#cmbTipoEventoNivel1').val(),
+        }).success(function (response) {
+            var data = app.parseResponse(response);
+            if (data) {
+                dom.llenarCombo(cmb, data, {text: "text", value: "value"});
+            }
+            if (typeof callback === "function") {
+                callback(data);
+            }
+        }).error(function () {
+            dom.comboVacio(cmb);
+        }).send();
     },
     onClickTab: function (e) {
         e.preventDefault();
@@ -77,4 +144,10 @@ function AgregarCausas() {
 
 function eliminarCausas(idCausa) {
     $("#contenedorCausas" + idCausa).remove();
+}
+
+function clickButtonSubmit(form) {
+    var form = $('#form' + form);
+    form.validate();
+//    console.log(form)
 }

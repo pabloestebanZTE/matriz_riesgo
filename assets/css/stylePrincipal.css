@@ -75,16 +75,6 @@ h1 {
 h2 {
     color: #207be5;
 }
-h2:after {
-    display: block;
-    content: "";
-    height: 2px;
-    width: 150px;
-    background:  #207be5 ;
-    margin: 10px auto 40px;
-
-}
-
 
 h3 {
     line-height:30px;
@@ -870,4 +860,55 @@ nav {
 }
 table td{
     vertical-align: middle !important;
+}
+.item-causa{
+    display: block;
+    padding: 15px 5px;    
+    
+}
+.item-causa .header-causa{
+    margin-bottom: 15px;
+}
+.item-causa:last-child{
+    border-bottom: 0px;
+}
+.item-causa .item-icon{
+    width: 40px;
+    height: 40px;
+    background-color: #ffbe00;
+    font-size: 23px;
+    text-align: center;
+    border-radius: 3px;
+    border: 1px solid #ff6408;
+    text-shadow: 2px 2px 2px #ff6408;
+    float: left;
+    margin-right: 20px;
+    margin-top: 8px;
+}
+.item-causa .item-icon .fa{
+    margin-top: 8px;
+    color: #FFF;
+}
+.item-control{
+    display: block;
+    padding: 15px 0px;
+    padding-left: 30px;    
+    border-top: 1px dashed #ccc;    
+}
+.item-control .icon-control{
+    width: 23px;
+    height: 23px;
+    color: #FFF;
+    background-color: #009fff;
+    font-size: 15px;
+    text-align: center;
+    border-radius: 3px;
+    border: 1px solid #0277bd;
+    text-shadow: 2px 2px 2px #0277bd;
+    float: left;
+    margin-right: 10px;
+}
+.item-control .content-control{
+    display: block;
+    margin-left: 35px;
 }

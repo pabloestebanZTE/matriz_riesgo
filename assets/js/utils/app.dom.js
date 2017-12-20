@@ -86,7 +86,7 @@ var dom = {
     llenarCombo: function (cmb, array, keyNames, stopSelect2) {
         window.setTimeout(function () {
             cmb.html("");
-            cmb.append(new Option("Selecciona", ""));
+            cmb.append(new Option("Seleccione", ""));
             if (Array.isArray(array) && array.length > 0) {
                 for (var i = 0; i < array.length; i++) {
                     var dato = array[i];

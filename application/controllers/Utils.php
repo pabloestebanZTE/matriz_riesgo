@@ -23,6 +23,12 @@ class Utils extends CI_Controller {
         $this->json($response);
     }
 
+    function getListComboxCmbTipoEventoNvl2() {
+        $dao = new Dao_combox_model();
+        $response = $dao->getListComboxCmbTipoEventoNvl2($this->request);
+        $this->json($response);
+    }
+
     function getOnTime() {
         $onTimeTypes = ["Y", "N", "Y"];
         $i = rand(0, 2);
