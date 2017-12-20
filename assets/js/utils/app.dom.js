@@ -14,9 +14,31 @@ var dom = {
             $('[data-toggle="tooltip"]').tooltip();
             $('.container.autoheight').css('min-height', screen.height + 'px');
             dom.events();
-
+            dom.fillCombox();
         } catch (e) {
         }
+    },
+    fillCombox: function () {
+        var comboxs = $('[data-combox]');
+        for (var i = 0; i < comboxs.length; i++) {
+            var cmb = $(comboxs[i]);
+            dom.getListCombox(cmb);
+        }
+    },
+    getListCombox: function (cmb, stopSelect2, callback) {
+        app.get('Utils/getListCombox', {
+            idCombox: cmb.attr('data-combox')
+        }).success(function (response) {
+            var data = app.parseResponse(response);
+            if (data) {
+                dom.llenarCombo(cmb, data, {text: "text", value: "value"}, stopSelect2);
+            }
+            if (typeof callback === "function") {
+                callback(data);
+            }
+        }).error(function () {
+            dom.comboVacio(cmb);
+        }).send();
     },
     events: function () {
         //Configuración panel.
@@ -58,12 +80,13 @@ var dom = {
      * @param {Element} cmb
      * @param {Array} array
      * @param {Object} keyNames : Ej: {text="keyName", value="keyName"}; value también soporta un array para concatenar keyNames,
+     * @param {Boolean} stopSelect2 : true si no se desea ejecutar select2.
      * @returns {undefined}
      */
-    llenarCombo: function (cmb, array, keyNames) {
+    llenarCombo: function (cmb, array, keyNames, stopSelect2) {
         window.setTimeout(function () {
             cmb.html("");
-            cmb.append(new Option("Selecciona", ""));
+            cmb.append(new Option("Seleccione", ""));
             if (Array.isArray(array) && array.length > 0) {
                 for (var i = 0; i < array.length; i++) {
                     var dato = array[i];
@@ -81,7 +104,9 @@ var dom = {
             } else {
                 dom.comboVacio(cmb);
             }
-            cmb.select2({width: "100%"});
+            if (stopSelect2 !== true) {
+                cmb.select2({width: "100%"});
+            }
             cmb.trigger('select2fill');
         }, 10);
     },
@@ -367,7 +392,11 @@ var dom = {
         var obj = form.getFormData();
         var ajax = null;
         dom.printAlert("Enviando, por favor espere...", 'loading', form.find('.alert'));
-        ajax = app.post(form.attr('action'), obj);
+        var uri = form.attr('action');
+        if (form.attr('data-action') == "FOR_UPDATE") {
+            uri = form.attr('data-action-updated');
+        }
+        ajax = app.post(uri, obj);
         ajax.complete(function () {
             form.find('fieldset').prop('disabled', false);
             form.find('button[type="submit"] i.fa-refresh.fa-spin').attr('class', 'fa fa-fw fa-save');
@@ -377,6 +406,12 @@ var dom = {
                 if (clearForm != false) {
                     form.find('input:not([type="hidden"]),textarea,select').val('');
                     form.find('select.select2-hidden-accessible').trigger('change.select2');
+                }
+                if (form.attr('data-action-updated')) {
+                    form.attr('data-action', "FOR_UPDATE");
+                    form.find('input#idSubmitForm').remove();
+                    form.append('<input type="hidden" name="idRecord" id="idSubmitForm" value="' + response.data + '" />');
+                    form.find('button[type="submit"]').html('<i class="fa fa-fw fa-save"></i> Actualizar');
                 }
                 if (typeof callback === "function") {
                     callback(response);

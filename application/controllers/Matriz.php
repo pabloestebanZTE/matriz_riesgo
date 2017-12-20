@@ -47,39 +47,50 @@ class Matriz extends CI_Controller {
             $this->json(new Response(EMessages::SESSION_INACTIVE));
         }
     }
-    
-    public function riskMatrixView() {
-        $this->load->view('riskMatrixView');
-    }
-    
+
     public function controlsView() {
         $this->load->view('controlsView');
     }
-    
-    public function generalRisksView() {
-        $this->load->view('generalRisksView');
-    }
-    
+
     public function generalControlsView() {
         $this->load->view('generalControlsView');
     }
-    
+
     public function riskView() {
         $this->load->view('riskView');
     }
-    
+
     public function generalRisksMatrixView() {
         $this->load->view('generalRisksMatrixView');
     }
-    
+
+    public function insertContext() {
+        $this->json(new Response(EMessages::INSERT));
+    }
+
+    public function updateContext() {
+        $this->json(new Response(EMessages::UPDATE));
+    }
+
+    public function grid() {
+        $this->load->view('grid');
+    }
+
+    public function riskMatrixView() {
+        $this->load->view('riskMatrixView');
+    }
+
+    public function generalRisksView() {
+        $this->load->view('generalRisksView');
+    }
+
     public function qualificationControlsView() {
         $this->load->view('qualificationControlsView');
     }
-    
+
     public function gridView() {
         $this->load->view('gridView');
     }
-
 
 }
 

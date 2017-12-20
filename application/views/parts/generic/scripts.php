@@ -9,6 +9,7 @@
 
 <!--BOOTSTRAP-TABLE SCRIPT-->
 <script src="<?= URL::to('assets/plugins/datatables/js/jquery.dataTables.js?v=1.0') ?>"></script>
+<script src="<?= URL::to('assets/plugins/jquery.validate.min.js?v=1.0') ?>"></script>
 <link href="<?= URL::to("assets/plugins/select2/select2.css") ?>" rel="stylesheet" type="text/css"/>
 <script src="<?= URL::to("assets/plugins/select2/select2.js") ?>" type="text/javascript"></script>
 <script src="<?= URL::to('assets/plugins/datatables/js/dataTables.bootstrap.js?v=1.0') ?>"></script>

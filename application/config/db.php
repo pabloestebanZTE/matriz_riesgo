@@ -23,7 +23,7 @@ return [
       | you may use many connections at once using the Database library.
       |
      */
-    'default' => 'mysqlLocalhost',
+    'default' => 'jj',
     /*
       |--------------------------------------------------------------------------
       | Database Connections
@@ -79,11 +79,24 @@ return [
             'strict' => true,
             'engine' => null,
         ],
-        'jj' => [
+        'kpi' => [
             'driver' => 'mysql',
             'host' => 'localhost',
             'port' => '3306',
             'database' => 'on_air',
+            'username' => 'root',
+            'password' => '',
+            'charset' => 'utf8',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+            'strict' => true,
+            'engine' => null,
+        ],
+        'jj' => [
+            'driver' => 'mysql',
+            'host' => 'localhost',
+            'port' => '3306',
+            'database' => 'matriz_riesgo',
             'username' => 'root',
             'password' => '',
             'charset' => 'utf8',
