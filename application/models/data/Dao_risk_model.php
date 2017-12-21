@@ -168,7 +168,7 @@ class Dao_risk_model extends CI_Model {
             return $ex;
         }
     }
-    
+
     public function findById($id) {
         try {
             $user = new RiesgoModel();
@@ -266,6 +266,20 @@ class Dao_risk_model extends CI_Model {
         $risk->k_id_tipo_evento_2 = $tipoEvento2Model->where("k_id_tipo_evento_2", "=", $risk->k_id_tipo_evento_2)->first();
         $risk->k_id_probabilidad = $probabilidadModel->where("k_id_probabilidad", "=", $risk->k_id_probabilidad)->first();
         $risk->k_id_impacto = $impactoModel->where("k_id_impacto", "=", $risk->k_id_impacto)->first();
+    }
+
+    public function updateGeneralRisk($request) {
+        try {
+            $rm = new RiesgoModel();
+            $datos = $rm->where("k_id_riesgo", "=", $request->k_id_riesgo)
+                    ->update($request->all());
+            echo $rm->getSQL();
+            $response = new Response(EMessages::UPDATE);
+            $response->setData($datos);
+            return $response;
+        } catch (ZolidException $ex) {
+            return $ex;
+        }
     }
 
 }

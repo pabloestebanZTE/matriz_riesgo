@@ -107,7 +107,7 @@
                 console.log(riesgo);
                 
                 if (riesgo !== null) {
-                    $("#risks").attr("action","Risk/updateRisk");
+                    $("#risks").attr("action","Risk/updateGeneralRisk");
                     $('#risks').fillForm(riesgo);
                 }
                 
