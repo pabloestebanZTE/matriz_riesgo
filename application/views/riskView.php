@@ -103,6 +103,14 @@
         <script src="<?= URL::to("assets/plugins/HelperForm.js") ?>" type="text/javascript"></script>
         <script type="text/javascript">
             $(function () {
+                var riesgo = <?php echo $riesgo; ?>;
+                console.log(riesgo);
+                
+                if (riesgo !== null) {
+                    $("#risks").attr("action","Risk/updateRisk");
+                    $('#risks').fillForm(riesgo);
+                }
+                
                 dom.submit($('#risks'));
             });
         </script>

@@ -39,7 +39,7 @@ $(function () {
         },
         getButtons: function (obj) {
             return '<div class="btn-group">'
-                    + '<a href="' + app.urlTo('User/trackingDetails?id=' + obj.k_id_onair) + '" class="btn btn-default btn-xs" data-toggle="tooltip" title="Editar Control"><span class="fa fa-fw fa-pencil-square-o"></span></a>'
+                    + '<a href="' + app.urlTo('Risk/findRiskById?idRiesgo=' + obj.k_id_riesgo) + '" class="btn btn-default btn-xs" data-toggle="tooltip" title="Editar Control"><span class="fa fa-fw fa-pencil-square-o"></span></a>'
                     + '</div>';
         },
         fillTable: function (data) {

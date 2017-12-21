@@ -11,7 +11,8 @@
                 </button>
                 <a class="logo" href="<?= URL::to('index.php/Matriz/generalRisksMatrixView') ?>">
                     <img id="logo" src="<?= URL::to('assets/img/logo2.png') ?>"/>
-                </a>
+                </a><br>
+                <span style="color: white; margin-left: -4px;">Matriz de Riesgo - Claro</span>
             </div>
             <!-- Collect the nav links for toggling -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
