@@ -3,6 +3,7 @@
 class CausaModel extends Model {
 
     protected $k_id_causa;
+    protected $k_id_riesgo_especifico;
     protected $n_nombre;
     
     //Los campos que desea ocultar para que no se reflejen en la vista.    
@@ -20,6 +21,12 @@ class CausaModel extends Model {
     }
     public function getKIdCausa() {
         return $this->k_id_causa;
+    }
+    public function setKIdRiesgoEspecifico($k_id_riesgo_especifico) {
+        $this->k_id_riesgo_especifico = $k_id_riesgo_especifico;
+    }
+    public function getKIdRiesgoEspecifico() {
+        return $this->k_id_riesgo_especifico;
     }
     public function setNNombre($n_nombre) {
         $this->n_nombre = $n_nombre;

@@ -203,3 +203,127 @@ var vista = {
 $(document).ready(function () {
     vista.init();
 });
+
+function AgregarCampos() {
+    AgregarControles();
+}
+
+function AgregarControles() {
+    contControles++;
+    var cmb = modeloControles.clone();
+    cmb.select2({width: '100%'});
+    var campos = '<div class="form-group" id="contenedorControles' + contControles + '">'
+            + '<label for="cmbControles" class="col-sm-2 control-label">Control</label>'
+            + '<div class="col-sm-10"><div class="input-group" id="contentCmb">'
+            + modeloControles[0].outerHTML
+            + '<div class="input-group-btn"><button type="button" class="btn btn-success m-r-0" onclick="AgregarCampos()"><i class="fa fa-plus" aria-hidden="true"></i></button>'
+            + '<button type="button" class="btn btn-danger" onclick="eliminarControles(' + contControles + ');"><i class="fa fa-minus" aria-hidden="true"></i></button>'
+            + '</div></div>'
+            + '</div>'
+            + '</div>';
+    campos = $(campos);
+    campos.find('select').select2({width: '100%'});
+    $("#contenedorControles").append(campos);
+}
+
+function eliminarControles(idControl) {
+    $("#contenedorControles" + idControl).remove();
+}
+
+function AgregarCausas() {
+    contCausas++;
+    campos = '<div class="form-inline form-group" id="contenedorCausas' + contCausas + '">'
+            + '<label for="cmbControles" class="col-sm-2 control-label">Causa</label>'
+            + '<div class="col-sm-10">'
+            + '<input type="text" class="form-control m-r-5" id="txtCausa" name="causas[]" style="width: 87%;">'
+            + '<button type="button" class="btn btn-success m-r-5" onclick="AgregarCausas()"><i class="fa fa-plus" aria-hidden="true"></i></button>'
+            + '<button type="button" class="btn btn-danger" onclick="eliminarCausas(' + contCausas + ');"><i class="fa fa-minus" aria-hidden="true"></i></button>'
+            + '</div>'
+            + '</div>';
+    $("#contenedorCausas").append(campos);
+}
+
+function eliminarCausas(idCausa) {
+    $("#contenedorCausas" + idCausa).remove();
+}
+
+function clickButtonSubmit(form) {
+    var form = $('#form' + form);
+    form.validate();
+//    console.log(form)
+}
+
+function cambiarSoporteImpacto() {
+    var impacto = $('#cmbImpacto').val();
+    var option = '';
+    if (impacto === '5') {
+        option = '<option value="">Seleccione</option>'
+                + '<option value="1.1  CONTROL: La estructura de control es adecuada">1.1  CONTROL: La estructura de control es adecuada</option>'
+                + '<option value="1.2 OPERACIONAL: No hay interrupción de las operaciones">1.2 OPERACIONAL: No hay interrupción de las operaciones</option>'
+                + '<option value="1.3 CUMPLIMIENTO: No genera sanciones económicas y/o administrativas">1.3 CUMPLIMIENTO: No genera sanciones económicas y/o administrativas</option>'
+                + '<option value="1.4 REPUTACIONAL: No afecta las relaciones con los clientes">1.4 REPUTACIONAL: No afecta las relaciones con los clientes</option>'
+                + '<option value="1.5 INFORMACIÓN: No afecta la oportunidad de la información">1.5 INFORMACIÓN: No afecta la oportunidad de la información</option>';
+    }
+    if (impacto === '4') {
+        option = '<option value="">Seleccione</option>'
+                + '<option value="2.1 CONTROL: La estructura de control actual es susceptible de mejoras.">2.1 CONTROL: La estructura de control actual es susceptible de mejoras.</option>'
+                + '<option value="2.2 OPERACIONAL: Interrupción de las operaciones por 1 hora.">2.2 OPERACIONAL: Interrupción de las operaciones por 1 hora.</option>'
+                + '<option value="2.3 REPUTACIONAL: Existen algunos reclamaciones por parte de los clientes, accionistas, proveedores pero no se afecta la continuidad de la relación">2.3 REPUTACIONAL: Existen algunos reclamaciones por parte de los clientes, accionistas, proveedores pero no se afecta la continuidad de la relación</option>';
+    }
+    if (impacto === '3') {
+        option = '<option value="">Seleccione</option>'
+                + '<option value="3.1 CONTROL: Existen algunos controles pero no son los suficientes.">3.1 CONTROL: Existen algunos controles pero no son los suficientes.</option>'
+                + '<option value="3.2 OPERACIONAL: Interrupción de las operaciones de 2 a 4 horas">3.2 OPERACIONAL: Interrupción de las operaciones de 2 a 4 horas</option>'
+                + '<option value="3.3 REPUTACIONAL: Reclamaciones de clientes, accionistas, proveedores que requieren de un plan de acción de corto plazo">3.3 REPUTACIONAL: Reclamaciones de clientes, accionistas, proveedores que requieren de un plan de acción de corto plazo</option>'
+                + '<option value="3.4 OPERACIONAL: Reproceso de actividades y aumento de la carga operativa">3.4 OPERACIONAL: Reproceso de actividades y aumento de la carga operativa</option>';
+    }
+    if (impacto === '2') {
+        option = '<option value="">Seleccione</option>'
+                + '<option value="4.1 CONTROL: Estructura de control débil">4.1 CONTROL: Estructura de control débil</option>'
+                + '<option value="4.2 OPERACIONAL: Interrupción de las operaciones de 4 a 6 horas">4.2 OPERACIONAL: Interrupción de las operaciones de 4 a 6 horas</option>'
+                + '<option value="4.3 CUMPLIMIENTO: Observaciones por incumplimiento de las normas establecidas por los entes reguladores que generen un plan de acción a corto plazo">4.3 CUMPLIMIENTO: Observaciones por incumplimiento de las normas establecidas por los entes reguladores que generen un plan de acción a corto plazo</option>'
+                + '<option value="4.4 REPUTACIONAL: Afectación de la imagen en el mercado por atención ineficaz o inoportuna.">4.4 REPUTACIONAL: Afectación de la imagen en el mercado por atención ineficaz o inoportuna.</option>'
+                + '<option value="4.5 INFORMACIÓN: Inoportunidad de la información ocasionando retrasos en las labores de las áreas, respuesta a los entes reguladores y a los clientes">4.5 INFORMACIÓN: Inoportunidad de la información ocasionando retrasos en las labores de las áreas, respuesta a los entes reguladores y a los clientes</option>';
+    }
+    if (impacto === '1') {
+        option = '<option value="">Seleccione</option>'
+                + '<option value="5.1 CONTROL: No existe estructura de control">5.1 CONTROL: No existe estructura de control</option>'
+                + '<option value="5.2 OPERACIONAL: Interrupción de las operaciones por más de 6 horas.">5.2 OPERACIONAL: Interrupción de las operaciones por más de 6 horas.</option>'
+                + '<option value="5.3 CUMPLIMIENTO:Sanciones económicas por incumplimiento de las normas establecidas por los entes reguladores">5.3 CUMPLIMIENTO:Sanciones económicas por incumplimiento de las normas establecidas por los entes reguladores</option>'
+                + '<option value="5.4 REPUTACIONAL: Imagen negativa en el mercado por mal servicio">5.4 REPUTACIONAL: Imagen negativa en el mercado por mal servicio</option>'
+                + '<option value="5.5  INFORMACIÓN: Perdida de información crítica de la organización">5.5  INFORMACIÓN: Perdida de información crítica de la organización</option>';
+    }
+
+    $('#cmbSoporteImpacto1').empty();
+    $('#cmbSoporteImpacto2').empty();
+    $('#cmbSoporteImpacto1').append(option);
+    $('#cmbSoporteImpacto2').append(option);
+}
+
+function cambiarSoporteProbabilidad() {
+    var probabilidad = $('#cmbProbabilidad').val();
+    var option = '';
+    if (probabilidad === '5') {
+        option = '<option value="">Seleccione</option>'
+                + '<option value="1. Eventualidad que no es probable o es muy poco probable (una vez al año).">1. Eventualidad que no es probable o es muy poco probable (una vez al año).</option>';
+    }
+    if (probabilidad === '4') {
+        option = '<option value="">Seleccione</option>'
+                + '<option value="2. Eventualidad poco común  o relativa frecuencia (dos veces al año).">2. Eventualidad poco común  o relativa frecuencia (dos veces al año).</option>';
+    }
+    if (probabilidad === '3') {
+        option = '<option value="">Seleccione</option>'
+                + '<option value="3. Puede ocurrir en algún momento. Eventualidad con frecuencia moderada. (doce veces al año)">3. Puede ocurrir en algún momento. Eventualidad con frecuencia moderada. (doce veces al año)</option>';
+    }
+    if (probabilidad === '2') {
+        option = '<option value="">Seleccione</option>'
+                + '<option value="4. Hay buenas razones para creer que se verificará o sucederá el riesgo en muchas circunstancias. Eventualidad de frecuencia alta. (cuarenta y ocho  veces al año)">4. Hay buenas razones para creer que se verificará o sucederá el riesgo en muchas circunstancias. Eventualidad de frecuencia alta. (cuarenta y ocho  veces al año)</option>';
+    }
+    if (probabilidad === '1') {
+        option = '<option value="">Seleccione</option>'
+                + '<option value="5. Se espera que el riesgo ocurra en l<a mayoría de las circunstancias. Eventualidad frecuente. (Trescientos sesenta y cinco veces al año)">5. Se espera que el riesgo ocurra en la mayoría de las circunstancias. Eventualidad frecuente. (Trescientos sesenta y cinco veces al año)</option>';
+    }
+
+    $('#cmbSoporteProbabilidad').empty();
+    $('#cmbSoporteProbabilidad').append(option);
+}

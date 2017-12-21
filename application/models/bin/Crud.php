@@ -36,6 +36,18 @@ class Crud {
         return $this;
     }
 
+    public function isNull($key) {
+        $this->init();
+        $this->db->isNull($key);
+        return $this;
+    }
+
+    public function isNotNull($key) {
+        $this->init();
+        $this->db->isNotNull($key);
+        return $this;
+    }
+
     public function limit($limit = 0, $limit2 = 0) {
         $this->init();
         $this->db->limit($limit, $limit2);

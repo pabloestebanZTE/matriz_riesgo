@@ -34,7 +34,7 @@
                                 <a href="<?= URL::to('index.php/Matriz/generalControlsView') ?>"><i class="fa fa-fw fa-home"></i>&nbsp;&nbsp;Controles</a>
                             </li>
                             <li>
-                                <a href="<?= URL::to('index.php/Matriz/generalControlsView') ?>"><i class="fa fa-fw fa-home"></i>&nbsp;&nbsp;Riesgos</a>
+                                <a href="<?= URL::to('index.php/Matriz/generalRisksView') ?>"><i class="fa fa-fw fa-home"></i>&nbsp;&nbsp;Riesgos</a>
                             </li>
                             <li>
                                 <a href="<?= URL::to('index.php/Matriz/gridView') ?>"><i class="fa fa-fw fa-home"></i>&nbsp;&nbsp;Mapa de Riesgos</a>

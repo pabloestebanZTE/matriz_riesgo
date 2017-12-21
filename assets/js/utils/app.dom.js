@@ -108,6 +108,7 @@ var dom = {
                 cmb.select2({width: "100%"});
             }
             cmb.trigger('select2fill');
+            cmb.trigger('selectfilled');
         }, 10);
     },
     /**

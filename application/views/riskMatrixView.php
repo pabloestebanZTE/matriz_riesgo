@@ -110,7 +110,7 @@
                                     <div class="form-group">
                                         <label for="cmbTipoEventoNivel1" class="col-sm-2 control-label">Tipo de evento (nivel 1)</label>
                                         <div class="col-sm-10">
-                                            <select class="form-control" id="cmbTipoEventoNivel1" name="riesgo_especifico.k_id_tipo_evento_1" data-combox="7" >
+                                            <select class="form-control helper-change" id="cmbTipoEventoNivel1" name="riesgo_especifico.k_id_tipo_evento_1" data-combox="7" >
                                                 <option>Seleccione</option>
                                             </select>
                                         </div>
@@ -126,7 +126,7 @@
                                     <div class="form-group">
                                         <label for="cmbProbabilidad" class="col-sm-2 control-label">Probabilidad</label>
                                         <div class="col-sm-10">
-                                            <select class="form-control" id="cmbProbabilidad" name="riesgo_especifico.k_id_probabilidad" data-combox="3">
+                                            <select class="form-control helper-change" id="cmbProbabilidad" name="riesgo_especifico.k_id_probabilidad" data-combox="3" onchange="cambiarSoporteProbabilidad()">
                                                 <option value="">Seleccione</option>
                                             </select>
                                         </div>
@@ -134,13 +134,8 @@
                                     <div class="form-group">
                                         <label for="cmbSoporteProbabilidad" class="col-sm-2 control-label">Soporte Probabilidad</label>
                                         <div class="col-sm-10">
-                                            <select class="form-control" id="cmbSoporteProbabilidad" name="soporte_probabilidad" >
-                                                <option value="">Seleccione</option>
-                                                <option value="1. Eventualidad que no es probable o es muy poco probable (una vez al año).">1. Eventualidad que no es probable o es muy poco probable (una vez al año).</option>
-                                                <option value="2. Eventualidad poco común  o relativa frecuencia (dos veces al año).">2. Eventualidad poco común  o relativa frecuencia (dos veces al año).</option>
-                                                <option value="3. Puede ocurrir en algún momento. Eventualidad con frecuencia moderada. (doce veces al año)">3. Puede ocurrir en algún momento. Eventualidad con frecuencia moderada. (doce veces al año)</option>
-                                                <option value="4. Hay buenas razones para creer que se verificará o sucederá el riesgo en muchas circunstancias. Eventualidad de frecuencia alta. (cuarenta y ocho  veces al año)">4. Hay buenas razones para creer que se verificará o sucederá el riesgo en muchas circunstancias. Eventualidad de frecuencia alta. (cuarenta y ocho  veces al año)</option>
-                                                <option value="5. Se espera que el riesgo ocurra en la mayoría de las circunstancias. Eventualidad frecuente. (Trescientos sesenta y cinco veces al año)">5. Se espera que el riesgo ocurra en la mayoría de las circunstancias. Eventualidad frecuente. (Trescientos sesenta y cinco veces al año)</option>
+                                            <select class="form-control" id="cmbSoporteProbabilidad" name="soporte_probabilidad">
+                                                <option value="">Seleccione la probabilidad</option>
                                             </select>
                                         </div>
                                     </div>
@@ -148,8 +143,8 @@
                                     <div class="form-group">
                                         <label for="cmbImpacto" class="col-sm-2 control-label">Impacto</label>
                                         <div class="col-sm-10">
-                                            <select class="form-control" id="cmbImpacto" name="riesgo_especifico.k_id_impacto" data-combox="4">
-                                                <option value="">Seleccione</option>
+                                            <select class="form-control" id="cmbImpacto" name="riesgo_especifico.k_id_impacto" data-combox="4" onchange="cambiarSoporteImpacto();">
+                                                <option value="">Seleccione el impacto</option>
                                             </select>
                                         </div>
                                     </div>
@@ -157,29 +152,7 @@
                                         <label for="cmbSoporteImpacto1" class="col-sm-2 control-label">Soporte Impacto</label>
                                         <div class="col-sm-10">
                                             <select class="form-control" id="cmbSoporteImpacto1" name="soporte_impacto[]" >
-                                                <option value="">Seleccione</option>
-                                                <option value="1.1  CONTROL: La estructura de control es adecuada">1.1  CONTROL: La estructura de control es adecuada</option>
-                                                <option value="1.2 OPERACIONAL: No hay interrupción de las operaciones">1.2 OPERACIONAL: No hay interrupción de las operaciones</option>
-                                                <option value="1.3 CUMPLIMIENTO: No genera sanciones económicas y/o administrativas">1.3 CUMPLIMIENTO: No genera sanciones económicas y/o administrativas</option>
-                                                <option value="1.4 REPUTACIONAL: No afecta las relaciones con los clientes">1.4 REPUTACIONAL: No afecta las relaciones con los clientes</option>
-                                                <option value="1.5 INFORMACIÓN: No afecta la oportunidad de la información">1.5 INFORMACIÓN: No afecta la oportunidad de la información</option>
-                                                <option value="2.1 CONTROL: La estructura de control actual es susceptible de mejoras.">2.1 CONTROL: La estructura de control actual es susceptible de mejoras.</option>
-                                                <option value="2.2 OPERACIONAL: Interrupción de las operaciones por 1 hora.">2.2 OPERACIONAL: Interrupción de las operaciones por 1 hora.</option>
-                                                <option value="2.3 REPUTACIONAL: Existen algunos reclamaciones por parte de los clientes, accionistas, proveedores pero no se afecta la continuidad de la relación">2.3 REPUTACIONAL: Existen algunos reclamaciones por parte de los clientes, accionistas, proveedores pero no se afecta la continuidad de la relación</option>
-                                                <option value="3.1 CONTROL: Existen algunos controles pero no son los suficientes.">3.1 CONTROL: Existen algunos controles pero no son los suficientes.</option>
-                                                <option value="3.2 OPERACIONAL: Interrupción de las operaciones de 2 a 4 horas">3.2 OPERACIONAL: Interrupción de las operaciones de 2 a 4 horas</option>
-                                                <option value="3.3 REPUTACIONAL: Reclamaciones de clientes, accionistas, proveedores que requieren de un plan de acción de corto plazo">3.3 REPUTACIONAL: Reclamaciones de clientes, accionistas, proveedores que requieren de un plan de acción de corto plazo</option>
-                                                <option value="3.4 OPERACIONAL: Reproceso de actividades y aumento de la carga operativa">3.4 OPERACIONAL: Reproceso de actividades y aumento de la carga operativa</option>
-                                                <option value="4.1 CONTROL: Estructura de control débil">4.1 CONTROL: Estructura de control débil</option>
-                                                <option value="4.2 OPERACIONAL: Interrupción de las operaciones de 4 a 6 horas">4.2 OPERACIONAL: Interrupción de las operaciones de 4 a 6 horas</option>
-                                                <option value="4.3 CUMPLIMIENTO: Observaciones por incumplimiento de las normas establecidas por los entes reguladores que generen un plan de acción a corto plazo">4.3 CUMPLIMIENTO: Observaciones por incumplimiento de las normas establecidas por los entes reguladores que generen un plan de acción a corto plazo</option>
-                                                <option value="4.4 REPUTACIONAL: Afectación de la imagen en el mercado por atención ineficaz o inoportuna.">4.4 REPUTACIONAL: Afectación de la imagen en el mercado por atención ineficaz o inoportuna.</option>
-                                                <option value="4.5 INFORMACIÓN: Inoportunidad de la información ocasionando retrasos en las labores de las áreas, respuesta a los entes reguladores y a los clientes">4.5 INFORMACIÓN: Inoportunidad de la información ocasionando retrasos en las labores de las áreas, respuesta a los entes reguladores y a los clientes</option>
-                                                <option value="5.1 CONTROL: No existe estructura de control">5.1 CONTROL: No existe estructura de control</option>
-                                                <option value="5.2 OPERACIONAL: Interrupción de las operaciones por más de 6 horas.">5.2 OPERACIONAL: Interrupción de las operaciones por más de 6 horas.</option>
-                                                <option value="5.3 CUMPLIMIENTO:Sanciones económicas por incumplimiento de las normas establecidas por los entes reguladores">5.3 CUMPLIMIENTO:Sanciones económicas por incumplimiento de las normas establecidas por los entes reguladores</option>
-                                                <option value="5.4 REPUTACIONAL: Imagen negativa en el mercado por mal servicio">5.4 REPUTACIONAL: Imagen negativa en el mercado por mal servicio</option>
-                                                <option value="5.5  INFORMACIÓN: Perdida de información crítica de la organización">5.5  INFORMACIÓN: Perdida de información crítica de la organización</option>
+                                                <option value="">Seleccione el impacto</option>
                                             </select>
                                         </div>
                                     </div>
@@ -187,29 +160,7 @@
                                         <label for="cmbSoporteImpacto2" class="col-sm-2 control-label">Soporte Impacto2</label>
                                         <div class="col-sm-10">
                                             <select class="form-control" id="cmbSoporteImpacto2" name="soporte_impacto[]">
-                                                <option value="">Seleccione</option>
-                                                <option value="1.1  CONTROL: La estructura de control es adecuada">1.1  CONTROL: La estructura de control es adecuada</option>
-                                                <option value="1.2 OPERACIONAL: No hay interrupción de las operaciones">1.2 OPERACIONAL: No hay interrupción de las operaciones</option>
-                                                <option value="1.3 CUMPLIMIENTO: No genera sanciones económicas y/o administrativas">1.3 CUMPLIMIENTO: No genera sanciones económicas y/o administrativas</option>
-                                                <option value="1.4 REPUTACIONAL: No afecta las relaciones con los clientes">1.4 REPUTACIONAL: No afecta las relaciones con los clientes</option>
-                                                <option value="1.5 INFORMACIÓN: No afecta la oportunidad de la información">1.5 INFORMACIÓN: No afecta la oportunidad de la información</option>
-                                                <option value="2.1 CONTROL: La estructura de control actual es susceptible de mejoras.">2.1 CONTROL: La estructura de control actual es susceptible de mejoras.</option>
-                                                <option value="2.2 OPERACIONAL: Interrupción de las operaciones por 1 hora.">2.2 OPERACIONAL: Interrupción de las operaciones por 1 hora.</option>
-                                                <option value="2.3 REPUTACIONAL: Existen algunos reclamaciones por parte de los clientes, accionistas, proveedores pero no se afecta la continuidad de la relación">2.3 REPUTACIONAL: Existen algunos reclamaciones por parte de los clientes, accionistas, proveedores pero no se afecta la continuidad de la relación</option>
-                                                <option value="3.1 CONTROL: Existen algunos controles pero no son los suficientes.">3.1 CONTROL: Existen algunos controles pero no son los suficientes.</option>
-                                                <option value="3.2 OPERACIONAL: Interrupción de las operaciones de 2 a 4 horas">3.2 OPERACIONAL: Interrupción de las operaciones de 2 a 4 horas</option>
-                                                <option value="3.3 REPUTACIONAL: Reclamaciones de clientes, accionistas, proveedores que requieren de un plan de acción de corto plazo">3.3 REPUTACIONAL: Reclamaciones de clientes, accionistas, proveedores que requieren de un plan de acción de corto plazo</option>
-                                                <option value="3.4 OPERACIONAL: Reproceso de actividades y aumento de la carga operativa">3.4 OPERACIONAL: Reproceso de actividades y aumento de la carga operativa</option>
-                                                <option value="4.1 CONTROL: Estructura de control débil">4.1 CONTROL: Estructura de control débil</option>
-                                                <option value="4.2 OPERACIONAL: Interrupción de las operaciones de 4 a 6 horas">4.2 OPERACIONAL: Interrupción de las operaciones de 4 a 6 horas</option>
-                                                <option value="4.3 CUMPLIMIENTO: Observaciones por incumplimiento de las normas establecidas por los entes reguladores que generen un plan de acción a corto plazo">4.3 CUMPLIMIENTO: Observaciones por incumplimiento de las normas establecidas por los entes reguladores que generen un plan de acción a corto plazo</option>
-                                                <option value="4.4 REPUTACIONAL: Afectación de la imagen en el mercado por atención ineficaz o inoportuna.">4.4 REPUTACIONAL: Afectación de la imagen en el mercado por atención ineficaz o inoportuna.</option>
-                                                <option value="4.5 INFORMACIÓN: Inoportunidad de la información ocasionando retrasos en las labores de las áreas, respuesta a los entes reguladores y a los clientes">4.5 INFORMACIÓN: Inoportunidad de la información ocasionando retrasos en las labores de las áreas, respuesta a los entes reguladores y a los clientes</option>
-                                                <option value="5.1 CONTROL: No existe estructura de control">5.1 CONTROL: No existe estructura de control</option>
-                                                <option value="5.2 OPERACIONAL: Interrupción de las operaciones por más de 6 horas.">5.2 OPERACIONAL: Interrupción de las operaciones por más de 6 horas.</option>
-                                                <option value="5.3 CUMPLIMIENTO:Sanciones económicas por incumplimiento de las normas establecidas por los entes reguladores">5.3 CUMPLIMIENTO:Sanciones económicas por incumplimiento de las normas establecidas por los entes reguladores</option>
-                                                <option value="5.4 REPUTACIONAL: Imagen negativa en el mercado por mal servicio">5.4 REPUTACIONAL: Imagen negativa en el mercado por mal servicio</option>
-                                                <option value="5.5  INFORMACIÓN: Perdida de información crítica de la organización">5.5  INFORMACIÓN: Perdida de información crítica de la organización</option>
+                                                <option value="">Seleccione el impacto</option>
                                             </select>
                                         </div>
                                     </div>

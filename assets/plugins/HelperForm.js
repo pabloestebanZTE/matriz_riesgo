@@ -31,7 +31,22 @@ $.fn.fillForm = function (data) {
                     if (callback) {
                         val = eval(callback + '("' + val + '", "fillForm")');
                     }
+                    if ($el.is('select') && $el.find('option').length <= 1) {
+                        $el.attr('data-value', val);
+                        $el.on('selectfilled', function () {
+                            $el.val($el.attr('data-value'));
+                            if ($el.hasClass('select2-hidden-accessible')) {
+                                $el.trigger('change.select2');
+                            }
+                            if ($el.hasClass('helper-change')) {
+                                $el.trigger('change');
+                            }
+                        });
+                    }
                     $el.val(val);
+                    if ($el.hasClass('select2-hidden-accessible')) {
+                        $el.trigger('change.select2');
+                    }
             }
         };
         var finder = function (parsekey, data) {
@@ -160,7 +175,7 @@ $.fn.getFormData = function () {
 
 __mergeObj = function (obj1, obj2) {
     for (var key in obj2) {
-        if (obj2[key].constructor()) {
+        if (typeof obj2[key] != "undefined" && obj2[key] != null && obj2[key].constructor()) {
             if (Array.isArray(obj2[key])) {
                 if (!obj1[key]) {
                     obj1[key] = [];
