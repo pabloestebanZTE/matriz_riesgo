@@ -254,12 +254,13 @@ class DB extends PDO {
     }
 
     private function run($obj) {
-        $sth = $this->prepare($this->sql);
+//        $sth = $this->prepare($this->sql);
         $this->query = $this->sql;
         foreach ($obj as $key => $value) {
             $this->query = str_replace(":$key", (($value) ? (($value && is_string($value)) ? "\"$value\"" : $value) : "NULL"), $this->query);
-            $sth->bindValue(":$key", $value);
+//            $sth->bindValue(":$key", $value);
         }
+        $sth = $this->prepare($this->query);
         $sth->execute();
     }
 
