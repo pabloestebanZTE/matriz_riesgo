@@ -51,7 +51,7 @@ class Dao_risk_model extends CI_Model {
                     $soporteModel = new SoporteModel();
 //                    var_dump($riesgoEspecifico);
                     $soporteModel->insert([
-                        "k_id_riesgo_especifico" => $riesgoEspecifico->k_id_riesgo_especifico,
+                        "k_id_riesgo_especifico" => $idRiesgo,
                         "k_id_impacto" => $riesgoEspecifico->k_id_impacto,
                         "k_tipo" => "2",
                         "n_nombre" => $value
@@ -64,7 +64,7 @@ class Dao_risk_model extends CI_Model {
             if ($valid->required(null, $value)) {
                 $soporteModel = new SoporteModel();
                 $soporteModel->insert([
-                    "k_id_riesgo_especifico" => $riesgoEspecifico->k_id_riesgo_especifico,
+                    "k_id_riesgo_especifico" => $idRiesgo,
                     "k_id_probabilidad" => $riesgoEspecifico->k_id_probabilidad,
                     "k_tipo" => "1",
                     "n_nombre" => $value
@@ -168,7 +168,7 @@ class Dao_risk_model extends CI_Model {
             return $ex;
         }
     }
-    
+
     public function findById($id) {
         try {
             $user = new RiesgoModel();
@@ -208,13 +208,22 @@ class Dao_risk_model extends CI_Model {
             $temp = $soporteModel->where("k_id_riesgo_especifico", "=", $data->k_id_riesgo_especifico)
                     ->where("k_id_probabilidad", "=", $data->k_id_probabilidad)
                     ->first();
+
             $soporteProbabilidad = ($temp) ? $temp->n_nombre : null;
 
             //Consultamos los soportes de impacto...
-            $soporteImpacto = $soporteModel->where("k_id_riesgo_especifico", "=", $data->k_id_riesgo_especifico)
+            $soporteModel = new SoporteModel();
+            $temp = $soporteModel->where("k_id_riesgo_especifico", "=", $data->k_id_riesgo_especifico)
                             ->isNotNull("k_id_impacto")->get();
 
+            $soporteImpacto = [];
+            foreach ($temp as $value) {
+                $soporteImpacto[] = $value->n_nombre;
+            }
 
+//            echo $soporteModel->getSQL();
+//            var_dump($soporteImpacto);
+//
             //Consultamos el control especifico...
             $controlEspecificoModel = new ControlEspecificoModel();
             $controlEspecifico = $controlEspecificoModel->where("k_id_riesgo_especifico", "=", $data->k_id_riesgo_especifico)->first();
@@ -235,7 +244,7 @@ class Dao_risk_model extends CI_Model {
             $obj = [
                 "riesgo_especifico" => $data,
                 "soporte_probabilidad" => $soporteProbabilidad,
-                "soporte_impacto" => $soporteImpacto,
+                "soporte_impacto[]" => $soporteImpacto,
                 "causas" => $causas
             ];
         }
