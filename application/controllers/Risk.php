@@ -43,7 +43,7 @@ class Risk extends CI_Controller {
         $response = $dao->updateRiskFull($this->request);
         $this->json($response);
     }
-    
+
     public function findRiskById() {
         $id = $this->request->idRiesgo;
         $vm = new Dao_risk_model();
@@ -63,7 +63,7 @@ class Risk extends CI_Controller {
         $response = $dao->getRiskById($this->request);
         $this->json($response);
     }
-    
+
     public function updateGeneralRisk() {
         $vm = new Dao_risk_model();
         $response = $vm->updateGeneralRisk($this->request);

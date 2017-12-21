@@ -41,7 +41,7 @@ $(function () {
             
             var m = "";
             if (obj.k_control_asinado) {
-                if (obj.k_control_asinado === 0) {
+                if (obj.k_control_asinado === "0") {
                     m = "style= 'display: none'";
                 }
             }

@@ -287,7 +287,7 @@
         <script src="<?= URL::to("assets/plugins/HelperForm.js") ?>" type="text/javascript"></script>
         <script type="text/javascript">
             $(function () {
-                var control = <?php echo $control; ?>;
+                var control = <?php echo (isset($control) ? $control : 'null'); ?>;
                 console.log(control);
                 
                 if (control !== null) {
@@ -295,7 +295,13 @@
                     $('#controls').fillForm(control);
                 }
                 
-                dom.submit($('#controls'));
+                if ($("#controls").attr("action") === "Control/insertControl") {
+                    dom.submit($('#controls'));
+                }else {
+                    dom.submit($('#controls'), function () {
+                        location.href = app.urlTo('Matriz/generalControlsView');
+                    });
+                }
             });
         </script>
     </script>

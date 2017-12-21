@@ -7,7 +7,6 @@
     <body data-base="<?= URL::base() ?>">
         <?php $this->load->view('parts/generic/header'); ?>
         <div class="container autoheight">
-
             <div class='tab-content' id='tab3'><br><br>
                 <div class="container">
                     <form class="well form-horizontal" action="Risk/insertRisk" method="post"  id="risks" name="risks">
@@ -103,7 +102,7 @@
         <script src="<?= URL::to("assets/plugins/HelperForm.js") ?>" type="text/javascript"></script>
         <script type="text/javascript">
             $(function () {
-                var riesgo = <?php echo $riesgo; ?>;
+                var riesgo = <?php echo (isset($riesgo) ? $riesgo : 'null'); ?>;
                 console.log(riesgo);
                 
                 if (riesgo !== null) {
@@ -111,7 +110,13 @@
                     $('#risks').fillForm(riesgo);
                 }
                 
-                dom.submit($('#risks'));
+                if ($("#risks").attr("action") === "Risk/insertRisk") {
+                    dom.submit($('#risks'));
+                }else {
+                    dom.submit($('#risks'), function () {
+                        location.href = app.urlTo('Matriz/generalRisksView');
+                    });
+                }
             });
         </script>
     </script>

@@ -282,7 +282,6 @@ class Dao_risk_model extends CI_Model {
             $rm = new RiesgoModel();
             $datos = $rm->where("k_id_riesgo", "=", $request->k_id_riesgo)
                     ->update($request->all());
-            echo $rm->getSQL();
             $response = new Response(EMessages::UPDATE);
             $response->setData($datos);
             return $response;
