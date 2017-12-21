@@ -168,6 +168,19 @@ class Dao_risk_model extends CI_Model {
             return $ex;
         }
     }
+    
+    public function findById($id) {
+        try {
+            $user = new RiesgoModel();
+            $datos = $user->where("k_id_riesgo", "=", $id)
+                    ->first();
+            $response = new Response(EMessages::SUCCESS);
+            $response->setData($datos);
+            return $response;
+        } catch (ZolidException $ex) {
+            return $ex;
+        }
+    }
 
     public function listAllRisk($request) {
         $model = new RiesgoEspecificoModel();

@@ -226,7 +226,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+<!--                            <div class="form-group">
                                 <label for="n_riesgo_residual" class="col-md-3 control-label">Riesgo Residual</label>
                                 <div class="col-md-8 inputGroupContainer">
                                     <div class="input-group">
@@ -234,7 +234,7 @@
                                         <input type="text" class="form-control" name="n_riesgo_residual" id="n_riesgo_residual">
                                     </div>
                                 </div>
-                            </div>
+                            </div>-->
                         </fieldset>
                         <!--   fin seccion derecha---->
 
@@ -287,6 +287,14 @@
         <script src="<?= URL::to("assets/plugins/HelperForm.js") ?>" type="text/javascript"></script>
         <script type="text/javascript">
             $(function () {
+                var control = <?php echo $control; ?>;
+                console.log(control);
+                
+                if (control !== null) {
+                    $("#controls").attr("action","Control/updateControl");
+                    $('#controls').fillForm(control);
+                }
+                
                 dom.submit($('#controls'));
             });
         </script>

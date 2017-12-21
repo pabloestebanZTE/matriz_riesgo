@@ -39,8 +39,8 @@ class Dao_control_model extends CI_Model {
 
     public function findById($id) {
         try {
-            $user = new UserModel();
-            $datos = $user->where("k_id_control", "=", $id)
+            $cm = new ControlModel();
+            $datos = $cm->where("k_id_control", "=", $id)
                     ->first();
             $response = new Response(EMessages::SUCCESS);
             $response->setData($datos);
@@ -48,6 +48,19 @@ class Dao_control_model extends CI_Model {
         } catch (ZolidException $ex) {
             return $ex;
         }
+    }
+    
+    public function updateControl($request){
+      try{
+        $cm = new ControlModel();
+        $datos = $cm->where("k_id_control","=",$request->k_id_control)
+             ->update($request->all());
+        $response = new Response(EMessages::UPDATE);
+        $response->setData($datos);
+        return $response;
+      }catch(ZolidException $ex){
+        return $ex;
+      }
     }
 
 }
