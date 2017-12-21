@@ -3,7 +3,6 @@
 class ControlEspecificoModel extends Model {
 
     protected $k_id_control_especifico;
-    protected $k_id_riesgo_especifico;
     protected $k_id_control;
     protected $k_id_causa;
     protected $k_id_factor_riesgo;
@@ -24,12 +23,6 @@ class ControlEspecificoModel extends Model {
     }
     public function getKIdControlEspecifico() {
         return $this->k_id_control_especifico;
-    }
-    public function setKIdRiesgoEspecifico($k_id_riesgo_especifico) {
-        $this->k_id_riesgo_especifico = $k_id_riesgo_especifico;
-    }
-    public function getKIdRiesgoEspecifico() {
-        return $this->k_id_riesgo_especifico;
     }
     public function setKIdControl($k_id_control) {
         $this->k_id_control = $k_id_control;

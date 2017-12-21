@@ -1,6 +1,7 @@
 var modeloControles = $('<select class="form-control m-r-0" data-combox="6" id="cmbControles" name="controles[]" >'
         + '<option value="">Seleccione</option>'
         + '</select>');
+
 var contControles = 0;
 var contCausas = 0;
 
@@ -9,6 +10,7 @@ var vista = {
         vista.evetns();
         vista.configView();
         dom.getListCombox(modeloControles, true);
+        vista.get();
     },
     evetns: function () {
         $("div.bhoechie-tab-menu>div.list-group>a").on('click', vista.onClickTab);
@@ -18,6 +20,29 @@ var vista = {
         $('#form3').on('click', '.btn-remove-causa', vista.onClickRemoveCausa);
         $('#form3').on('click', '.btn-add-control', vista.onClickAddControl);
         $('#form3').on('click', '.btn-remove-control', vista.onClickRemoveControl);
+    },
+    get: function () {
+        var id = app.getParamURL('id');
+        if (id) {
+            var formGlobal = $('#formsRisk');
+            formGlobal.find('input, textarea, button, fieldset, select').prop('disabled', true);
+            app.post('Risk/getRiskById', {id: id})
+                    .complete(function () {
+                        formGlobal.find('input, textarea, button, fieldset, select').prop('disabled', false);
+                    })
+                    .success(function (response) {
+                        var data = app.parseResponse(response);
+                        if (data) {
+                            formGlobal.attr('data-mode', "FOR_UPDATE");
+                            formGlobal.fillForm(data);
+                            formGlobal.find('button:submit').html('<i class="fa fa-fw fa-save"></i> Actualizar');
+                        } else {
+                            swal("Registro no existe", "Lo sentimos, el registro actual no existe o se ha eliminado.", "warning");
+                        }
+                    }).error(function () {
+                swal("Error inesperado", "Lo sentimos, se ha producido un error inesperado al consultar el registro.", "error");
+            }).send();
+        }
     },
     onClickAddCausa: function () {
         vista.addCausa();
@@ -70,7 +95,6 @@ var vista = {
     onSubmitForm: function (e) {
         var form = $(this);
         form.validate();
-
         if (e.isDefaultPrevented())
         {
             return;
@@ -78,7 +102,6 @@ var vista = {
 
         //Se envia la información de los formularios...
         app.stopEvent(e);
-
         var form1 = $('#form1');
         var form2 = $('#form2');
 //        var form3 = $('#form3');
@@ -86,9 +109,7 @@ var vista = {
         var obj = new Object();
         __mergeObj(obj, form1.getFormData());
         __mergeObj(obj, form2.getFormData());
-
         obj.causas = [];
-
         //Buscamos las causas agregadas...
         var causasAdded = $('#form3').find('.causa-added');
         for (var i = 0; i < causasAdded.length; i++) {
@@ -113,7 +134,7 @@ var vista = {
             }
         }
         var formGlobal = $('#formsRisk');
-        formGlobal.find('input, textarea, button, fieldset').prop('disabled', true);
+        formGlobal.find('input, textarea, button, fieldset, select').prop('disabled', true);
         var uri = formGlobal.attr('data-action');
         var forUpdate = false;
         if (formGlobal.attr('data-mode') === "FOR_UPDATE") {
@@ -125,7 +146,7 @@ var vista = {
         //Se hace la petición AJAX y se envia el objeto completo con toda la información de los tres formularios para ser procesada...
         app.post(uri, obj)
                 .complete(function () {
-                    formGlobal.find('input, textarea, button, fieldset').prop('disabled', false);
+                    formGlobal.find('input, textarea, button, fieldset, select').prop('disabled', false);
                 })
                 .success(function (response) {
                     console.log(response);
@@ -142,7 +163,6 @@ var vista = {
                 .error(function () {
                     swal("Error inesperado", "Lo sentimos, se ha producido un error inesperado.", "error");
                 }).send();
-
         console.log(obj);
     },
     onChangeCmbTipoEventoNivel1: function () {
@@ -180,11 +200,9 @@ var vista = {
         $('select').select2({width: '100%'});
     }
 };
-
 $(document).ready(function () {
     vista.init();
 });
-
 
 function AgregarCampos() {
     AgregarControles();
@@ -275,7 +293,7 @@ function cambiarSoporteImpacto() {
                 + '<option value="5.4 REPUTACIONAL: Imagen negativa en el mercado por mal servicio">5.4 REPUTACIONAL: Imagen negativa en el mercado por mal servicio</option>'
                 + '<option value="5.5  INFORMACIÓN: Perdida de información crítica de la organización">5.5  INFORMACIÓN: Perdida de información crítica de la organización</option>';
     }
-    
+
     $('#cmbSoporteImpacto1').empty();
     $('#cmbSoporteImpacto2').empty();
     $('#cmbSoporteImpacto1').append(option);
@@ -305,7 +323,7 @@ function cambiarSoporteProbabilidad() {
         option = '<option value="">Seleccione</option>'
                 + '<option value="5. Se espera que el riesgo ocurra en l<a mayoría de las circunstancias. Eventualidad frecuente. (Trescientos sesenta y cinco veces al año)">5. Se espera que el riesgo ocurra en la mayoría de las circunstancias. Eventualidad frecuente. (Trescientos sesenta y cinco veces al año)</option>';
     }
-    
+
     $('#cmbSoporteProbabilidad').empty();
     $('#cmbSoporteProbabilidad').append(option);
 }

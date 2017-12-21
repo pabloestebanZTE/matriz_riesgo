@@ -7,7 +7,6 @@ class RiesgoEspecificoModel extends Model {
     protected $k_id_riesgo;
     protected $k_id_zona_geografica;
     protected $k_id_tipo_evento_2;
-    protected $k_id_soporte;
     protected $n_macro_proceso;
     protected $n_proceso;
     protected $n_servicio;
@@ -57,12 +56,6 @@ class RiesgoEspecificoModel extends Model {
     }
     public function getKIdTipoEvento2() {
         return $this->k_id_tipo_evento_2;
-    }
-    public function setKIdSoporte($k_id_soporte) {
-        $this->k_id_soporte = $k_id_soporte;
-    }
-    public function getKIdSoporte() {
-        return $this->k_id_soporte;
     }
     public function setNMacroProceso($n_macro_proceso) {
         $this->n_macro_proceso = $n_macro_proceso;

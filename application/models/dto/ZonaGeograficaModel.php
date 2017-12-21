@@ -1,13 +1,12 @@
 <?php
 
-class CausaModel extends Model {
+class ZonaGeograficaModel extends Model {
 
-    protected $k_id_causa;
-    protected $k_id_riesgo_especifico;
+    protected $k_id_zona_geografica;
     protected $n_nombre;
     
     //Los campos que desea ocultar para que no se reflejen en la vista.    
-    protected $table = "causa";
+    protected $table = "zona_geografica";
     //Los campos que desea exculir del modelo.
     protected $exclude = ["hidden", "exclude", "table", "class", "db", "__data"];
 
@@ -16,17 +15,11 @@ class CausaModel extends Model {
         $this->class = get_class($this);
     }
     
-        public function setKIdCausa($k_id_causa) {
-        $this->k_id_causa = $k_id_causa;
+        public function setKIdZonaGeografica($k_id_zona_geografica) {
+        $this->k_id_zona_geografica = $k_id_zona_geografica;
     }
-    public function getKIdCausa() {
-        return $this->k_id_causa;
-    }
-    public function setKIdRiesgoEspecifico($k_id_riesgo_especifico) {
-        $this->k_id_riesgo_especifico = $k_id_riesgo_especifico;
-    }
-    public function getKIdRiesgoEspecifico() {
-        return $this->k_id_riesgo_especifico;
+    public function getKIdZonaGeografica() {
+        return $this->k_id_zona_geografica;
     }
     public function setNNombre($n_nombre) {
         $this->n_nombre = $n_nombre;

@@ -110,7 +110,7 @@
                                     <div class="form-group">
                                         <label for="cmbTipoEventoNivel1" class="col-sm-2 control-label">Tipo de evento (nivel 1)</label>
                                         <div class="col-sm-10">
-                                            <select class="form-control" id="cmbTipoEventoNivel1" name="riesgo_especifico.k_id_tipo_evento_1" data-combox="7" >
+                                            <select class="form-control helper-change" id="cmbTipoEventoNivel1" name="riesgo_especifico.k_id_tipo_evento_1" data-combox="7" >
                                                 <option>Seleccione</option>
                                             </select>
                                         </div>
@@ -126,7 +126,7 @@
                                     <div class="form-group">
                                         <label for="cmbProbabilidad" class="col-sm-2 control-label">Probabilidad</label>
                                         <div class="col-sm-10">
-                                            <select class="form-control" id="cmbProbabilidad" name="riesgo_especifico.k_id_probabilidad" data-combox="3" onchange="cambiarSoporteProbabilidad()">
+                                            <select class="form-control helper-change" id="cmbProbabilidad" name="riesgo_especifico.k_id_probabilidad" data-combox="3" onchange="cambiarSoporteProbabilidad()">
                                                 <option value="">Seleccione</option>
                                             </select>
                                         </div>

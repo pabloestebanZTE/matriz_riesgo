@@ -6,6 +6,9 @@ class Matriz extends CI_Controller {
 
     function __construct() {
         parent::__construct();
+        if (!Auth::check()) {
+            Redirect::to(URL::base());
+        }
     }
 
     private function validUser($request) {
@@ -86,3 +89,4 @@ class Matriz extends CI_Controller {
 }
 
 ?>
+
