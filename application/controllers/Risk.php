@@ -44,4 +44,16 @@ class Risk extends CI_Controller {
         $this->json($response);
     }
 
+    public function listAllRisk() {
+        $dao = new Dao_risk_model();
+        $response = $dao->listAllRisk($this->request);
+        $this->json($response);
+    }
+
+    public function getRiskById() {
+        $dao = new Dao_risk_model();
+        $response = $dao->getRiskById($this->request);
+        $this->json($response);
+    }
+
 }

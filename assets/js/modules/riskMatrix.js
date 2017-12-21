@@ -1,6 +1,7 @@
 var modeloControles = $('<select class="form-control m-r-0" data-combox="6" id="cmbControles" name="controles[]" >'
         + '<option value="">Seleccione</option>'
         + '</select>');
+
 var contControles = 0;
 var contCausas = 0;
 
@@ -9,6 +10,7 @@ var vista = {
         vista.evetns();
         vista.configView();
         dom.getListCombox(modeloControles, true);
+        vista.get();
     },
     evetns: function () {
         $("div.bhoechie-tab-menu>div.list-group>a").on('click', vista.onClickTab);
@@ -18,6 +20,29 @@ var vista = {
         $('#form3').on('click', '.btn-remove-causa', vista.onClickRemoveCausa);
         $('#form3').on('click', '.btn-add-control', vista.onClickAddControl);
         $('#form3').on('click', '.btn-remove-control', vista.onClickRemoveControl);
+    },
+    get: function () {
+        var id = app.getParamURL('id');
+        if (id) {
+            var formGlobal = $('#formsRisk');
+            formGlobal.find('input, textarea, button, fieldset, select').prop('disabled', true);
+            app.post('Risk/getRiskById', {id: id})
+                    .complete(function () {
+                        formGlobal.find('input, textarea, button, fieldset, select').prop('disabled', false);
+                    })
+                    .success(function (response) {
+                        var data = app.parseResponse(response);
+                        if (data) {
+                            formGlobal.attr('data-mode', "FOR_UPDATE");
+                            formGlobal.fillForm(data);
+                            formGlobal.find('button:submit').html('<i class="fa fa-fw fa-save"></i> Actualizar');
+                        } else {
+                            swal("Registro no existe", "Lo sentimos, el registro actual no existe o se ha eliminado.", "warning");
+                        }
+                    }).error(function () {
+                swal("Error inesperado", "Lo sentimos, se ha producido un error inesperado al consultar el registro.", "error");
+            }).send();
+        }
     },
     onClickAddCausa: function () {
         vista.addCausa();
@@ -70,7 +95,6 @@ var vista = {
     onSubmitForm: function (e) {
         var form = $(this);
         form.validate();
-
         if (e.isDefaultPrevented())
         {
             return;
@@ -78,7 +102,6 @@ var vista = {
 
         //Se envia la información de los formularios...
         app.stopEvent(e);
-
         var form1 = $('#form1');
         var form2 = $('#form2');
 //        var form3 = $('#form3');
@@ -86,9 +109,7 @@ var vista = {
         var obj = new Object();
         __mergeObj(obj, form1.getFormData());
         __mergeObj(obj, form2.getFormData());
-
         obj.causas = [];
-
         //Buscamos las causas agregadas...
         var causasAdded = $('#form3').find('.causa-added');
         for (var i = 0; i < causasAdded.length; i++) {
@@ -113,7 +134,7 @@ var vista = {
             }
         }
         var formGlobal = $('#formsRisk');
-        formGlobal.find('input, textarea, button, fieldset').prop('disabled', true);
+        formGlobal.find('input, textarea, button, fieldset, select').prop('disabled', true);
         var uri = formGlobal.attr('data-action');
         var forUpdate = false;
         if (formGlobal.attr('data-mode') === "FOR_UPDATE") {
@@ -125,7 +146,7 @@ var vista = {
         //Se hace la petición AJAX y se envia el objeto completo con toda la información de los tres formularios para ser procesada...
         app.post(uri, obj)
                 .complete(function () {
-                    formGlobal.find('input, textarea, button, fieldset').prop('disabled', false);
+                    formGlobal.find('input, textarea, button, fieldset, select').prop('disabled', false);
                 })
                 .success(function (response) {
                     console.log(response);
@@ -142,7 +163,6 @@ var vista = {
                 .error(function () {
                     swal("Error inesperado", "Lo sentimos, se ha producido un error inesperado.", "error");
                 }).send();
-
         console.log(obj);
     },
     onChangeCmbTipoEventoNivel1: function () {
@@ -180,57 +200,6 @@ var vista = {
         $('select').select2({width: '100%'});
     }
 };
-
 $(document).ready(function () {
     vista.init();
 });
-
-
-function AgregarCampos() {
-    AgregarControles();
-}
-
-function AgregarControles() {
-    contControles++;
-    var cmb = modeloControles.clone();
-    cmb.select2({width: '100%'});
-    var campos = '<div class="form-group" id="contenedorControles' + contControles + '">'
-            + '<label for="cmbControles" class="col-sm-2 control-label">Control</label>'
-            + '<div class="col-sm-10"><div class="input-group" id="contentCmb">'
-            + modeloControles[0].outerHTML
-            + '<div class="input-group-btn"><button type="button" class="btn btn-success m-r-0" onclick="AgregarCampos()"><i class="fa fa-plus" aria-hidden="true"></i></button>'
-            + '<button type="button" class="btn btn-danger" onclick="eliminarControles(' + contControles + ');"><i class="fa fa-minus" aria-hidden="true"></i></button>'
-            + '</div></div>'
-            + '</div>'
-            + '</div>';
-    campos = $(campos);
-    campos.find('select').select2({width: '100%'});
-    $("#contenedorControles").append(campos);
-}
-
-function eliminarControles(idControl) {
-    $("#contenedorControles" + idControl).remove();
-}
-
-function AgregarCausas() {
-    contCausas++;
-    campos = '<div class="form-inline form-group" id="contenedorCausas' + contCausas + '">'
-            + '<label for="cmbControles" class="col-sm-2 control-label">Causa</label>'
-            + '<div class="col-sm-10">'
-            + '<input type="text" class="form-control m-r-5" id="txtCausa" name="causas[]" style="width: 87%;">'
-            + '<button type="button" class="btn btn-success m-r-5" onclick="AgregarCausas()"><i class="fa fa-plus" aria-hidden="true"></i></button>'
-            + '<button type="button" class="btn btn-danger" onclick="eliminarCausas(' + contCausas + ');"><i class="fa fa-minus" aria-hidden="true"></i></button>'
-            + '</div>'
-            + '</div>';
-    $("#contenedorCausas").append(campos);
-}
-
-function eliminarCausas(idCausa) {
-    $("#contenedorCausas" + idCausa).remove();
-}
-
-function clickButtonSubmit(form) {
-    var form = $('#form' + form);
-    form.validate();
-//    console.log(form)
-}
