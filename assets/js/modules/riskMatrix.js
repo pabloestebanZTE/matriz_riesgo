@@ -35,6 +35,8 @@ var vista = {
                         if (data) {
                             formGlobal.attr('data-mode', "FOR_UPDATE");
                             formGlobal.fillForm(data);
+                            formGlobal.find('#cmbSoporteImpacto1').attr('data-value', data["soporte_impacto[]"][0]);
+                            formGlobal.find('#cmbSoporteImpacto1').attr('data-value', data["soporte_impacto[]"][1]);
                             formGlobal.find('button:submit').html('<i class="fa fa-fw fa-save"></i> Actualizar');
                         } else {
                             swal("Registro no existe", "Lo sentimos, el registro actual no existe o se ha eliminado.", "warning");
@@ -255,6 +257,7 @@ function clickButtonSubmit(form) {
 
 function cambiarSoporteImpacto() {
     var impacto = $('#cmbImpacto').val();
+    console.log("AAAAAA");
     var option = '';
     if (impacto === '5') {
         option = '<option value="">Seleccione</option>'
@@ -298,6 +301,21 @@ function cambiarSoporteImpacto() {
     $('#cmbSoporteImpacto2').empty();
     $('#cmbSoporteImpacto1').append(option);
     $('#cmbSoporteImpacto2').append(option);
+    $('#cmbSoporteImpacto1').trigger('selectfilled');
+    $('#cmbSoporteImpacto2').trigger('selectfilled');
+    
+    var cmbSoporte1 = $('#cmbSoporteImpacto1');
+    cmbSoporte1.on('')
+    if (cmbSoporte1.attr('data-value')) {
+        cmbSoporte1.val(cmbSoporte1.attr('data-value'));
+//        cmbSoporte1.removeAttr('data-value');
+    }
+
+    var cmbSoporte2 = $('#cmbSoporteImpacto2');
+    if (cmbSoporte2.attr('data-value')) {
+        cmbSoporte2.val(cmbSoporte2.attr('data-value'));
+//        cmbSoporte2.removeAttr('data-value');
+    }
 }
 
 function cambiarSoporteProbabilidad() {
@@ -326,4 +344,5 @@ function cambiarSoporteProbabilidad() {
 
     $('#cmbSoporteProbabilidad').empty();
     $('#cmbSoporteProbabilidad').append(option);
+    $('#cmbSoporteProbabilidad').trigger('selectfilled');
 }

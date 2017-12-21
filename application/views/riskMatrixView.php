@@ -143,7 +143,7 @@
                                     <div class="form-group">
                                         <label for="cmbImpacto" class="col-sm-2 control-label">Impacto</label>
                                         <div class="col-sm-10">
-                                            <select class="form-control" id="cmbImpacto" name="riesgo_especifico.k_id_impacto" data-combox="4" onchange="cambiarSoporteImpacto();">
+                                            <select class="form-control helper-change" id="cmbImpacto" name="riesgo_especifico.k_id_impacto" data-combox="4" onchange="cambiarSoporteImpacto();">
                                                 <option value="">Seleccione el impacto</option>
                                             </select>
                                         </div>
