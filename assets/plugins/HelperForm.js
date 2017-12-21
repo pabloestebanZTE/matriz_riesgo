@@ -175,7 +175,7 @@ $.fn.getFormData = function () {
 
 __mergeObj = function (obj1, obj2) {
     for (var key in obj2) {
-        if (typeof obj2[key] != "undefined" && obj2[key] != null && obj2[key].constructor()) {
+        if (typeof obj2[key] != "number" && typeof obj2[key] != "undefined" && obj2[key] != null && obj2[key].constructor()) {
             if (Array.isArray(obj2[key])) {
                 if (!obj1[key]) {
                     obj1[key] = [];
