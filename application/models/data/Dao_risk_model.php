@@ -251,6 +251,28 @@ class Dao_risk_model extends CI_Model {
                 }
             }
 
+            //Se comprueba si existen casuas para eliminar...
+            if ($request->causasForDelete) {
+                $causas = $request->causasForDelete->all();
+                foreach ($causas as $causa) {
+                    $causaModel = new CausaModel();
+                    $causaModel->where("k_id_causa", "=", $causa->idRecord)->update([
+                        "n_state" => "DELETED"
+                    ]);
+                }
+            }
+
+            //Se comprueba si existen controles para eliminar...
+            if ($request->controlsForDelete) {
+                $controls = $request->controlsForDelete->all();
+                foreach ($controls as $control) {
+                    $controlModel = new ControlEspecificoModel();
+                    $controlModel->where("k_id_control_especifico", "=", $control->idRecord)->update([
+                        "n_state" => "DELETED"
+                    ]);
+                }
+            }
+
             return new Response(EMessages::INSERT);
         } catch (ZolidException $ex) {
             return $ex;
@@ -282,7 +304,6 @@ class Dao_risk_model extends CI_Model {
     public function getRiskById($request) {
         $model = new RiesgoEspecificoModel();
         $data = $model->where("k_id_riesgo_especifico", "=", $request->id)->first();
-//        $this->getRiskFKDetails($data);
         $response = new Response(EMessages::QUERY);
         $obj = null;
         $soporteModel = new SoporteModel();
@@ -311,10 +332,12 @@ class Dao_risk_model extends CI_Model {
 
             //Consultamos las causas...
             $causasModel = new CausaModel();
-            $causas = $causasModel->where("k_id_riesgo_especifico", "=", $data->k_id_riesgo_especifico)->get();
+            $causas = $causasModel->where("k_id_riesgo_especifico", "=", $data->k_id_riesgo_especifico)
+                            ->where("n_state", "=", "ACTIVE")->get();
             foreach ($causas as $causa) {
                 $controlEspecificoModel = new ControlEspecificoModel();
-                $controls = $controlEspecificoModel->where("k_id_causa", "=", $causa->k_id_causa)->get();
+                $controls = $controlEspecificoModel->where("k_id_causa", "=", $causa->k_id_causa)
+                                ->where("n_state", "=", "ACTIVE")->get();
                 $causa->controls = $controls;
             }
 

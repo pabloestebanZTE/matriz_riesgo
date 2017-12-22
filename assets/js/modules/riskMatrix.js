@@ -1,6 +1,7 @@
 var modeloControles = $('<select class="form-control m-r-0" data-combox="6" id="cmbControles" name="controles[]" >'
         + '<option value="">Seleccione</option>'
         + '</select>');
+
 var contControles = 0;
 var contCausas = 0;
 var vista = {
@@ -19,6 +20,26 @@ var vista = {
         $('#form3').on('click', '.btn-remove-causa', vista.onClickRemoveCausa);
         $('#form3').on('click', '.btn-add-control', vista.onClickAddControl);
         $('#form3').on('click', '.btn-remove-control', vista.onClickRemoveControl);
+        $('.select-severidad').on('change', vista.onChangeSelectSeveridad);
+    },
+    onChangeSelectSeveridad: function () {
+        if ($('.select-severidad#cmbProbabilidad').val().trim() != "" && $('.select-severidad#cmbImpacto').val().trim() != "") {
+            app.post('Utils/getSeveridad', {
+                idProbabilidad: $('#cmbProbabilidad').val(),
+                idImpacto: $('#cmbImpacto').val()
+            })
+                    .success(function (response) {
+                        if (response.code > 0) {
+                            $('#txtSeveridadRiesgoInherente').val(response.data.n_calificacion);
+                        } else {
+                            $('#txtSeveridadRiesgoInherente').val("DESCONOCIDO");
+                        }
+                    })
+                    .error(function () {
+                        $('#txtSeveridadRiesgoInherente').val("ERROR INESPERADO");
+                    })
+                    .send();
+        }
     },
     get: function () {
         var id = app.getParamURL('id');
@@ -51,7 +72,14 @@ var vista = {
     },
     onClickRemoveCausa: function () {
         var btn = $(this);
-        btn.parents('.item-causa').remove();
+        var causaItem = btn.parents('.item-causa');
+        if (causaItem.attr('data-id')) {
+            var obj = {
+                idRecord: causaItem.attr('data-id')
+            };
+            vista.causasForDelete.push(obj);
+        }
+        causaItem.remove();
         if ($('.causa-added').length == 0) {
             $('#form3').find('button:submit').addClass('hidden');
             $('#btnAddCausa').removeClass('hidden');
@@ -85,7 +113,6 @@ var vista = {
         } else {
             var interval = window.setTimeout(function () {
                 vista.addControl(contentControl, control);
-                console.log("ASASD");
                 clearInterval(interval);
             }, 100);
         }
@@ -93,30 +120,13 @@ var vista = {
     onClickRemoveControl: function () {
         var btn = $(this);
         var controlItem = btn.parents('.item-control');
-        if (controlItem.attr('data-id')) {
+        if (controlItem.find('select:eq(0)').attr('data-id')) {
             var obj = {
-                idRecord: controlItem.attr('data-id', causa.k_id_causa)
+                idRecord: controlItem.find('select:eq(0)').attr('data-id')
             };
-            vista.causasForDelete.push(obj);
+            vista.controlsForDelete.push(obj);
         }
         controlItem.remove();
-//        swal({
-//            title: 'Confirmación',
-//            text: "Se eliminará el registro del control, ¿está seguro?",
-//            type: 'warning',
-//            showCancelButton: true,
-//            confirmButtonColor: '#3085d6',
-//            cancelButtonColor: '#d33',
-//            confirmButtonText: 'Yes, delete it!'
-//        }).then((result) => {
-//            if (result.value) {
-//                swal(
-//                        'Deleted!',
-//                        'Your file has been deleted.',
-//                        'success'
-//                        )
-//            }
-//        })
     },
     addCausa: function (causa) {
         var model = $('#itemCausaIndex');
@@ -171,70 +181,110 @@ var vista = {
         __mergeObj(obj, form1.getFormData());
         __mergeObj(obj, form2.getFormData());
         obj.causas = [];
-        //Buscamos las causas agregadas...
-        var causasAdded = $('#form3').find('.causa-added');
-        for (var i = 0; i < causasAdded.length; i++) {
-            var causaItem = $(causasAdded[i]);
-            //Buscamos los controles dentro de esa causa...
-            var controlsItems = causaItem.find('.content-control');
-            var controls = [];
-            for (var j = 0; j < controlsItems.length; j++) {
-                var controlItem = $(controlsItems[j]);
-                if (controlItem.find('select:eq(0)').val().trim() != "" && controlItem.find('select:eq(1)').val().trim() != "") {
-                    var ctrl = {
-                        id: controlItem.find('select:eq(0)').val(),
-                        factorRiesgo: controlItem.find('select:eq(1)').val()
-                    }
-                    if (controlItem.find('select:eq(0)').attr('data-id')) {
-                        ctrl.idRecord = controlItem.find('select:eq(0)').attr('data-id');
-                    }
-                    controls.push(ctrl);
-                }
-            }
-            if (causaItem.find('input:eq(0)').val().trim("") != "") {
-                var causaObj = {
-                    text: causaItem.find('input:eq(0)').val(),
-                    controls: controls,
-                };
-                if (causaItem.attr('data-id')) {
-                    causaObj.idRecord = causaItem.attr('data-id');
-                }
-                obj.causas.push(causaObj);
-            }
+        var confirmar = false;
+        if (vista.causasForDelete.length > 0) {
+            confirmar = true;
+            obj.causasForDelete = vista.causasForDelete;
         }
-        var formGlobal = $('#formsRisk');
-        formGlobal.find('input, textarea, button, fieldset, select:not(.notDisabled)').prop('disabled', true);
-        var uri = formGlobal.attr('data-action');
-        var forUpdate = false;
-        if (formGlobal.attr('data-mode') === "FOR_UPDATE") {
-            uri = formGlobal.attr('data-action-update');
-            obj.idRecord = $('#idRecord').val();
-            forUpdate = true;
+        if (vista.controlsForDelete.length > 0) {
+            confirmar = true;
+            obj.controlsForDelete = vista.controlsForDelete;
         }
 
-        //Se hace la petición AJAX y se envia el objeto completo con toda la información de los tres formularios para ser procesada...
-        app.post(uri, obj)
-                .complete(function () {
-                    formGlobal.find('input, textarea, button, fieldset, select').prop('disabled', false);
-                })
-                .success(function (response) {
-                    console.log(response);
-                    var v = app.validResponse(response);
-                    if (v) {
-                        swal((forUpdate ? "Actualizado" : "Guardado"), (forUpdate ? "Se ha actualizado correctamente el registro." : "Se ha guardado correctamente el registro."), "success");
-                        if (!forUpdate) {
-                            $('#idRecord').val(response.data);
+
+        var start = function (obj) {
+            //Buscamos las causas agregadas...
+            var causasAdded = $('#form3').find('.causa-added');
+            for (var i = 0; i < causasAdded.length; i++) {
+                var causaItem = $(causasAdded[i]);
+                //Buscamos los controles dentro de esa causa...
+                var controlsItems = causaItem.find('.content-control');
+                var controls = [];
+                for (var j = 0; j < controlsItems.length; j++) {
+                    var controlItem = $(controlsItems[j]);
+                    if (controlItem.find('select:eq(0)').val().trim() != "" && controlItem.find('select:eq(1)').val().trim() != "") {
+                        var ctrl = {
+                            id: controlItem.find('select:eq(0)').val(),
+                            factorRiesgo: controlItem.find('select:eq(1)').val()
                         }
-                        formGlobal.attr('data-mode', 'FOR_UPDATE');
-                        form.find('button:submit').html('<i class="fa fa-fw fa-save"></i> Actualizar');
-                    } else {
-                        swal((forUpdate ? "Error al actualizar" : "Error al guardar"), (forUpdate ? "Se ha producido un error al intentar actualizar el registro." : "Se ha producido un error al intentar guardar el registro."), "warning");
+                        if (controlItem.find('select:eq(0)').attr('data-id')) {
+                            ctrl.idRecord = controlItem.find('select:eq(0)').attr('data-id');
+                        }
+                        controls.push(ctrl);
                     }
-                })
-                .error(function () {
-                    swal("Error inesperado", "Lo sentimos, se ha producido un error inesperado.", "error");
-                }).send();
-        console.log(obj);
+                }
+                if (causaItem.find('input:eq(0)').val().trim("") != "") {
+                    var causaObj = {
+                        text: causaItem.find('input:eq(0)').val(),
+                        controls: controls,
+                    };
+                    if (causaItem.attr('data-id')) {
+                        causaObj.idRecord = causaItem.attr('data-id');
+                    }
+                    obj.causas.push(causaObj);
+                }
+            }
+            var formGlobal = $('#formsRisk');
+            formGlobal.find('input, textarea, button, fieldset, select:not(.notDisabled)').prop('disabled', true);
+            var uri = formGlobal.attr('data-action');
+            var forUpdate = false;
+            if (formGlobal.attr('data-mode') === "FOR_UPDATE") {
+                uri = formGlobal.attr('data-action-update');
+                obj.idRecord = $('#idRecord').val();
+                forUpdate = true;
+            }
+
+            //Se hace la petición AJAX y se envia el objeto completo con toda la información de los tres formularios para ser procesada...
+            app.post(uri, obj)
+                    .complete(function () {
+                        formGlobal.find('input, textarea, button, fieldset, select').prop('disabled', false);
+                    })
+                    .success(function (response) {
+                        console.log(response);
+                        var v = app.validResponse(response);
+                        if (v) {
+                            swal((forUpdate ? "Actualizado" : "Guardado"), (forUpdate ? "Se ha actualizado correctamente el registro." : "Se ha guardado correctamente el registro."), "success");
+                            if (!forUpdate) {
+                                $('#idRecord').val(response.data);
+                            }
+                            formGlobal.attr('data-mode', 'FOR_UPDATE');
+                            form.find('button:submit').html('<i class="fa fa-fw fa-save"></i> Actualizar');
+                        } else {
+                            swal((forUpdate ? "Error al actualizar" : "Error al guardar"), (forUpdate ? "Se ha producido un error al intentar actualizar el registro." : "Se ha producido un error al intentar guardar el registro."), "warning");
+                        }
+                    })
+                    .error(function () {
+                        swal("Error inesperado", "Lo sentimos, se ha producido un error inesperado.", "error");
+                    }).send();
+            console.log(obj);
+        };
+
+        if (confirmar) {
+            swal({
+                title: 'Confirmación',
+                text: "Se eliminarán algunas causas y/o controles, ¿está seguro?",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Confirmar',
+                cancelButtonText: 'Cancelar'
+            }).then(function (result) {
+                if (result.value) {
+                    start(obj);
+                } else {
+                    swal({
+                        title: "Cancelado",
+                        text: "Se han cancelado los cambios.",
+                        type: "warning"
+                    }).then(function () {
+                        location.reload();
+                    });
+                }
+            });
+        } else {
+            start(obj);
+        }
     },
     onChangeCmbTipoEventoNivel1: function () {
         if ($('#cmbTipoEventoNivel1').val().trim("") === "") {
@@ -275,7 +325,9 @@ var vista = {
         dom.llenarCombo($('#cmbPlataforma'), dataForm.plataforma, {text: "text", value: "value"});
         dom.llenarCombo($('#cmbRiesgoId'), dataForm.riesgos, {text: "text", value: "value"});
         dom.llenarCombo($('#cmbTipoEventoNivel1'), dataForm.tipo_evento1, {text: "text", value: "value"});
-        dom.llenarCombo($('#cmbTipoEventoNivel2'), dataForm.tipo_evento2, {text: "text", value: "value"});
+        if (dataForm.tipo_evento2) {
+            dom.llenarCombo($('#cmbTipoEventoNivel2'), dataForm.tipo_evento2, {text: "text", value: "value"});
+        }
         dom.llenarCombo($('#cmbProbabilidad'), dataForm.probabilidad, {text: "text", value: "value"});
         dom.llenarCombo($('#cmbImpacto'), dataForm.impacto, {text: "text", value: "value"});
         dom.llenarCombo($('#cmbFactorRiesgo'), dataForm.factoresriesgo, {text: "text", value: "value"});
