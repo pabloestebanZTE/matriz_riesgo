@@ -38,16 +38,16 @@ $(function () {
             return "N/A";
         },
         getButtons: function (obj) {
-            
+
             var m = "";
             if (obj.k_control_asinado) {
-                if (obj.k_control_asinado === 0) {
+                if (obj.k_control_asinado === "0") {
                     m = "style= 'display: none'";
                 }
             }
             return '<div class="btn-group">'
                     + '<a href="' + app.urlTo('Control/findControlById?idControl=' + obj.k_id_control) + '" class="btn btn-default btn-xs" data-toggle="tooltip" title="Editar Control"><span class="fa fa-fw fa-pencil-square-o"></span></a>'
-                    + '<a  href="' + app.urlTo('User/doPrecheck?idOnair=' + obj.k_id_onair) + '" class="btn btn-default btn-xs" data-toggle="tooltip" title="ver Riesgos Asociados"' + m + '><span class="fa fa-fw fa-list-ul"></span></a>'
+                    + '<a onclick="showModalqualificationControls(\'' + obj.k_id_control + '\')" class="btn btn-default btn-xs" data-toggle="tooltip" title="ver Riesgos Asociados"' + m + '><span class="fa fa-fw fa-list-ul"></span></a>'
                     + '</div>';
         },
         fillTable: function (data) {
@@ -70,7 +70,29 @@ $(function () {
                     ],
                     ));
         }
+
     };
 
     ini.init();
 });
+
+function showModalqualificationControls(idControl) {
+    var obj = {
+        idControl: idControl
+    };
+    app.post('Risk/getRiskAssociatedControl', obj)
+            .success(function (response) {
+                console.log(response);
+                var v = app.validResponse(response);
+                if (v) {
+                    swal("Guardado", "Se ha terminado la fase correctamente.", "success");
+                    vista.getDetails();
+                } else {
+                    swal("Atención", response.message, "warning");
+                }
+            }).error(function (e) {
+        swal("Error", "Se ha producido un error desconocido, compruebe su conexión y vuelva a intentarlo.", "error");
+        console.log(e);
+    }).send();
+
+}

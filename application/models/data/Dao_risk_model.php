@@ -370,6 +370,34 @@ class Dao_risk_model extends CI_Model {
         $risk->k_id_impacto = $impactoModel->where("k_id_impacto", "=", $risk->k_id_impacto)->first();
     }
 
+    public function updateGeneralRisk($request) {
+        try {
+            $rm = new RiesgoModel();
+            $datos = $rm->where("k_id_riesgo", "=", $request->k_id_riesgo)
+                    ->update($request->all());
+            $response = new Response(EMessages::UPDATE);
+            $response->setData($datos);
+            return $response;
+        } catch (ZolidException $ex) {
+            return $ex;
+        }
+    }
+    
+    public function getRiskAssociatedControl($request) {
+        try {
+            $db = new DB();
+            $datos = $db->select("SELECT co.*, count(coe.k_id_control) k_control_asinado
+                                FROM control co
+                                LEFT JOIN control_especifico coe ON co.k_id_control = coe.k_id_control
+                                GROUP BY co.k_id_control")->get();
+            $response = new Response(EMessages::SUCCESS);
+            $response->setData($datos);
+            return $response;
+        } catch (ZolidException $ex) {
+            return $ex;
+        }
+    }
+
 }
 
 ?>
