@@ -71,7 +71,28 @@ class Matriz extends CI_Controller {
     }
 
     public function riskMatrixView() {
-        $this->load->view('riskMatrixView');
+        //Consultamos la información de los select...
+        $dataForm = [];
+        if ($this->request->id) {
+            //Consultamos el registro...
+            $dao = new Dao_risk_model();
+            $response = $dao->getRiskById($this->request);
+            $dataForm["record"] = $response->data;
+            //Consultamos la lista de tipo evento2...
+            $dao = new Dao_combox_model();
+            if ($dataForm["record"]) {
+                $dataForm["tipo_evento2"] = $dao->getListComboxTipoEventoNvl2ById($dataForm["record"]["riesgo_especifico"]->k_id_tipo_evento_2)->data;
+            }
+        }
+        $dao = new Dao_combox_model();
+        $dataForm["riesgos"] = $dao->getListComboxById(1)->data;
+        $dataForm["factoresriesgo"] = $dao->getListComboxById(2)->data;
+        $dataForm["probabilidad"] = $dao->getListComboxById(3)->data;
+        $dataForm["impacto"] = $dao->getListComboxById(4)->data;
+        $dataForm["plataforma"] = $dao->getListComboxById(5)->data;
+        $dataForm["listcontrols"] = $dao->getListComboxById(6)->data;
+        $dataForm["tipo_evento1"] = $dao->getListComboxById(7)->data;
+        $this->load->view('riskMatrixView', ["dataForm" => $dataForm]);
     }
 
     public function generalRisksView() {
@@ -87,6 +108,5 @@ class Matriz extends CI_Controller {
     }
 
 }
-
 ?>
 

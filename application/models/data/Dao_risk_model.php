@@ -106,6 +106,7 @@ class Dao_risk_model extends CI_Model {
             //Verificamos que exista el riesgo...
             $riesgoEspecificoModel = new RiesgoEspecificoModel();
             $idRecord = $request->idRecord;
+            $idRiesgo = $request->idRecord;
             $record = $riesgoEspecificoModel->where("k_id_riesgo_especifico", "=", $idRecord)->first();
             if (!$record) {
                 return new Response(EMessages::ERROR_UPDATE);
@@ -197,21 +198,38 @@ class Dao_risk_model extends CI_Model {
             if ($causas) {
                 $causas = $request->causas->all();
                 foreach ($causas as $causa) {
-                    $causa = new ObjUtil($value->all());
+                    $causa = new ObjUtil($causa->all());
                     $causaModel = new CausaModel();
                     //Verificamos si el valor es válido y si la causa existe...
                     if ($valid->required(null, $causa->text)) {
-                        $temp = $causaModel->where("k_id_riesgo_especifico", "=", $idRecord)
-                                ->where("n_nombre", "=", $causa->text)
-                                ->first();
                         //Si existe, la actualizamos...
+                        $temp = isset($causa->idRecord);
                         if ($temp) {
                             $causaModel = new CausaModel();
                             $causaModel->update([
                                 "n_nombre" => $causa->text
                             ]);
                             //Como la causa existe, tenemos que actualizar los controles de la causa...
-                            
+                            $controls = $causa->controls->all();
+                            foreach ($controls as $control) {
+                                $controlEspecificoModel = new ControlEspecificoModel();
+                                //Verificamos si el control viene con id de registro y lo actualizamos...
+                                if (isset($control->idRecord)) {
+                                    $controlEspecificoModel
+                                            ->where("k_id_control_especifico", "=", $control->idRecord)
+                                            ->update([
+                                                "k_id_control" => $control->id,
+                                                "k_id_factor_riesgo" => $control->factorRiesgo,
+                                    ]);
+                                } else { //De lo contrario, significará que es un registro nuevo, entonces lo actualizamos...
+                                    $controlEspecificoModel->insert([
+                                        "k_id_riesgo_especifico" => $idRiesgo,
+                                        "k_id_control" => $control->id,
+                                        "k_id_causa" => $idCausa,
+                                        "k_id_factor_riesgo" => $control->factorRiesgo,
+                                    ]);
+                                }
+                            }
                         } else {//De lo contrario la insertamos...
                             //Insertamos la causa...
                             $idCausa = $causaModel->insert([

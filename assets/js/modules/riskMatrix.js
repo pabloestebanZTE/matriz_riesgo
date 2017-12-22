@@ -1,19 +1,19 @@
 var modeloControles = $('<select class="form-control m-r-0" data-combox="6" id="cmbControles" name="controles[]" >'
         + '<option value="">Seleccione</option>'
         + '</select>');
-
 var contControles = 0;
 var contCausas = 0;
-
 var vista = {
+    causasForDelete: [],
+    controlsForDelete: [],
     init: function () {
         vista.evetns();
         vista.configView();
-        dom.getListCombox(modeloControles, true, function (data) {
-            dom.llenarCombo($('#cmbCodControl'), data, {text: "text", value: "value"}, true);
-        });
-        var cmbFactorRiesgo = $('#cmbFactorRiesgo').attr('data-combox', 2);
-        dom.getListCombox(cmbFactorRiesgo, true);
+//        dom.getListCombox(modeloControles, true, function (data) {
+//            dom.llenarCombo($('#cmbCodControl'), data, {text: "text", value: "value"}, true);
+//        });
+//        var cmbFactorRiesgo = $('#cmbFactorRiesgo').attr('data-combox', 2);
+//        dom.getListCombox(cmbFactorRiesgo, true);
         vista.get();
     },
     evetns: function () {
@@ -28,27 +28,19 @@ var vista = {
     get: function () {
         var id = app.getParamURL('id');
         if (id) {
+            if (!dataForm.record) {
+                swal("Registro no existe", "Lo sentimos, el registro actual no existe o se ha eliminado.", "warning");
+            }
             var formGlobal = $('#formsRisk');
-            formGlobal.find('input, textarea, button, fieldset, select:not(.notDisabled)').prop('disabled', true);
-            app.post('Risk/getRiskById', {id: id})
-                    .complete(function () {
-                        formGlobal.find('input, textarea, button, fieldset, select').prop('disabled', false);
-                    })
-                    .success(function (response) {
-                        var data = app.parseResponse(response);
-                        if (data) {
-                            formGlobal.attr('data-mode', "FOR_UPDATE");
-                            formGlobal.fillForm(data);
-                            formGlobal.find('#cmbSoporteImpacto1').attr('data-value', data["soporte_impacto[]"][0]);
-                            formGlobal.find('#cmbSoporteImpacto2').attr('data-value', data["soporte_impacto[]"][1]);
-                            vista.listCausas(data.causas);
-                            formGlobal.find('button:submit').html('<i class="fa fa-fw fa-save"></i> Actualizar');
-                        } else {
-                            swal("Registro no existe", "Lo sentimos, el registro actual no existe o se ha eliminado.", "warning");
-                        }
-                    }).error(function () {
-                swal("Error inesperado", "Lo sentimos, se ha producido un error inesperado al consultar el registro.", "error");
-            }).send();
+            var data = dataForm.record;
+            if (data) {
+                formGlobal.attr('data-mode', "FOR_UPDATE");
+                formGlobal.fillForm(data);
+                formGlobal.find('#cmbSoporteImpacto1').attr('data-value', data["soporte_impacto[]"][0]);
+                formGlobal.find('#cmbSoporteImpacto2').attr('data-value', data["soporte_impacto[]"][1]);
+                vista.listCausas(data.causas);
+                formGlobal.find('button:submit').html('<i class="fa fa-fw fa-save"></i> Actualizar');
+            }
         }
     },
     listCausas: function (causas) {
@@ -88,6 +80,7 @@ var vista = {
             selects.next('.select2').remove();
             selects.select2({width: '100%'});
             if (control) {
+                clon.find('select:eq(0)').attr('data-id', control.k_id_control_especifico);
                 dom.fillCombo(clon.find('select:eq(0)'), control.k_id_control);
                 dom.fillCombo(clon.find('select:eq(1)'), control.k_id_factor_riesgo);
             }
@@ -105,6 +98,23 @@ var vista = {
     onClickRemoveControl: function () {
         var btn = $(this);
         btn.parents('.item-control').remove();
+//        swal({
+//            title: 'Confirmación',
+//            text: "Se eliminará el registro del control, ¿está seguro?",
+//            type: 'warning',
+//            showCancelButton: true,
+//            confirmButtonColor: '#3085d6',
+//            cancelButtonColor: '#d33',
+//            confirmButtonText: 'Yes, delete it!'
+//        }).then((result) => {
+//            if (result.value) {
+//                swal(
+//                        'Deleted!',
+//                        'Your file has been deleted.',
+//                        'success'
+//                        )
+//            }
+//        })
     },
     addCausa: function (causa) {
         var model = $('#itemCausaIndex');
@@ -132,6 +142,7 @@ var vista = {
         $('#btnAddCausa').addClass('hidden');
         if (causa) {
             clon.find('input:eq(0)').val(causa.n_nombre);
+            clon.attr('data-id', causa.k_id_causa);
             //Recorremos los controles...
             for (var i = 0; i < causa.controls.length; i++) {
                 var control = causa.controls[i];
@@ -168,17 +179,25 @@ var vista = {
             for (var j = 0; j < controlsItems.length; j++) {
                 var controlItem = $(controlsItems[i]);
                 if (controlItem.find('select:eq(0)').val().trim() != "" && controlItem.find('select:eq(1)').val().trim() != "") {
-                    controls.push({
+                    var ctrl = {
                         id: controlItem.find('select:eq(0)').val(),
                         factorRiesgo: controlItem.find('select:eq(1)').val()
-                    });
+                    }
+                    if (controlItem.find('select:eq(0)').attr('data-id')) {
+                        ctrl.idRecord = controlItem.find('select:eq(0)').attr('data-id');
+                    }
+                    controls.push(ctrl);
                 }
             }
             if (causaItem.find('input:eq(0)').val().trim("") != "") {
-                obj.causas.push({
+                var causaObj = {
                     text: causaItem.find('input:eq(0)').val(),
-                    controls: controls
-                });
+                    controls: controls,
+                };
+                if (causaItem.attr('data-id')) {
+                    causaObj.idRecord = causaItem.attr('data-id');
+                }
+                obj.causas.push(causaObj);
             }
         }
         var formGlobal = $('#formsRisk');
@@ -249,13 +268,22 @@ var vista = {
         $('.cmb-factor-riesgo').prop('disabled', false).trigger('selectfilled');
     },
     configView: function () {
+        dataForm = JSON.parse(dataForm);
+        console.log(dataForm);
+        dom.llenarCombo($('#cmbPlataforma'), dataForm.plataforma, {text: "text", value: "value"});
+        dom.llenarCombo($('#cmbRiesgoId'), dataForm.riesgos, {text: "text", value: "value"});
+        dom.llenarCombo($('#cmbTipoEventoNivel1'), dataForm.tipo_evento1, {text: "text", value: "value"});
+        dom.llenarCombo($('#cmbTipoEventoNivel2'), dataForm.tipo_evento2, {text: "text", value: "value"});
+        dom.llenarCombo($('#cmbProbabilidad'), dataForm.probabilidad, {text: "text", value: "value"});
+        dom.llenarCombo($('#cmbImpacto'), dataForm.impacto, {text: "text", value: "value"});
+        dom.llenarCombo($('#cmbFactorRiesgo'), dataForm.factoresriesgo, {text: "text", value: "value"});
+        dom.llenarCombo($('#cmbCodControl'), dataForm.listcontrols, {text: "text", value: "value"});
         $('select:not(.notDisabled)').select2({width: '100%'});
     }
 };
 $(document).ready(function () {
     vista.init();
 });
-
 function cambiarSoporteImpacto() {
     var impacto = $('#cmbImpacto').val();
     console.log("AAAAAA");

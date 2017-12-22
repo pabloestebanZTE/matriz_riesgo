@@ -36,7 +36,7 @@
                                     <div class="form-group">
                                         <label for="cmbPlataforma" class="col-sm-2 control-label">Plataforma</label>
                                         <div class="col-sm-10">
-                                            <select class="form-control" id="cmbPlataforma" name="riesgo_especifico.k_id_plataforma" data-combox="5">
+                                            <select class="form-control" id="cmbPlataforma" name="riesgo_especifico.k_id_plataforma" >
                                                 <option value="">Seleccione</option>
                                             </select>
                                         </div>
@@ -89,7 +89,7 @@
                                     <div class="form-group">
                                         <label for="cmbRiesgoId" class="col-sm-2 control-label">Riesgo</label>
                                         <div class="col-sm-10">
-                                            <select class="form-control" id="cmbRiesgoId" name="riesgo_especifico.k_id_riesgo" data-combox="1">
+                                            <select class="form-control" id="cmbRiesgoId" name="riesgo_especifico.k_id_riesgo" >
                                                 <option value="">Seleccione</option>
                                             </select>
                                         </div>
@@ -110,7 +110,7 @@
                                     <div class="form-group">
                                         <label for="cmbTipoEventoNivel1" class="col-sm-2 control-label">Tipo de evento (nivel 1)</label>
                                         <div class="col-sm-10">
-                                            <select class="form-control helper-change" id="cmbTipoEventoNivel1" name="riesgo_especifico.k_id_tipo_evento_1" data-combox="7" >
+                                            <select class="form-control helper-change" id="cmbTipoEventoNivel1" name="riesgo_especifico.k_id_tipo_evento_1" >
                                                 <option>Seleccione</option>
                                             </select>
                                         </div>
@@ -126,7 +126,7 @@
                                     <div class="form-group">
                                         <label for="cmbProbabilidad" class="col-sm-2 control-label">Probabilidad</label>
                                         <div class="col-sm-10">
-                                            <select class="form-control helper-change" id="cmbProbabilidad" name="riesgo_especifico.k_id_probabilidad" data-combox="3" onchange="cambiarSoporteProbabilidad()">
+                                            <select class="form-control helper-change" id="cmbProbabilidad" name="riesgo_especifico.k_id_probabilidad" onchange="cambiarSoporteProbabilidad()">
                                                 <option value="">Seleccione</option>
                                             </select>
                                         </div>
@@ -143,7 +143,7 @@
                                     <div class="form-group">
                                         <label for="cmbImpacto" class="col-sm-2 control-label">Impacto</label>
                                         <div class="col-sm-10">
-                                            <select class="form-control helper-change" id="cmbImpacto" name="riesgo_especifico.k_id_impacto" data-combox="4" onchange="cambiarSoporteImpacto();">
+                                            <select class="form-control helper-change" id="cmbImpacto" name="riesgo_especifico.k_id_impacto" onchange="cambiarSoporteImpacto();">
                                                 <option value="">Seleccione el impacto</option>
                                             </select>
                                         </div>
@@ -258,6 +258,9 @@
         </div>
         <?php $this->load->view('parts/generic/scripts'); ?>
         <!-- CUSTOM SCRIPT   -->
+        <script type="text/javascript">
+            var dataForm = '<?php echo json_encode($dataForm) ?>';
+        </script>
         <script src="<?= URL::to('assets/js/modules/riskMatrix.js') ?>" type="text/javascript"></script>
     </body>
 </html>
