@@ -541,6 +541,14 @@ var dom = {
         } else {
             return "Indefinido";
         }
+    },
+    fillCombo: function (cmb, value) {
+        cmb.attr('data-value', value);
+        cmb.on('selectfilled', function () {
+            console.log("SELEECT FILL COMBNO", cmb, value);
+            cmb.val(cmb.attr('data-value')).trigger('change.select2');
+            cmb.off('selectfilled');
+        });
     }
 };
 $(function () {

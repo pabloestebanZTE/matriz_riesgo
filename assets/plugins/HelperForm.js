@@ -34,13 +34,21 @@ $.fn.fillForm = function (data) {
                     if ($el.is('select') && $el.find('option').length <= 1) {
                         $el.attr('data-value', val);
                         $el.on('selectfilled', function () {
-                            $el.val($el.attr('data-value'));
-                            if ($el.hasClass('select2-hidden-accessible')) {
-                                $el.trigger('change.select2');
-                            }
-                            if ($el.hasClass('helper-change')) {
-                                $el.trigger('change');
-                            }
+                            var interval = window.setInterval(function () {
+                                if ($el.find('option').length > 1) {
+                                    clearInterval(interval);
+                                } else {
+                                    return;
+                                }
+
+                                $el.val($el.attr('data-value'));
+                                if ($el.hasClass('select2-hidden-accessible')) {
+                                    $el.trigger('change.select2');
+                                }
+                                if ($el.hasClass('helper-change')) {
+                                    $el.trigger('change');
+                                }
+                            }, 100);
                         });
                     }
                     $el.val(val);

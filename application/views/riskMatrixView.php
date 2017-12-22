@@ -25,7 +25,7 @@
                     </div>
                     <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 bhoechie-tab" >
                         <div id="formsRisk" data-action="Risk/insertRiskFull" data-action-update="Risk/updateRiskFull" >
-                            <input type="hidden" value="" id="idRecord" />
+                            <input type="hidden" id="idRecord" value="<?= isset($_GET["id"]) ? $_GET["id"] : "" ?>" />
                             <!-- establecer contexto section -->
                             <div class="bhoechie-tab-content active" id="contentTab1">
                                 <form class="content-center m-b-20 well form-horizontal" id="form1">
@@ -139,7 +139,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    
+
                                     <div class="form-group">
                                         <label for="cmbImpacto" class="col-sm-2 control-label">Impacto</label>
                                         <div class="col-sm-10">
@@ -213,7 +213,7 @@
                                                             <!--<div class="col-md-6">-->
                                                             <label class="small">Control <span id="numControl">1:</span></label>
                                                             <div class="input-group">
-                                                                <select class="form-control input-sm" id="cmbCodControl" data-combox="6">
+                                                                <select class="form-control input-sm notDisabled cmb-control" id="cmbCodControl" >
                                                                     <option value="">Seleccione</option>
                                                                 </select>
                                                                 <div class="input-group-btn">
@@ -225,7 +225,7 @@
                                                             <!--<div class="col-md-6">-->
                                                             <div class="display-block with-300 m-t-10">
                                                                 <label class="small">Factor de riesgo:</label>
-                                                                <select class="form-control input-sm" id="cmbFactorRiesgo" name="cmbFactorRiesgo" data-combox="2">
+                                                                <select class="form-control input-sm notDisabled cmb-factor-riesgo" id="cmbFactorRiesgo" name="cmbFactorRiesgo" >
                                                                     <option value="">Seleccione</option>
                                                                 </select>
                                                             </div>

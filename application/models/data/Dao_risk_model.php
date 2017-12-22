@@ -79,6 +79,7 @@ class Dao_risk_model extends CI_Model {
                     $causaModel = new CausaModel();
                     //Insertamos la causa...
                     $idCausa = $causaModel->insert([
+                                "k_id_riesgo_especifico" => $idRiesgo,
                                 "n_nombre" => $causa->text
                             ])->data;
                     //Insertamos los controles...
@@ -102,50 +103,134 @@ class Dao_risk_model extends CI_Model {
 
     public function updateRiskFull($request) {
         try {
-            return new Response(EMessages::UPDATE);
-            //Consultamos y actualizamos el riesgo...            
+            //Verificamos que exista el riesgo...
             $riesgoEspecificoModel = new RiesgoEspecificoModel();
-            $record = $riesgoEspecificoModel->where("", "=", $request->idRecord)->first();
-            if ($record) {
+            $idRecord = $request->idRecord;
+            $record = $riesgoEspecificoModel->where("k_id_riesgo_especifico", "=", $idRecord)->first();
+            if (!$record) {
                 return new Response(EMessages::ERROR_UPDATE);
             }
+            $valid = new Validator();
+            //Actualizamos el riesgo...
             $riesgoEspecifico = new ObjUtil($request->riesgo_especifico->all());
             $riesgoEspecificoModel->where("k_id_riesgo_especifico", "=", $request->idRecord)
                     ->update($riesgoEspecifico->all());
 
+            //Ahora actualizamos o insertamos el soporte_probabilidad...
+            $soporteModel = new SoporteModel();
+            $temp = $soporteModel->where("k_id_riesgo_especifico", "=", $record->k_id_riesgo_especifico)
+                    ->where("k_id_probabilidad", "=", $record->k_id_probabilidad)
+                    ->first();
+            $value = $request->soporte_probabilidad;
+            if ($temp) {
+                //Actualizamos el soporte probabilidad...
+                if ($valid->required(null, $value)) {
+                    $soporteModel->where("k_id_riesgo_especifico", "=", $record->k_id_riesgo_especifico)
+                            ->where("k_id_probabilidad", "=", $record->k_id_probabilidad)
+                            ->update([
+                                "k_id_probabilidad" => $riesgoEspecifico->k_id_probabilidad,
+                                "n_nombre" => $value
+                    ]);
+                }
+            } else {
+                //Si no existe, lo insertamos...
+                if ($valid->required(null, $value)) {
+                    $soporteModel = new SoporteModel();
+                    $soporteModel->insert([
+                        "k_id_riesgo_especifico" => $idRiesgo,
+                        "k_id_probabilidad" => $riesgoEspecifico->k_id_probabilidad,
+                        "k_tipo" => "1",
+                        "n_nombre" => $value
+                    ]);
+                }
+            }
 
-            //Verificamos, actualizmos e insertamos los nuevos soportes de impacto...
-//            $soporteRecords = $request->soporte_impacto->all();
-//            $valid = new Validator();
-//            $soporteModel = new SoporteModel();
-//            foreach ($soporteRecords as $value) {
-//                if ($valid->required(null, $value)) {
-//                    $soporteModel = new SoporteModel();
-//                    //Comprobamos que no exista...
-//                    $soporteModel->insert([
-//                        "k_id_impacto" => $riesgoEspecifico->k_id_impacto,
-//                        "k_tipo" => "2",
-//                        "n_nombre" => $value
-//                    ]);
-//                }
-//            }
-            //Insertamos los soportes de probabilidad.
-//            $value = $request->soporte_probabilidad;
-//            if ($valid->required(null, $value)) {
-//                $soporteModel = new SoporteModel();
-//                $soporteModel->insert([
-//                    "k_id_probabilidad" => $riesgoEspecifico->k_id_probabilidad,
-//                    "k_tipo" => "1",
-//                    "n_nombre" => $value
-//                ]);
-//            }
-            //Insertamos las causas...
-//            $causas = $request->causas;
-//            if ($causas) {
-//                $causas = $request->causas->all();
-//                foreach ($causas as $value) {
-//                    $causa = new ObjUtil($value->all());
-//                    $causaModel = new CausaModel();
+            //Ahora actualizamos los soportes de impacto...
+            $soporteModel = new SoporteModel();
+            $temp = $soporteModel->where("k_id_riesgo_especifico", "=", $record->k_id_riesgo_especifico)
+                            ->isNotNull("k_id_impacto")->get();
+
+            $soporteRecords = $request->soporte_impacto->all();
+            if ($temp) {
+                $i = 0;
+                foreach ($temp as $value) {
+                    $soporteModel = new SoporteModel();
+                    if ($valid->required(null, $soporteRecords[$i])) {
+                        $soporteModel->where("k_id_soporte", "=", $value->k_id_soporte)->update([
+                            "k_id_impacto" => $riesgoEspecifico->k_id_impacto,
+                            "n_nombre" => $soporteRecords[$i]
+                        ]);
+                    }
+                    $i++;
+                }
+                //Se realiza esta comprobación ya que es posible que en un registro inicial, se haya insertado solo un soporte de impacto y al realizar la actualización vengan los dos.
+                if ($i == 1) {
+                    if (count($soporteRecords) == 2) {
+                        if ($valid->required(null, $soporteRecords[$i])) {
+                            $soporteModel->insert([
+                                "k_id_riesgo_especifico" => $idRiesgo,
+                                "k_id_impacto" => $riesgoEspecifico->k_id_impacto,
+                                "k_tipo" => "2",
+                                "n_nombre" => $soporteRecords[$i]
+                            ]);
+                        }
+                    }
+                }
+            } else {
+                //Insertamos los soportes de impacto...
+                $valid = new Validator();
+                foreach ($soporteRecords as $value) {
+                    if ($valid->required(null, $value)) {
+                        $soporteModel = new SoporteModel();
+                        $soporteModel->insert([
+                            "k_id_riesgo_especifico" => $idRiesgo,
+                            "k_id_impacto" => $riesgoEspecifico->k_id_impacto,
+                            "k_tipo" => "2",
+                            "n_nombre" => $value
+                        ]);
+                    }
+                }
+            }
+
+            //Ahora actualizamos las causas y los controles...
+            $causas = $request->causas;
+            if ($causas) {
+                $causas = $request->causas->all();
+                foreach ($causas as $causa) {
+                    $causa = new ObjUtil($value->all());
+                    $causaModel = new CausaModel();
+                    //Verificamos si el valor es válido y si la causa existe...
+                    if ($valid->required(null, $causa->text)) {
+                        $temp = $causaModel->where("k_id_riesgo_especifico", "=", $idRecord)
+                                ->where("n_nombre", "=", $causa->text)
+                                ->first();
+                        //Si existe, la actualizamos...
+                        if ($temp) {
+                            $causaModel = new CausaModel();
+                            $causaModel->update([
+                                "n_nombre" => $causa->text
+                            ]);
+                            //Como la causa existe, tenemos que actualizar los controles de la causa...
+                            
+                        } else {//De lo contrario la insertamos...
+                            //Insertamos la causa...
+                            $idCausa = $causaModel->insert([
+                                        "k_id_riesgo_especifico" => $idRiesgo,
+                                        "n_nombre" => $causa->text
+                                    ])->data;
+                            //Insertamos los controles...
+                            $controls = $causa->controls->all();
+                            foreach ($controls as $control) {
+                                $controlEspecificoModel = new ControlEspecificoModel();
+                                $controlEspecificoModel->insert([
+                                    "k_id_riesgo_especifico" => $idRiesgo,
+                                    "k_id_control" => $control->id,
+                                    "k_id_causa" => $idCausa,
+                                    "k_id_factor_riesgo" => $control->factorRiesgo,
+                                ]);
+                            }
+                        }
+                    }
 //                    //Insertamos la causa...
 //                    $idCausa = $causaModel->insert([
 //                                "n_nombre" => $causa->text
@@ -161,9 +246,10 @@ class Dao_risk_model extends CI_Model {
 //                            "k_id_factor_riesgo" => $control->factorRiesgo,
 //                        ]);
 //                    }
-//                }
-//            }
-            return new Response(EMessages::INSERT, "ADFKJASDF", $idRiesgo);
+                }
+            }
+
+            return new Response(EMessages::INSERT);
         } catch (ZolidException $ex) {
             return $ex;
         }
@@ -221,24 +307,13 @@ class Dao_risk_model extends CI_Model {
                 $soporteImpacto[] = $value->n_nombre;
             }
 
-//            echo $soporteModel->getSQL();
-//            var_dump($soporteImpacto);
-//
-            //Consultamos el control especifico...
-            $controlEspecificoModel = new ControlEspecificoModel();
-            $controlEspecifico = $controlEspecificoModel->where("k_id_riesgo_especifico", "=", $data->k_id_riesgo_especifico)->first();
-
-            $causas = null;
-
-            if ($controlEspecifico) {
-                //Consultamos las causas...
-                $causasModel = new CausaModel();
-                $causas = $causasModel->where("k_id_riesgo_especifico", "=", $data->k_id_riesgo_especifico)
-                                ->select("n_nombre")->get();
-                foreach ($causas as $causa) {
-                    $controls = $controlEspecificoModel->where("k_id_causa", "=", $causa->k_id_causa)->get();
-                    $causa->controls = $controls;
-                }
+            //Consultamos las causas...
+            $causasModel = new CausaModel();
+            $causas = $causasModel->where("k_id_riesgo_especifico", "=", $data->k_id_riesgo_especifico)->get();
+            foreach ($causas as $causa) {
+                $controlEspecificoModel = new ControlEspecificoModel();
+                $controls = $controlEspecificoModel->where("k_id_causa", "=", $causa->k_id_causa)->get();
+                $causa->controls = $controls;
             }
 
             $obj = [
