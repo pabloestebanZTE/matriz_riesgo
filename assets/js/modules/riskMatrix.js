@@ -9,11 +9,6 @@ var vista = {
     init: function () {
         vista.evetns();
         vista.configView();
-//        dom.getListCombox(modeloControles, true, function (data) {
-//            dom.llenarCombo($('#cmbCodControl'), data, {text: "text", value: "value"}, true);
-//        });
-//        var cmbFactorRiesgo = $('#cmbFactorRiesgo').attr('data-combox', 2);
-//        dom.getListCombox(cmbFactorRiesgo, true);
         vista.get();
     },
     evetns: function () {
@@ -74,7 +69,7 @@ var vista = {
             contentControl.append(clon);
             clon.find('#numControl').html(contentControl.find('.item-control').length);
             var selects = clon.find('select');
-            selects.attr('class', 'form-control input-sm notDisabled cmb-control');
+            selects.attr('class', 'form-control input-sm cmb-control');
             selects.removeAttr('tabindex');
             selects.removeAttr('aria-hidden');
             selects.next('.select2').remove();
@@ -97,7 +92,14 @@ var vista = {
     },
     onClickRemoveControl: function () {
         var btn = $(this);
-        btn.parents('.item-control').remove();
+        var controlItem = btn.parents('.item-control');
+        if (controlItem.attr('data-id')) {
+            var obj = {
+                idRecord: controlItem.attr('data-id', causa.k_id_causa)
+            };
+            vista.causasForDelete.push(obj);
+        }
+        controlItem.remove();
 //        swal({
 //            title: 'Confirmación',
 //            text: "Se eliminará el registro del control, ¿está seguro?",
@@ -177,7 +179,7 @@ var vista = {
             var controlsItems = causaItem.find('.content-control');
             var controls = [];
             for (var j = 0; j < controlsItems.length; j++) {
-                var controlItem = $(controlsItems[i]);
+                var controlItem = $(controlsItems[j]);
                 if (controlItem.find('select:eq(0)').val().trim() != "" && controlItem.find('select:eq(1)').val().trim() != "") {
                     var ctrl = {
                         id: controlItem.find('select:eq(0)').val(),

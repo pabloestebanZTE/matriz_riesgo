@@ -203,10 +203,9 @@ class Dao_risk_model extends CI_Model {
                     //Verificamos si el valor es válido y si la causa existe...
                     if ($valid->required(null, $causa->text)) {
                         //Si existe, la actualizamos...
-                        $temp = isset($causa->idRecord);
-                        if ($temp) {
+                        if ($causa->idRecord) {
                             $causaModel = new CausaModel();
-                            $causaModel->update([
+                            $causaModel->where("k_id_causa", "=", $causa->idRecord)->update([
                                 "n_nombre" => $causa->text
                             ]);
                             //Como la causa existe, tenemos que actualizar los controles de la causa...
@@ -214,7 +213,7 @@ class Dao_risk_model extends CI_Model {
                             foreach ($controls as $control) {
                                 $controlEspecificoModel = new ControlEspecificoModel();
                                 //Verificamos si el control viene con id de registro y lo actualizamos...
-                                if (isset($control->idRecord)) {
+                                if ($control->idRecord > 0) {
                                     $controlEspecificoModel
                                             ->where("k_id_control_especifico", "=", $control->idRecord)
                                             ->update([
@@ -225,7 +224,7 @@ class Dao_risk_model extends CI_Model {
                                     $controlEspecificoModel->insert([
                                         "k_id_riesgo_especifico" => $idRiesgo,
                                         "k_id_control" => $control->id,
-                                        "k_id_causa" => $idCausa,
+                                        "k_id_causa" => $causa->idRecord,
                                         "k_id_factor_riesgo" => $control->factorRiesgo,
                                     ]);
                                 }
@@ -236,7 +235,7 @@ class Dao_risk_model extends CI_Model {
                                         "k_id_riesgo_especifico" => $idRiesgo,
                                         "n_nombre" => $causa->text
                                     ])->data;
-                            //Insertamos los controles...
+                            //Insertamos los controles..
                             $controls = $causa->controls->all();
                             foreach ($controls as $control) {
                                 $controlEspecificoModel = new ControlEspecificoModel();
@@ -249,21 +248,6 @@ class Dao_risk_model extends CI_Model {
                             }
                         }
                     }
-//                    //Insertamos la causa...
-//                    $idCausa = $causaModel->insert([
-//                                "n_nombre" => $causa->text
-//                            ])->data;
-//                    //Insertamos los controles...
-//                    $controls = $causa->controls->all();
-//                    foreach ($controls as $control) {
-//                        $controlEspecificoModel = new ControlEspecificoModel();
-//                        $controlEspecificoModel->insert([
-//                            "k_id_riesgo_especifico" => $idRiesgo,
-//                            "k_id_control" => $control->id,
-//                            "k_id_causa" => $idCausa,
-//                            "k_id_factor_riesgo" => $control->factorRiesgo,
-//                        ]);
-//                    }
                 }
             }
 
@@ -382,7 +366,7 @@ class Dao_risk_model extends CI_Model {
             return $ex;
         }
     }
-    
+
     public function getRiskAssociatedControl($request) {
         try {
             $db = new DB();
@@ -396,6 +380,30 @@ class Dao_risk_model extends CI_Model {
         } catch (ZolidException $ex) {
             return $ex;
         }
+    }
+
+    public function getFormData() {
+        $dataForm = [];
+        if ($this->request->id) {
+            //Consultamos el registro...
+            $dao = new Dao_risk_model();
+            $response = $dao->getRiskById($this->request);
+            $dataForm["record"] = $response->data;
+            //Consultamos la lista de tipo evento2...
+            $dao = new Dao_combox_model();
+            if ($dataForm["record"]) {
+                $dataForm["tipo_evento2"] = $dao->getListComboxTipoEventoNvl2ById($dataForm["record"]["riesgo_especifico"]->k_id_tipo_evento_2)->data;
+            }
+        }
+        $dao = new Dao_combox_model();
+        $dataForm["riesgos"] = $dao->getListComboxById(1)->data;
+        $dataForm["factoresriesgo"] = $dao->getListComboxById(2)->data;
+        $dataForm["probabilidad"] = $dao->getListComboxById(3)->data;
+        $dataForm["impacto"] = $dao->getListComboxById(4)->data;
+        $dataForm["plataforma"] = $dao->getListComboxById(5)->data;
+        $dataForm["listcontrols"] = $dao->getListComboxById(6)->data;
+        $dataForm["tipo_evento1"] = $dao->getListComboxById(7)->data;
+        return $dataForm;
     }
 
 }
