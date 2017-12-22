@@ -82,14 +82,21 @@ function showModalqualificationControls(idControl) {
     };
     app.post('Risk/getRiskAssociatedControl', obj)
             .success(function (response) {
-                console.log(response);
-                var v = app.validResponse(response);
-                if (v) {
-                    swal("Guardado", "Se ha terminado la fase correctamente.", "success");
-                    vista.getDetails();
-                } else {
-                    swal("Atención", response.message, "warning");
-                }
+                console.log(response.data);
+                $('#tablaRiesgosAsociados').DataTable(dom.configTable(response.data,
+                        [
+                            {title: "ID Riesgo", data: "k_id_riesgo"},
+                            {title: "Riesgo", data: "n_riesgo"},
+                            {title: "Plataforma", data: "n_nombre"},
+                            {title: "Opciones", data: function (obj) {
+                                    return '<div class="btn-group">'
+                                            + '<a href="' + app.urlTo('Control/qualificationControl?idControlEsp=' + obj.k_id_control_especifico) + '" class="btn btn-default btn-xs" data-toggle="tooltip" title="Editar Control"><span class="fa fa-fw fa-pencil-square-o"></span></a>'
+                                            + '</div>';
+                                }
+                            },
+                        ],
+                        ));
+                $('#modalChangeState').modal('show');
             }).error(function (e) {
         swal("Error", "Se ha producido un error desconocido, compruebe su conexión y vuelva a intentarlo.", "error");
         console.log(e);

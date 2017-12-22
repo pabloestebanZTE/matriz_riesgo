@@ -293,10 +293,14 @@ class Dao_risk_model extends CI_Model {
     public function getRiskAssociatedControl($request) {
         try {
             $db = new DB();
-            $datos = $db->select("SELECT co.*, count(coe.k_id_control) k_control_asinado
-                                FROM control co
-                                LEFT JOIN control_especifico coe ON co.k_id_control = coe.k_id_control
-                                GROUP BY co.k_id_control")->get();
+            $idControl = $request->idControl;
+            $datos = $db->select("SELECT ri.k_id_riesgo, ri.n_riesgo, pl.n_nombre, ce.k_id_control_especifico 
+                                FROM control_especifico ce
+                                INNER JOIN causa ca ON ce.k_id_causa = ca.k_id_causa
+                                INNER JOIN riesgo_especifico re ON ca.k_id_riesgo_especifico = re.k_id_riesgo_especifico
+                                INNER JOIN riesgo ri ON ri.k_id_riesgo = re.k_id_riesgo
+                                INNER JOIN plataforma pl ON pl.k_id_plataforma = re.k_id_plataforma
+                                WHERE ce.k_id_control = '$idControl'")->get();
             $response = new Response(EMessages::SUCCESS);
             $response->setData($datos);
             return $response;

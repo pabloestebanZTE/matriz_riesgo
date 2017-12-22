@@ -4,13 +4,13 @@
     <body data-base="<?= URL::base() ?>">
         <?php $this->load->view('parts/generic/header'); ?>
         <div class="container autoheight p-t-20">
-            <div class="alert alert-success alert-dismissable hidden" id="principalAlert">
-                <a href="#" class="close">&times;</a>
-                <p id="text" class="m-b-0 p-b-0"></p>
-            </div>
             <div class='tab-content contentPrincipal' id='tab1'>
                 <div class='container'>
-                    <form class="well form-horizontal" action="" method="post">
+                    <form class="well form-horizontal" id="qualification" action="Qualification/insertQualification" method="post">
+                        <div class="alert alert-success alert-dismissable hidden" id="principalAlert">
+                            <a href="#" class="close">&times;</a>
+                            <p id="text" class="m-b-0 p-b-0"></p>
+                        </div>
                         <fieldset>
                             <div class="form-group row">
                                 <div class="col-md-6">
@@ -18,6 +18,7 @@
                                     <div class="col-sm-8">
                                         <input type="text" class="form-control" id="k_id_control" name="k_id_control" disabled/>
                                         <input type="hidden" class="form-control" id="k_id_control_especifico" name="k_id_control_especifico"/>
+                                        <input type="hidden" class="form-control" id="k_id_calificacion" name="k_id_calificacion"/>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -221,5 +222,24 @@
         </div>
         <?php $this->load->view('parts/generic/scripts'); ?>
         <!-- CUSTOM SCRIPT   -->
+        <script type="text/javascript">
+            $(function () {
+                var control = <?php echo $control; ?>;
+                console.log(control[0]);
+                $('#qualification').fillForm(control[0]);
+                
+                if (control[0].k_id_calificacion !== null) {
+                    $("#qualification").attr("action","Qualification/updateQualification");
+                }
+                
+//                if ($("#qualification").attr("action") === "Qualification/insertQualification") {
+//                    dom.submit($('#qualification'));
+//                }else {
+                    dom.submit($('#qualification'), function () {
+                        location.href = app.urlTo('Matriz/generalControlsView');
+                    });
+//                }
+            });
+        </script>
     </body>
 </html>
