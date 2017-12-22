@@ -5,6 +5,7 @@ class CausaModel extends Model {
     protected $k_id_causa;
     protected $k_id_riesgo_especifico;
     protected $n_nombre;
+    protected $n_state;
     
     //Los campos que desea ocultar para que no se reflejen en la vista.    
     protected $table = "causa";
@@ -33,6 +34,12 @@ class CausaModel extends Model {
     }
     public function getNNombre() {
         return $this->n_nombre;
+    }
+    public function setNState($n_state) {
+        $this->n_state = $n_state;
+    }
+    public function getNState() {
+        return $this->n_state;
     }
 
 

@@ -7,6 +7,7 @@ class ControlEspecificoModel extends Model {
     protected $k_id_causa;
     protected $k_id_factor_riesgo;
     protected $k_id_calificacion;
+    protected $n_state;
     
     //Los campos que desea ocultar para que no se reflejen en la vista.    
     protected $table = "control_especifico";
@@ -47,6 +48,12 @@ class ControlEspecificoModel extends Model {
     }
     public function getKIdCalificacion() {
         return $this->k_id_calificacion;
+    }
+    public function setNState($n_state) {
+        $this->n_state = $n_state;
+    }
+    public function getNState() {
+        return $this->n_state;
     }
 
 

@@ -264,7 +264,7 @@ class DB extends PDO {
         $sth->execute();
     }
 
-    function getSql() {
+    public function getSql() {
         return $this->query;
     }
 

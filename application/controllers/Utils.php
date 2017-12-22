@@ -29,6 +29,16 @@ class Utils extends CI_Controller {
         $this->json($response);
     }
 
+    function getSeveridad() {
+        $request = $this->request;
+        $model = new RefProbabilidadImpactoModel();
+        $data = $model->where("k_id_probabilidad", "=", $request->idProbabilidad)
+                        ->where("k_id_impacto", "=", $request->idImpacto)->first();
+        $response = new Response(EMessages::QUERY);
+        $response->setData($data);
+        $this->json($response);
+    }
+
     function getOnTime() {
         $onTimeTypes = ["Y", "N", "Y"];
         $i = rand(0, 2);

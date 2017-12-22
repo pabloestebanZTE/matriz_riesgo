@@ -71,7 +71,9 @@ class Matriz extends CI_Controller {
     }
 
     public function riskMatrixView() {
-        $this->load->view('riskMatrixView');
+        //Consultamos la información de los select...
+        $dao = new Dao_risk_model();
+        $this->load->view('riskMatrixView', ["dataForm" => $dao->getFormData($this->request)]);
     }
 
     public function generalRisksView() {

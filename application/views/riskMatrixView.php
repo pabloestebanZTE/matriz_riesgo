@@ -25,7 +25,7 @@
                     </div>
                     <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 bhoechie-tab" >
                         <div id="formsRisk" data-action="Risk/insertRiskFull" data-action-update="Risk/updateRiskFull" >
-                            <input type="hidden" value="" id="idRecord" />
+                            <input type="hidden" id="idRecord" value="<?= isset($_GET["id"]) ? $_GET["id"] : "" ?>" />
                             <!-- establecer contexto section -->
                             <div class="bhoechie-tab-content active" id="contentTab1">
                                 <form class="content-center m-b-20 well form-horizontal" id="form1">
@@ -36,7 +36,7 @@
                                     <div class="form-group">
                                         <label for="cmbPlataforma" class="col-sm-2 control-label">Plataforma</label>
                                         <div class="col-sm-10">
-                                            <select class="form-control" id="cmbPlataforma" name="riesgo_especifico.k_id_plataforma" data-combox="5">
+                                            <select class="form-control" id="cmbPlataforma" name="riesgo_especifico.k_id_plataforma" >
                                                 <option value="">Seleccione</option>
                                             </select>
                                         </div>
@@ -89,7 +89,7 @@
                                     <div class="form-group">
                                         <label for="cmbRiesgoId" class="col-sm-2 control-label">Riesgo</label>
                                         <div class="col-sm-10">
-                                            <select class="form-control" id="cmbRiesgoId" name="riesgo_especifico.k_id_riesgo" data-combox="1">
+                                            <select class="form-control" id="cmbRiesgoId" name="riesgo_especifico.k_id_riesgo" >
                                                 <option value="">Seleccione</option>
                                             </select>
                                         </div>
@@ -110,7 +110,7 @@
                                     <div class="form-group">
                                         <label for="cmbTipoEventoNivel1" class="col-sm-2 control-label">Tipo de evento (nivel 1)</label>
                                         <div class="col-sm-10">
-                                            <select class="form-control helper-change" id="cmbTipoEventoNivel1" name="riesgo_especifico.k_id_tipo_evento_1" data-combox="7" >
+                                            <select class="form-control helper-change" id="cmbTipoEventoNivel1" name="riesgo_especifico.k_id_tipo_evento_1" >
                                                 <option>Seleccione</option>
                                             </select>
                                         </div>
@@ -126,7 +126,7 @@
                                     <div class="form-group">
                                         <label for="cmbProbabilidad" class="col-sm-2 control-label">Probabilidad</label>
                                         <div class="col-sm-10">
-                                            <select class="form-control helper-change" id="cmbProbabilidad" name="riesgo_especifico.k_id_probabilidad" data-combox="3" onchange="cambiarSoporteProbabilidad()">
+                                            <select class="form-control helper-change select-severidad" id="cmbProbabilidad" name="riesgo_especifico.k_id_probabilidad" onchange="cambiarSoporteProbabilidad()">
                                                 <option value="">Seleccione</option>
                                             </select>
                                         </div>
@@ -139,11 +139,11 @@
                                             </select>
                                         </div>
                                     </div>
-                                    
+
                                     <div class="form-group">
                                         <label for="cmbImpacto" class="col-sm-2 control-label">Impacto</label>
                                         <div class="col-sm-10">
-                                            <select class="form-control helper-change" id="cmbImpacto" name="riesgo_especifico.k_id_impacto" data-combox="4" onchange="cambiarSoporteImpacto();">
+                                            <select class="form-control helper-change select-severidad" id="cmbImpacto" name="riesgo_especifico.k_id_impacto" onchange="cambiarSoporteImpacto();">
                                                 <option value="">Seleccione el impacto</option>
                                             </select>
                                         </div>
@@ -213,7 +213,7 @@
                                                             <!--<div class="col-md-6">-->
                                                             <label class="small">Control <span id="numControl">1:</span></label>
                                                             <div class="input-group">
-                                                                <select class="form-control input-sm" id="cmbCodControl" data-combox="6">
+                                                                <select class="form-control input-sm notDisabled cmb-control" id="cmbCodControl" >
                                                                     <option value="">Seleccione</option>
                                                                 </select>
                                                                 <div class="input-group-btn">
@@ -225,7 +225,7 @@
                                                             <!--<div class="col-md-6">-->
                                                             <div class="display-block with-300 m-t-10">
                                                                 <label class="small">Factor de riesgo:</label>
-                                                                <select class="form-control input-sm" id="cmbFactorRiesgo" name="cmbFactorRiesgo" data-combox="2">
+                                                                <select class="form-control input-sm notDisabled cmb-factor-riesgo" id="cmbFactorRiesgo" name="cmbFactorRiesgo" >
                                                                     <option value="">Seleccione</option>
                                                                 </select>
                                                             </div>
@@ -258,6 +258,9 @@
         </div>
         <?php $this->load->view('parts/generic/scripts'); ?>
         <!-- CUSTOM SCRIPT   -->
+        <script type="text/javascript">
+            var dataForm = '<?php echo json_encode($dataForm) ?>';
+        </script>
         <script src="<?= URL::to('assets/js/modules/riskMatrix.js') ?>" type="text/javascript"></script>
     </body>
 </html>

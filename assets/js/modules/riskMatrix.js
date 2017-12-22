@@ -4,12 +4,12 @@ var modeloControles = $('<select class="form-control m-r-0" data-combox="6" id="
 
 var contControles = 0;
 var contCausas = 0;
-
 var vista = {
+    causasForDelete: [],
+    controlsForDelete: [],
     init: function () {
         vista.evetns();
         vista.configView();
-        dom.getListCombox(modeloControles, true);
         vista.get();
     },
     evetns: function () {
@@ -20,30 +20,51 @@ var vista = {
         $('#form3').on('click', '.btn-remove-causa', vista.onClickRemoveCausa);
         $('#form3').on('click', '.btn-add-control', vista.onClickAddControl);
         $('#form3').on('click', '.btn-remove-control', vista.onClickRemoveControl);
+        $('.select-severidad').on('change', vista.onChangeSelectSeveridad);
+    },
+    onChangeSelectSeveridad: function () {
+        if ($('.select-severidad#cmbProbabilidad').val().trim() != "" && $('.select-severidad#cmbImpacto').val().trim() != "") {
+            app.post('Utils/getSeveridad', {
+                idProbabilidad: $('#cmbProbabilidad').val(),
+                idImpacto: $('#cmbImpacto').val()
+            })
+                    .success(function (response) {
+                        if (response.code > 0) {
+                            $('#txtSeveridadRiesgoInherente').val(response.data.n_calificacion);
+                        } else {
+                            $('#txtSeveridadRiesgoInherente').val("DESCONOCIDO");
+                        }
+                    })
+                    .error(function () {
+                        $('#txtSeveridadRiesgoInherente').val("ERROR INESPERADO");
+                    })
+                    .send();
+        }
     },
     get: function () {
         var id = app.getParamURL('id');
         if (id) {
+            if (!dataForm.record) {
+                swal("Registro no existe", "Lo sentimos, el registro actual no existe o se ha eliminado.", "warning");
+            }
             var formGlobal = $('#formsRisk');
-            formGlobal.find('input, textarea, button, fieldset, select').prop('disabled', true);
-            app.post('Risk/getRiskById', {id: id})
-                    .complete(function () {
-                        formGlobal.find('input, textarea, button, fieldset, select').prop('disabled', false);
-                    })
-                    .success(function (response) {
-                        var data = app.parseResponse(response);
-                        if (data) {
-                            formGlobal.attr('data-mode', "FOR_UPDATE");
-                            formGlobal.fillForm(data);
-                            formGlobal.find('#cmbSoporteImpacto1').attr('data-value', data["soporte_impacto[]"][0]);
-                            formGlobal.find('#cmbSoporteImpacto1').attr('data-value', data["soporte_impacto[]"][1]);
-                            formGlobal.find('button:submit').html('<i class="fa fa-fw fa-save"></i> Actualizar');
-                        } else {
-                            swal("Registro no existe", "Lo sentimos, el registro actual no existe o se ha eliminado.", "warning");
-                        }
-                    }).error(function () {
-                swal("Error inesperado", "Lo sentimos, se ha producido un error inesperado al consultar el registro.", "error");
-            }).send();
+            var data = dataForm.record;
+            if (data) {
+                formGlobal.attr('data-mode', "FOR_UPDATE");
+                formGlobal.fillForm(data);
+                formGlobal.find('#cmbSoporteImpacto1').attr('data-value', data["soporte_impacto[]"][0]);
+                formGlobal.find('#cmbSoporteImpacto2').attr('data-value', data["soporte_impacto[]"][1]);
+                vista.listCausas(data.causas);
+                formGlobal.find('button:submit').html('<i class="fa fa-fw fa-save"></i> Actualizar');
+            }
+        }
+    },
+    listCausas: function (causas) {
+        if (Array.isArray(causas)) {
+            for (var i = 0; i < causas.length; i++) {
+                var causa = causas[i];
+                vista.addCausa(causa);
+            }
         }
     },
     onClickAddCausa: function () {
@@ -51,7 +72,14 @@ var vista = {
     },
     onClickRemoveCausa: function () {
         var btn = $(this);
-        btn.parents('.item-causa').remove();
+        var causaItem = btn.parents('.item-causa');
+        if (causaItem.attr('data-id')) {
+            var obj = {
+                idRecord: causaItem.attr('data-id')
+            };
+            vista.causasForDelete.push(obj);
+        }
+        causaItem.remove();
         if ($('.causa-added').length == 0) {
             $('#form3').find('button:submit').addClass('hidden');
             $('#btnAddCausa').removeClass('hidden');
@@ -60,39 +88,80 @@ var vista = {
     onClickAddControl: function () {
         var btn = $(this);
         var contentControl = btn.parents('.body-causa');
+        vista.addControl(contentControl);
+    },
+    addControl: function (contentControl, control) {
         var model = $('#controlIndex');
-        var clon = model.clone();
-        contentControl.append(clon);
-        clon.find('#numControl').html(contentControl.find('.item-control').length);
+        var run = function () {
+            var clon = model.clone();
+            contentControl.append(clon);
+            clon.find('#numControl').html(contentControl.find('.item-control').length);
+            var selects = clon.find('select');
+            selects.attr('class', 'form-control input-sm cmb-control');
+            selects.removeAttr('tabindex');
+            selects.removeAttr('aria-hidden');
+            selects.next('.select2').remove();
+            selects.select2({width: '100%'});
+            if (control) {
+                clon.find('select:eq(0)').attr('data-id', control.k_id_control_especifico);
+                dom.fillCombo(clon.find('select:eq(0)'), control.k_id_control);
+                dom.fillCombo(clon.find('select:eq(1)'), control.k_id_factor_riesgo);
+            }
+        };
+        if (model.find('option').length > 2) {
+            run();
+        } else {
+            var interval = window.setTimeout(function () {
+                vista.addControl(contentControl, control);
+                clearInterval(interval);
+            }, 100);
+        }
     },
     onClickRemoveControl: function () {
         var btn = $(this);
-        btn.parents('.item-control').remove();
+        var controlItem = btn.parents('.item-control');
+        if (controlItem.find('select:eq(0)').attr('data-id')) {
+            var obj = {
+                idRecord: controlItem.find('select:eq(0)').attr('data-id')
+            };
+            vista.controlsForDelete.push(obj);
+        }
+        controlItem.remove();
     },
-    addCausa: function () {
+    addCausa: function (causa) {
         var model = $('#itemCausaIndex');
         var clon = model.clone();
         clon.removeAttr('id').removeClass('hidden').addClass('causa-added');
         //Jugamos con los select de los controles...
         var select = clon.find('select:eq(0)');
-        select.attr('class', 'form-control');
+        select.attr('class', 'form-control input-sm notDisabled cmb-control');
         select.removeAttr('tabindex');
         select.removeAttr('aria-hidden');
         select.html(model.find('select:eq(0)').html());
-        select.next().remove();
+        select.next('.select2').remove();
         select.select2({'width': '100%'});
         var select2 = clon.find('select:eq(1)');
-        select2.attr('class', 'form-control');
+        select2.attr('class', 'form-control input-sm notDisabled cmb-factor-riesgo');
         select2.removeAttr('tabindex');
         select2.removeAttr('aria-hidden');
         select2.html(model.find('select:eq(1)').html());
-        select2.next().remove();
+        select2.next('.select2').remove();
         select2.select2({'width': '100%'});
         $('#contentCausas').append(clon);
         clon.find('#numCausa').html($('.causa-added').length);
         clon.find('input:eq(0)').focus();
         $('#form3').find('button:submit').removeClass('hidden');
         $('#btnAddCausa').addClass('hidden');
+        if (causa) {
+            clon.find('input:eq(0)').val(causa.n_nombre);
+            clon.attr('data-id', causa.k_id_causa);
+            //Recorremos los controles...
+            for (var i = 0; i < causa.controls.length; i++) {
+                var control = causa.controls[i];
+                clon.find('.body-causa').html('');
+                vista.addControl(clon.find('.body-causa'), control);
+            }
+        }
     },
     onSubmitForm: function (e) {
         var form = $(this);
@@ -112,60 +181,110 @@ var vista = {
         __mergeObj(obj, form1.getFormData());
         __mergeObj(obj, form2.getFormData());
         obj.causas = [];
-        //Buscamos las causas agregadas...
-        var causasAdded = $('#form3').find('.causa-added');
-        for (var i = 0; i < causasAdded.length; i++) {
-            var causaItem = $(causasAdded[i]);
-            //Buscamos los controles dentro de esa causa...
-            var controlsItems = causaItem.find('.content-control');
-            var controls = [];
-            for (var j = 0; j < controlsItems.length; j++) {
-                var controlItem = $(controlsItems[i]);
-                if (controlItem.find('select:eq(0)').val().trim() != "" && controlItem.find('select:eq(1)').val().trim() != "") {
-                    controls.push({
-                        id: controlItem.find('select:eq(0)').val(),
-                        factorRiesgo: controlItem.find('select:eq(1)').val()
-                    });
-                }
-            }
-            if (causaItem.find('input:eq(0)').val().trim("") != "") {
-                obj.causas.push({
-                    text: causaItem.find('input:eq(0)').val(),
-                    controls: controls
-                });
-            }
+        var confirmar = false;
+        if (vista.causasForDelete.length > 0) {
+            confirmar = true;
+            obj.causasForDelete = vista.causasForDelete;
         }
-        var formGlobal = $('#formsRisk');
-        formGlobal.find('input, textarea, button, fieldset, select').prop('disabled', true);
-        var uri = formGlobal.attr('data-action');
-        var forUpdate = false;
-        if (formGlobal.attr('data-mode') === "FOR_UPDATE") {
-            uri = formGlobal.attr('data-action-update');
-            obj.idRecord = $('#idRecord').val();
-            forUpdate = true;
+        if (vista.controlsForDelete.length > 0) {
+            confirmar = true;
+            obj.controlsForDelete = vista.controlsForDelete;
         }
 
-        //Se hace la petición AJAX y se envia el objeto completo con toda la información de los tres formularios para ser procesada...
-        app.post(uri, obj)
-                .complete(function () {
-                    formGlobal.find('input, textarea, button, fieldset, select').prop('disabled', false);
-                })
-                .success(function (response) {
-                    console.log(response);
-                    var v = app.validResponse(response);
-                    if (v) {
-                        swal((forUpdate ? "Actualizado" : "Guardado"), (forUpdate ? "Se ha actualizado correctamente el registro." : "Se ha guardado correctamente el registro."), "success");
-                        $('#idRecord').val(response.data);
-                        formGlobal.attr('data-mode', 'FOR_UPDATE');
-                        form.find('button:submit').html('<i class="fa fa-fw fa-save"></i> Actualizar');
-                    } else {
-                        swal((forUpdate ? "Error al actualizar" : "Error al guardar"), (forUpdate ? "Se ha producido un error al intentar actualizar el registro." : "Se ha producido un error al intentar guardar el registro."), "warning");
+
+        var start = function (obj) {
+            //Buscamos las causas agregadas...
+            var causasAdded = $('#form3').find('.causa-added');
+            for (var i = 0; i < causasAdded.length; i++) {
+                var causaItem = $(causasAdded[i]);
+                //Buscamos los controles dentro de esa causa...
+                var controlsItems = causaItem.find('.content-control');
+                var controls = [];
+                for (var j = 0; j < controlsItems.length; j++) {
+                    var controlItem = $(controlsItems[j]);
+                    if (controlItem.find('select:eq(0)').val().trim() != "" && controlItem.find('select:eq(1)').val().trim() != "") {
+                        var ctrl = {
+                            id: controlItem.find('select:eq(0)').val(),
+                            factorRiesgo: controlItem.find('select:eq(1)').val()
+                        }
+                        if (controlItem.find('select:eq(0)').attr('data-id')) {
+                            ctrl.idRecord = controlItem.find('select:eq(0)').attr('data-id');
+                        }
+                        controls.push(ctrl);
                     }
-                })
-                .error(function () {
-                    swal("Error inesperado", "Lo sentimos, se ha producido un error inesperado.", "error");
-                }).send();
-        console.log(obj);
+                }
+                if (causaItem.find('input:eq(0)').val().trim("") != "") {
+                    var causaObj = {
+                        text: causaItem.find('input:eq(0)').val(),
+                        controls: controls,
+                    };
+                    if (causaItem.attr('data-id')) {
+                        causaObj.idRecord = causaItem.attr('data-id');
+                    }
+                    obj.causas.push(causaObj);
+                }
+            }
+            var formGlobal = $('#formsRisk');
+            formGlobal.find('input, textarea, button, fieldset, select:not(.notDisabled)').prop('disabled', true);
+            var uri = formGlobal.attr('data-action');
+            var forUpdate = false;
+            if (formGlobal.attr('data-mode') === "FOR_UPDATE") {
+                uri = formGlobal.attr('data-action-update');
+                obj.idRecord = $('#idRecord').val();
+                forUpdate = true;
+            }
+
+            //Se hace la petición AJAX y se envia el objeto completo con toda la información de los tres formularios para ser procesada...
+            app.post(uri, obj)
+                    .complete(function () {
+                        formGlobal.find('input, textarea, button, fieldset, select').prop('disabled', false);
+                    })
+                    .success(function (response) {
+                        console.log(response);
+                        var v = app.validResponse(response);
+                        if (v) {
+                            swal((forUpdate ? "Actualizado" : "Guardado"), (forUpdate ? "Se ha actualizado correctamente el registro." : "Se ha guardado correctamente el registro."), "success");
+                            if (!forUpdate) {
+                                $('#idRecord').val(response.data);
+                            }
+                            formGlobal.attr('data-mode', 'FOR_UPDATE');
+                            form.find('button:submit').html('<i class="fa fa-fw fa-save"></i> Actualizar');
+                        } else {
+                            swal((forUpdate ? "Error al actualizar" : "Error al guardar"), (forUpdate ? "Se ha producido un error al intentar actualizar el registro." : "Se ha producido un error al intentar guardar el registro."), "warning");
+                        }
+                    })
+                    .error(function () {
+                        swal("Error inesperado", "Lo sentimos, se ha producido un error inesperado.", "error");
+                    }).send();
+            console.log(obj);
+        };
+
+        if (confirmar) {
+            swal({
+                title: 'Confirmación',
+                text: "Se eliminarán algunas causas y/o controles, ¿está seguro?",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Confirmar',
+                cancelButtonText: 'Cancelar'
+            }).then(function (result) {
+                if (result.value) {
+                    start(obj);
+                } else {
+                    swal({
+                        title: "Cancelado",
+                        text: "Se han cancelado los cambios.",
+                        type: "warning"
+                    }).then(function () {
+                        location.reload();
+                    });
+                }
+            });
+        } else {
+            start(obj);
+        }
     },
     onChangeCmbTipoEventoNivel1: function () {
         if ($('#cmbTipoEventoNivel1').val().trim("") === "") {
@@ -195,66 +314,30 @@ var vista = {
         $("div.bhoechie-tab-content").eq(index).addClass("active");
         if ($(this).attr("id") === 'contentAll') {
             $("div.bhoechie-tab-content").addClass("active");
-//            $("button").css("display","none");
+            //            $("button").css("display","none");
         }
+        $('.cmb-control').prop('disabled', false).trigger('selectfilled');
+        $('.cmb-factor-riesgo').prop('disabled', false).trigger('selectfilled');
     },
     configView: function () {
-        $('select').select2({width: '100%'});
+        dataForm = JSON.parse(dataForm);
+        console.log(dataForm);
+        dom.llenarCombo($('#cmbPlataforma'), dataForm.plataforma, {text: "text", value: "value"});
+        dom.llenarCombo($('#cmbRiesgoId'), dataForm.riesgos, {text: "text", value: "value"});
+        dom.llenarCombo($('#cmbTipoEventoNivel1'), dataForm.tipo_evento1, {text: "text", value: "value"});
+        if (dataForm.tipo_evento2) {
+            dom.llenarCombo($('#cmbTipoEventoNivel2'), dataForm.tipo_evento2, {text: "text", value: "value"});
+        }
+        dom.llenarCombo($('#cmbProbabilidad'), dataForm.probabilidad, {text: "text", value: "value"});
+        dom.llenarCombo($('#cmbImpacto'), dataForm.impacto, {text: "text", value: "value"});
+        dom.llenarCombo($('#cmbFactorRiesgo'), dataForm.factoresriesgo, {text: "text", value: "value"});
+        dom.llenarCombo($('#cmbCodControl'), dataForm.listcontrols, {text: "text", value: "value"});
+        $('select:not(.notDisabled)').select2({width: '100%'});
     }
 };
 $(document).ready(function () {
     vista.init();
 });
-
-function AgregarCampos() {
-    AgregarControles();
-}
-
-function AgregarControles() {
-    contControles++;
-    var cmb = modeloControles.clone();
-    cmb.select2({width: '100%'});
-    var campos = '<div class="form-group" id="contenedorControles' + contControles + '">'
-            + '<label for="cmbControles" class="col-sm-2 control-label">Control</label>'
-            + '<div class="col-sm-10"><div class="input-group" id="contentCmb">'
-            + modeloControles[0].outerHTML
-            + '<div class="input-group-btn"><button type="button" class="btn btn-success m-r-0" onclick="AgregarCampos()"><i class="fa fa-plus" aria-hidden="true"></i></button>'
-            + '<button type="button" class="btn btn-danger" onclick="eliminarControles(' + contControles + ');"><i class="fa fa-minus" aria-hidden="true"></i></button>'
-            + '</div></div>'
-            + '</div>'
-            + '</div>';
-    campos = $(campos);
-    campos.find('select').select2({width: '100%'});
-    $("#contenedorControles").append(campos);
-}
-
-function eliminarControles(idControl) {
-    $("#contenedorControles" + idControl).remove();
-}
-
-function AgregarCausas() {
-    contCausas++;
-    campos = '<div class="form-inline form-group" id="contenedorCausas' + contCausas + '">'
-            + '<label for="cmbControles" class="col-sm-2 control-label">Causa</label>'
-            + '<div class="col-sm-10">'
-            + '<input type="text" class="form-control m-r-5" id="txtCausa" name="causas[]" style="width: 87%;">'
-            + '<button type="button" class="btn btn-success m-r-5" onclick="AgregarCausas()"><i class="fa fa-plus" aria-hidden="true"></i></button>'
-            + '<button type="button" class="btn btn-danger" onclick="eliminarCausas(' + contCausas + ');"><i class="fa fa-minus" aria-hidden="true"></i></button>'
-            + '</div>'
-            + '</div>';
-    $("#contenedorCausas").append(campos);
-}
-
-function eliminarCausas(idCausa) {
-    $("#contenedorCausas" + idCausa).remove();
-}
-
-function clickButtonSubmit(form) {
-    var form = $('#form' + form);
-    form.validate();
-//    console.log(form)
-}
-
 function cambiarSoporteImpacto() {
     var impacto = $('#cmbImpacto').val();
     console.log("AAAAAA");
@@ -301,21 +384,24 @@ function cambiarSoporteImpacto() {
     $('#cmbSoporteImpacto2').empty();
     $('#cmbSoporteImpacto1').append(option);
     $('#cmbSoporteImpacto2').append(option);
-    $('#cmbSoporteImpacto1').trigger('selectfilled');
-    $('#cmbSoporteImpacto2').trigger('selectfilled');
-    
     var cmbSoporte1 = $('#cmbSoporteImpacto1');
-    cmbSoporte1.on('')
-    if (cmbSoporte1.attr('data-value')) {
-        cmbSoporte1.val(cmbSoporte1.attr('data-value'));
-//        cmbSoporte1.removeAttr('data-value');
-    }
-
     var cmbSoporte2 = $('#cmbSoporteImpacto2');
-    if (cmbSoporte2.attr('data-value')) {
-        cmbSoporte2.val(cmbSoporte2.attr('data-value'));
-//        cmbSoporte2.removeAttr('data-value');
-    }
+    cmbSoporte1.on('selectfilled', function () {
+        if (cmbSoporte1.attr('data-value')) {
+            cmbSoporte1.val(cmbSoporte1.attr('data-value')).trigger('change.select2');
+            //        cmbSoporte1.removeAttr('data-value');
+        }
+    });
+    cmbSoporte2.on('selectfilled', function () {
+        if (cmbSoporte2.attr('data-value')) {
+            cmbSoporte2.val(cmbSoporte2.attr('data-value')).trigger('change.select2');
+            //        cmbSoporte1.removeAttr('data-value');
+        }
+    });
+    window.setTimeout(function () {
+        cmbSoporte1.trigger('selectfilled');
+        cmbSoporte2.trigger('selectfilled');
+    }, 15);
 }
 
 function cambiarSoporteProbabilidad() {
