@@ -215,8 +215,6 @@
                 </div>
             </div>
         </div>
-        <br>
-        <br>
         <!--footer Section -->
         <div class="for-full-back" id="footer">
             Zolid By ZTE Colombia | All Right Reserved

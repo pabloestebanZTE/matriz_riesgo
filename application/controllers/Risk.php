@@ -10,8 +10,8 @@ class Risk extends CI_Controller {
     }
 
     public function insertRisk() {
-        $vm = new Dao_risk_model();
-        $response = $vm->insertRisk($this->request);
+        $dao = new Dao_risk_model();
+        $response = $dao->insertRisk($this->request);
         $this->json($response);
     }
 
@@ -46,8 +46,8 @@ class Risk extends CI_Controller {
 
     public function findRiskById() {
         $id = $this->request->idRiesgo;
-        $vm = new Dao_risk_model();
-        $response = $vm->findById($id);
+        $dao = new Dao_risk_model();
+        $response = $dao->findById($id);
         $answer['riesgo'] = json_encode($response->data);
         $this->load->view('riskView', $answer);
     }
@@ -65,8 +65,14 @@ class Risk extends CI_Controller {
     }
 
     public function updateGeneralRisk() {
-        $vm = new Dao_risk_model();
-        $response = $vm->updateGeneralRisk($this->request);
+        $dao = new Dao_risk_model();
+        $response = $dao->updateGeneralRisk($this->request);
+        $this->json($response);
+    }
+    
+    public function getRiskAssociatedControl() {
+        $dao = new Dao_risk_model();
+        $response = $dao->getRiskAssociatedControl($this->request);
         $this->json($response);
     }
 

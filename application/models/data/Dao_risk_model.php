@@ -289,6 +289,21 @@ class Dao_risk_model extends CI_Model {
             return $ex;
         }
     }
+    
+    public function getRiskAssociatedControl($request) {
+        try {
+            $db = new DB();
+            $datos = $db->select("SELECT co.*, count(coe.k_id_control) k_control_asinado
+                                FROM control co
+                                LEFT JOIN control_especifico coe ON co.k_id_control = coe.k_id_control
+                                GROUP BY co.k_id_control")->get();
+            $response = new Response(EMessages::SUCCESS);
+            $response->setData($datos);
+            return $response;
+        } catch (ZolidException $ex) {
+            return $ex;
+        }
+    }
 
 }
 
