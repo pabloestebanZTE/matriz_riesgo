@@ -382,12 +382,12 @@ class Dao_risk_model extends CI_Model {
         }
     }
 
-    public function getFormData() {
+    public function getFormData($request) {
         $dataForm = [];
-        if ($this->request->id) {
+        if ($request->id) {
             //Consultamos el registro...
             $dao = new Dao_risk_model();
-            $response = $dao->getRiskById($this->request);
+            $response = $dao->getRiskById($request);
             $dataForm["record"] = $response->data;
             //Consultamos la lista de tipo evento2...
             $dao = new Dao_combox_model();
