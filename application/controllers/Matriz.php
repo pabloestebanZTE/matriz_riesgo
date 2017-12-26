@@ -81,6 +81,7 @@ class Matriz extends CI_Controller {
     }
 
     public function qualificationControlsView() {
+        
         $this->load->view('qualificationControlsView');
     }
 
