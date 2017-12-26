@@ -4,9 +4,9 @@
 table td{
     border: 1px solid #000;
     min-width: 100px;
-    min-height: 60px;
+    min-height: 45px;
     width: 100px;
-    height: 60px;
+    height: 45px;
 }
 table .item{
     border: 1px solid #000;
@@ -41,4 +41,39 @@ table .item-border{
 table .item-right-vertical{
     border-right-color: #fff;
     border-bottom-color: #fff;
+}
+.img-probabilidad{
+    height: 350px;
+}
+.img-impacto{
+    width: 625px;
+}
+.left-panel{
+    border-right: 1px solid #ccc;
+    height: 100vh;
+}
+.vh{
+    height: 100vh;
+}
+.list-riesgos{
+    margin-top: 15px;
+    border: 0.5px solid #eee;
+    height: 350px;
+    background: #FFF;
+    overflow: auto;
+    overflow-x: hidden;
+}
+.risk-item{
+    border-bottom: 1px solid #eee;
+    padding-left: 15px;
+}
+td .point{   
+    display: cell;
+    vertical-align: middle;   
+    width: 100%;    
+    text-align: center;
+    font-size: 16px;   
+}
+.item-grid{
+    cursor: pointer;
 }

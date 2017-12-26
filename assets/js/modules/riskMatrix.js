@@ -30,7 +30,10 @@ var vista = {
             })
                     .success(function (response) {
                         if (response.code > 0) {
-                            $('#txtSeveridadRiesgoInherente').val(response.data.n_calificacion);
+                            var input = $('#txtSeveridadRiesgoInherente');
+                            input.val(response.data.n_calificacion);
+                            input.css('background-color', response.data.n_color);
+                            input.css('color', response.data.n_text_color);
                         } else {
                             $('#txtSeveridadRiesgoInherente').val("DESCONOCIDO");
                         }

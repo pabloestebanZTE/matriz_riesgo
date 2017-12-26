@@ -89,6 +89,10 @@ class Matriz extends CI_Controller {
         $this->load->view('gridView');
     }
 
+    public function gridByPlataform() {
+        $this->load->view('gridByPlataform');
+    }
+
 }
 ?>
 

@@ -452,6 +452,27 @@ class Dao_risk_model extends CI_Model {
         ]);
     }
 
+    public function getRiskByIdPlataform($request) {
+        $response = new Response(EMessages::QUERY);
+        $daoRisk = new RiesgoEspecificoModel();
+        $db = new DB();
+//        $list = $db->select("SELECT riesgo_especifico.*, reisgo.n_riesgo FROM riesgo_especifico "
+//                . "INNER JOIN riesgo ON "
+//                . "riesgo.k_id_riesgo = riesgo_especifico.k_id_riesgo WHERE k_id_plataforma = ")->get();
+        $list = $daoRisk
+                ->join("riesgo", "riesgo.k_id_riesgo", "=", "riesgo_especifico.k_id_riesgo")
+                ->where("k_id_plataforma", "=", $request->id)
+                ->select("riesgo.n_riesgo", "riesgo_especifico.*")
+                ->get();
+
+        if (count($list) == 0) {
+            $response = new Response(EMessages::NO_FOUND_REGISTERS);
+//            $response->setData($daoRisk->getSQL());
+        }
+        $response->setData($list);
+        return $response;
+    }
+
 }
 
 ?>

@@ -63,6 +63,7 @@ class DB extends PDO {
         } else {
             //Agregue los parámetros que se van a seleccionar a la consulta.
             $this->sql .= "SELECT ";
+            $params = $params[0];
             $max = count($params);
             for ($i = 0; $i < $max; $i++) {
                 $param = $params[$i];

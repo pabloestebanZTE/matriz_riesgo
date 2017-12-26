@@ -39,6 +39,13 @@ class Utils extends CI_Controller {
         $this->json($response);
     }
 
+    function prueba() {
+        for ($i = 0; $i < 26; $i++) {
+            echo $this->addMonth($i);
+            echo "<br/>";
+        }
+    }
+
     function getOnTime() {
         $onTimeTypes = ["Y", "N", "Y"];
         $i = rand(0, 2);
@@ -46,14 +53,14 @@ class Utils extends CI_Controller {
     }
 
     function addMonth($i) {
-        $fecha = date('01/01/2017');
-        $nuevafecha = strtotime('+' . $i . ' month', strtotime($fecha));
+        $fecha = date('12/01/2017');
+        $nuevafecha = strtotime('+' . $i . ' day', strtotime($fecha));
         $nuevafecha = date('Y-m-d H:i:s', $nuevafecha);
         return $nuevafecha;
     }
 
     function insertKPI($idTicket, $user) {
-        for ($i = 0; $i < 13; $i++) {
+        for ($i = 0; $i < 26; $i++) {
             echo $i;
             $kpi = [];
             $kpi["k_id_onair"] = $idTicket;
@@ -104,7 +111,7 @@ class Utils extends CI_Controller {
         ini_set('memory_limit', '-1');
         set_time_limit(-1);
         $users = DB::table("user")->isNotNull("n_role_user")->get();
-        $idTickets = 500;
+        $idTickets = 700;
         foreach ($users as $user) {
 //            $idTicket = rand(1, 500);
             $idTickets[] = $idTicket;

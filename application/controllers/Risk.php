@@ -69,11 +69,17 @@ class Risk extends CI_Controller {
         $response = $dao->updateGeneralRisk($this->request);
         $this->json($response);
     }
-    
+
     public function getRiskAssociatedControl() {
         $dao = new Dao_risk_model();
         $response = $dao->getRiskAssociatedControl($this->request);
         $this->json($response);
+    }
+
+    public function getRiskByIdPlataform() {
+        $dao = new Dao_risk_model();
+        $resposne = $dao->getRiskByIdPlataform($this->request);
+        $this->json($resposne);
     }
 
 }

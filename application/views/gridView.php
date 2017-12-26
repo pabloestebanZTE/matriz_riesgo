@@ -14,7 +14,7 @@
                     <table>
                         <tr>
                             <td class="item-border"></td>
-                            <td style="border: 0px; height: 30px; min-height: 30px;" colspan="5" class="text-center text-bold"> Mapa de Riesgos Inherentes</td>                            
+                            <td style="border: 0px; height: 30px; min-height: 30px;" colspan="5" class="text-center text-bold"> Mapa de Riesgos Inherentes</td>
                             <td class="item-border"></td>
                         </tr>
                         <tr>
