@@ -62,6 +62,22 @@ class Dao_control_model extends CI_Model {
             return $ex;
         }
     }
+    
+    public function findSpecificControlById($id) {
+        try {
+            $db = new DB();
+            $datos = $db->select("SELECT ce.k_id_control_especifico, co.k_id_control, co.n_descripcion, ca.*
+                                FROM control_especifico ce
+                                INNER JOIN control co ON co.k_id_control = ce.k_id_control
+                                LEFT JOIN calificacion ca ON ca.k_id_calificacion = ce.k_id_calificacion
+                                WHERE ce.k_id_control_especifico = $id")->get();
+            $response = new Response(EMessages::SUCCESS);
+            $response->setData($datos);
+            return $response;
+        } catch (ZolidException $ex) {
+            return $ex;
+        }
+    }
 
 }
 
