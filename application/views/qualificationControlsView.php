@@ -6,7 +6,7 @@
         <div class="container autoheight p-t-20">
             <div class='tab-content contentPrincipal' id='tab1'>
                 <div class='container'>
-                    <form class="well form-horizontal" id="qualification" action="Qualification/insertQualification" method="post">
+                    <form class="well form-horizontal" id="qualification" action="Qualification/insertQualification" data-action-update="Qualification/updateQualification" method="post">
                         <div class="alert alert-success alert-dismissable hidden" id="principalAlert">
                             <a href="#" class="close">&times;</a>
                             <p id="text" class="m-b-0 p-b-0"></p>
@@ -224,21 +224,22 @@
         <!-- CUSTOM SCRIPT   -->
         <script type="text/javascript">
             $(function () {
-                var control = <?php echo $control; ?>;
-                console.log(control[0]);
-                $('#qualification').fillForm(control[0]);
-                
-                if (control[0].k_id_calificacion !== null) {
-                    $("#qualification").attr("action","Qualification/updateQualification");
+                var control = <?php echo json_encode($control); ?>;
+                if (!control) {
+                    swal("Error", "No se encontró el registro de control.", "error");
+                    $('#qualification').find('fieldset, select, input, button').prop('disabled', true);
+                    return;
                 }
-                
-//                if ($("#qualification").attr("action") === "Qualification/insertQualification") {
-//                    dom.submit($('#qualification'));
-//                }else {
-                    dom.submit($('#qualification'), function () {
-                        location.href = app.urlTo('Matriz/generalControlsView');
-                    });
-//                }
+                calificacion = <?php echo json_encode($calificacion); ?>;
+                var form = $('#qualification');
+                form.fillForm(control);
+                if (calificacion) {
+                    form.fillForm(calificacion);
+                    form.attr('data-action', 'FOR_UPDATE');
+                }
+                dom.submit($('#qualification'), function () {
+                    location.href = app.urlTo('Matriz/generalControlsView');
+                });
             });
         </script>
     </body>

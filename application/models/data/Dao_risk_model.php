@@ -433,6 +433,25 @@ class Dao_risk_model extends CI_Model {
         return $dataForm;
     }
 
+    public function getControlEspecifico($request) {
+        $controlDao = new ControlEspecificoModel();
+        //Consultamos el riesgo especifico...
+        $control = $controlDao
+                ->join("control", "control.k_id_control", "=", "control_especifico.k_id_control")
+                ->where("k_id_control_especifico", "=", $request->id)
+                ->first();
+        $calificacion = null;
+        if ($control) {
+            //Consultamos si el registro tiene una calificación actualmente...
+            $calificacionDao = new CalificacionModel();
+            $calificacion = $calificacionDao->where("k_id_calificacion", "=", $control->k_id_calificacion)->first();
+        }
+        $this->load->view('qualificationControlsView', [
+            "control" => $control,
+            "calificacion" => $calificacion
+        ]);
+    }
+
 }
 
 ?>

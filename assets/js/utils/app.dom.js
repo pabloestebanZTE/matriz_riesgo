@@ -395,7 +395,8 @@ var dom = {
         dom.printAlert("Enviando, por favor espere...", 'loading', form.find('.alert'));
         var uri = form.attr('action');
         if (form.attr('data-action') == "FOR_UPDATE") {
-            uri = form.attr('data-action-updated');
+            uri = form.attr('data-action-update');
+            console.log(uri);
         }
         ajax = app.post(uri, obj);
         ajax.complete(function () {

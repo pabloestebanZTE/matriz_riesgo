@@ -26,15 +26,13 @@ class Dao_calificacion_model extends CI_Model {
                 }
             }
             $datos = $dao->insert($request->all())->data;
-            
+
             $cm = new ControlEspecificoModel();
             $datos = $cm->where("k_id_control_especifico", "=", $request->k_id_control_especifico)
                     ->update([
-                        "k_id_calificacion"=>$request->$datos
-                            
-                    ]);
-            
-            
+                "k_id_calificacion" => $datos
+            ]);
+
             $response = new Response(EMessages::SUCCESS);
             $response->setData($datos);
             return $response;
@@ -55,7 +53,7 @@ class Dao_calificacion_model extends CI_Model {
             return $ex;
         }
     }
-    
+
 }
 
 ?>
