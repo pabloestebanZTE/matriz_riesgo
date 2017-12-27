@@ -73,10 +73,13 @@ var vista = {
                 if (pointSection.attr('data-value') == 1) {
                     pointSection.remove();
                 } else {
-                    pointSection.attr('data-value', (parseInt(point.attr('data-value')) - 1));
+                    var pts = (parseInt(pointSection.attr('data-value')) - 1);
+                    pointSection.attr('data-value', pts);
+                    pointSection.html(pts);
                 }
                 delete vista.points[index];
                 vista.removeItemGrid(registro.k_id_probabilidad + '_' + registro.k_id_impacto, registro);
+                console.log("SE REMUEVE");
             }
             return;
         }
@@ -88,7 +91,7 @@ var vista = {
             if (!Array.isArray(vista.grids[registro.k_id_probabilidad + '_' + registro.k_id_impacto])) {
                 vista.grids[registro.k_id_probabilidad + '_' + registro.k_id_impacto] = [];
             }
-            vista.grids[registro.k_id_probabilidad + '_' + registro.k_id_impacto].push(registro);
+            vista.addGrid(registro);
             if (i > 10) {
                 i += "10+";
             }
@@ -97,10 +100,24 @@ var vista = {
             if (!Array.isArray(vista.grids[registro.k_id_probabilidad + '_' + registro.k_id_impacto])) {
                 vista.grids[registro.k_id_probabilidad + '_' + registro.k_id_impacto] = [];
             }
-            vista.grids[registro.k_id_probabilidad + '_' + registro.k_id_impacto].push(registro);
+            vista.addGrid(registro);
             //Creamos el punto...
             var htmlPoint = '<div class="point" data-value="1"><span class="title">' + registro.n_riesgo + '</span></div>';
             point.append(htmlPoint);
+        }
+    },
+    addGrid: function (registro) {
+        var list = vista.grids[registro.k_id_probabilidad + '_' + registro.k_id_impacto];
+        if (list.length == 0) {
+            vista.grids[registro.k_id_probabilidad + '_' + registro.k_id_impacto].push(registro);
+        } else {
+            for (var i = 0; i < list.length; i++) {
+                if (list[i].k_id_riesgo_especifico != registro.k_id_riesgo_especifico) {
+                    vista.grids[registro.k_id_probabilidad + '_' + registro.k_id_impacto].push(registro);
+                } else {
+                    console.log(list[i].k_id_riesgo_especifico, "vs", registro.k_id_riesgo_especifico);
+                }
+            }
         }
     },
     removeItemGrid: function (index, registro) {
