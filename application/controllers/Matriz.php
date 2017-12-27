@@ -80,11 +80,6 @@ class Matriz extends CI_Controller {
         $this->load->view('generalRisksView');
     }
 
-    public function qualificationControlsView() {
-        $dao = new Dao_risk_model();
-        $dao->getControlEspecifico($this->request);
-    }
-
     public function gridView() {
         $this->load->view('gridView');
     }
