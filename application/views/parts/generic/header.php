@@ -38,7 +38,7 @@
                                 <a href="<?= URL::to('index.php/Matriz/generalRisksView') ?>"><i class="fa fa-fw fa-home"></i>&nbsp;&nbsp;Riesgos</a>
                             </li>
                             <li>
-                                <a href="<?= URL::to('index.php/Matriz/gridView') ?>"><i class="fa fa-fw fa-home"></i>&nbsp;&nbsp;Mapa de Riesgos</a>
+                                <a href="<?= URL::to('index.php/Matriz/gridByPlataform') ?>"><i class="fa fa-fw fa-home"></i>&nbsp;&nbsp;Mapa de Riesgos</a>
                             </li>
                             <li>
                                 <a id="exitLink" href="<?= URL::to('Matriz/logout') ?>" /><i class="fa fa-fw fa-power-off"></i>&nbsp;&nbsp;Salir</a>

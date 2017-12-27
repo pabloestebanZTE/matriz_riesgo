@@ -42,6 +42,14 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
+                                        <label for="cmbPlataforma" class="col-sm-2 control-label">Zona Geográfica</label>
+                                        <div class="col-sm-10">
+                                            <select class="form-control" id="cmbZonasGeograficas" name="riesgo_especifico.k_id_zona_geografica" >
+                                                <option value="">Seleccione</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
                                         <label for="txtMacroProceso" class="col-sm-2 control-label">Macro proceso</label>
                                         <div class="col-sm-10">
                                             <input type="text" class="form-control" id="txtMacroProceso" name="riesgo_especifico.n_macro_proceso">
@@ -98,7 +106,7 @@
                                         <label for="txtTipoActividad" class="col-sm-2 control-label">Tipo de Actividad</label>
                                         <div class="col-sm-10">
                                             <select class="form-control" name="riesgo_especifico.n_tipo_activad">
-                                                <option>Seleccione</option>
+                                                <option value="">Seleccione</option>
                                                 <option value="OT">OT</option>
                                                 <option value="MANTENIMIENTO">MANTENIMIENTO</option>
                                                 <option value="INCIDENCIAS/EVENTOS">INCIDENCIAS/EVENTOS</option>

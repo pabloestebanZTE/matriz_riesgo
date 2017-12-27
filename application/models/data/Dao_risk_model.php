@@ -38,14 +38,24 @@ class Dao_risk_model extends CI_Model {
         try {
             //Insertamos el riesgo especifico.
             $riesgoEspecificoModel = new RiesgoEspecificoModel();
+            $valid = new Validator();
             $riesgoEspecifico = new ObjUtil($request->riesgo_especifico->all());
+            //Se limpia el objeto de posibles cadenas vacias...
+            $requireds = ["k_id_plataforma", "k_id_riesgo", "k_id_zona_geografica", "k_id_tipo_evento_2", "k_id_probabilidad", "k_id_impacto"];
+            foreach ($requireds as $required) {
+                if (!$valid->required(null, $riesgoEspecifico->{$required})) {
+                    $riesgoEspecifico->{$required} = DB::NULLED;
+                }
+            }
+
             $idRiesgo = $riesgoEspecificoModel->insert($riesgoEspecifico->all())->data;
             if ($idRiesgo <= 0) {
-                return new Response(EMessages::ERROR_INSERT);
+                $response = new Response(EMessages::ERROR_INSERT);
+                $response->setData("$idRiesgo - " . $riesgoEspecificoModel->getSQL());
+                return $response;
             }
             //Insertamos los soportes de impacto...
             $soporteRecords = $request->soporte_impacto->all();
-            $valid = new Validator();
             foreach ($soporteRecords as $value) {
                 if ($valid->required(null, $value)) {
                     $soporteModel = new SoporteModel();
@@ -112,11 +122,20 @@ class Dao_risk_model extends CI_Model {
                 return new Response(EMessages::ERROR_UPDATE);
             }
             $valid = new Validator();
+
+            $requireds = ["k_id_plataforma", "k_id_riesgo", "k_id_zona_geografica", "k_id_tipo_evento_2", "k_id_probabilidad", "k_id_impacto"];
+
             //Actualizamos el riesgo...
             $riesgoEspecifico = new ObjUtil($request->riesgo_especifico->all());
+            foreach ($requireds as $required) {
+                if (!$valid->required(null, $riesgoEspecifico->{$required}) || $riesgoEspecifico->{$required} < 0) {
+                    $riesgoEspecifico->{$required} = DB::NULLED;
+                }
+            }
             $riesgoEspecificoModel->where("k_id_riesgo_especifico", "=", $request->idRecord)
                     ->update($riesgoEspecifico->all());
 
+//            echo $riesgoEspecificoModel->getSQL();
             //Ahora actualizamos o insertamos el soporte_probabilidad...
             $soporteModel = new SoporteModel();
             $temp = $soporteModel->where("k_id_riesgo_especifico", "=", $record->k_id_riesgo_especifico)
@@ -209,24 +228,26 @@ class Dao_risk_model extends CI_Model {
                                 "n_nombre" => $causa->text
                             ]);
                             //Como la causa existe, tenemos que actualizar los controles de la causa...
-                            $controls = $causa->controls->all();
-                            foreach ($controls as $control) {
-                                $controlEspecificoModel = new ControlEspecificoModel();
-                                //Verificamos si el control viene con id de registro y lo actualizamos...
-                                if ($control->idRecord > 0) {
-                                    $controlEspecificoModel
-                                            ->where("k_id_control_especifico", "=", $control->idRecord)
-                                            ->update([
-                                                "k_id_control" => $control->id,
-                                                "k_id_factor_riesgo" => $control->factorRiesgo,
-                                    ]);
-                                } else { //De lo contrario, significará que es un registro nuevo, entonces lo actualizamos...
-                                    $controlEspecificoModel->insert([
-                                        "k_id_riesgo_especifico" => $idRiesgo,
-                                        "k_id_control" => $control->id,
-                                        "k_id_causa" => $causa->idRecord,
-                                        "k_id_factor_riesgo" => $control->factorRiesgo,
-                                    ]);
+                            if (count($causa->controls) > 0) {
+                                $controls = $causa->controls->all();
+                                foreach ($controls as $control) {
+                                    $controlEspecificoModel = new ControlEspecificoModel();
+                                    //Verificamos si el control viene con id de registro y lo actualizamos...
+                                    if ($control->idRecord > 0) {
+                                        $controlEspecificoModel
+                                                ->where("k_id_control_especifico", "=", $control->idRecord)
+                                                ->update([
+                                                    "k_id_control" => $control->id,
+                                                    "k_id_factor_riesgo" => $control->factorRiesgo,
+                                        ]);
+                                    } else { //De lo contrario, significará que es un registro nuevo, entonces lo actualizamos...
+                                        $controlEspecificoModel->insert([
+                                            "k_id_riesgo_especifico" => $idRiesgo,
+                                            "k_id_control" => $control->id,
+                                            "k_id_causa" => $causa->idRecord,
+                                            "k_id_factor_riesgo" => $control->factorRiesgo,
+                                        ]);
+                                    }
                                 }
                             }
                         } else {//De lo contrario la insertamos...
@@ -311,7 +332,9 @@ class Dao_risk_model extends CI_Model {
             //Consultamos el riesgo especifico 1...
             $tipoEventoModel = new TipoEvento2Model();
             $k_id_tipo_evento_2 = $tipoEventoModel->where("k_id_tipo_evento_2", "=", $data->k_id_tipo_evento_2)->first();
-            $data->k_id_tipo_evento_1 = $k_id_tipo_evento_2->k_id_tipo_evento_1;
+            if ($k_id_tipo_evento_2) {
+                $data->k_id_tipo_evento_1 = $k_id_tipo_evento_2->k_id_tipo_evento_1;
+            }
 
             //Consultamos el soporte probabilidad...
             $temp = $soporteModel->where("k_id_riesgo_especifico", "=", $data->k_id_riesgo_especifico)
@@ -430,6 +453,7 @@ class Dao_risk_model extends CI_Model {
         $dataForm["plataforma"] = $dao->getListComboxById(5)->data;
         $dataForm["listcontrols"] = $dao->getListComboxById(6)->data;
         $dataForm["tipo_evento1"] = $dao->getListComboxById(7)->data;
+        $dataForm["zonas_geograficas"] = $dao->getListComboxById(8)->data;
         return $dataForm;
     }
 

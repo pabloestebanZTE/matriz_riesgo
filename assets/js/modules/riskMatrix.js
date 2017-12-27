@@ -335,6 +335,7 @@ var vista = {
         dom.llenarCombo($('#cmbImpacto'), dataForm.impacto, {text: "text", value: "value"});
         dom.llenarCombo($('#cmbFactorRiesgo'), dataForm.factoresriesgo, {text: "text", value: "value"});
         dom.llenarCombo($('#cmbCodControl'), dataForm.listcontrols, {text: "text", value: "value"});
+        dom.llenarCombo($('#cmbZonasGeograficas'), dataForm.zonas_geograficas, {text: "text", value: "value"});
         $('select:not(.notDisabled)').select2({width: '100%'});
     }
 };

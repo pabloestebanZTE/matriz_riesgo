@@ -10,6 +10,8 @@ class DB extends PDO {
     private $sql;
     private $query;
 
+    const NULLED = "NULLED";
+
     public function __construct($table = null) {
         $this->init($table);
     }
@@ -258,10 +260,12 @@ class DB extends PDO {
         $sth = $this->prepare($this->sql);
         $this->query = $this->sql;
         foreach ($obj as $key => $value) {
+            if ($value === DB::NULLED) {
+                $value = NULL;
+            }
             $this->query = str_replace(":$key", (($value) ? (($value && is_string($value)) ? "\"$value\"" : $value) : "NULL"), $this->query);
             $sth->bindValue(":$key", $value);
         }
-//        $sth = $this->prepare($this->query);
         $sth->execute();
     }
 
