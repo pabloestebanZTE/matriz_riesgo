@@ -90,7 +90,7 @@ function showModalqualificationControls(idControl) {
                             {title: "Plataforma", data: "n_nombre"},
                             {title: "Opciones", data: function (obj) {
                                     return '<div class="btn-group">'
-                                            + '<a href="' + app.urlTo('Control/qualificationControl?idControlEsp=' + obj.k_id_control_especifico) + '" class="btn btn-default btn-xs" data-toggle="tooltip" title="Editar Control"><span class="fa fa-fw fa-pencil-square-o"></span></a>'
+                                            + '<a href="' + app.urlTo('Control/qualificationControl?id=' + obj.k_id_control_especifico) + '" class="btn btn-default btn-xs" data-toggle="tooltip" title="Editar Control"><span class="fa fa-fw fa-pencil-square-o"></span></a>'
                                             + '</div>';
                                 }
                             },

@@ -47,7 +47,7 @@ class Control extends CI_Controller {
     }
     
     public function qualificationControl() {
-        $id = $this->request->idControlEsp;
+        $id = $this->request->id;
         $vm = new Dao_control_model();
         $response = $vm->findSpecificControlById($id);
         $answer['control'] = json_encode($response->data);

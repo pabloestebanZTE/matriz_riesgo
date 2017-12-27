@@ -8,18 +8,20 @@ INSERT INTO `ref_combox` (`k_id_combox`,`n_value`,`n_text`,`n_table`,`n_sql`,`d_
 INSERT INTO `ref_combox` (`k_id_combox`,`n_value`,`n_text`,`n_table`,`n_sql`,`d_created_at`) VALUES (5,'k_id_plataforma','n_nombre','plataforma',NULL,'2017-12-19 11:53:24');
 INSERT INTO `ref_combox` (`k_id_combox`,`n_value`,`n_text`,`n_table`,`n_sql`,`d_created_at`) VALUES (6,'k_id_control','n_descripcion','control',NULL,'2017-12-19 12:07:00');
 INSERT INTO `ref_combox` (`k_id_combox`,`n_value`,`n_text`,`n_table`,`n_sql`,`d_created_at`) VALUES (7,'k_id_tipo_evento_1','n_descripcion','tipo_evento_1',NULL,'2017-12-20 10:06:05');
+INSERT INTO `ref_combox` (`k_id_combox`,`n_value`,`n_text`,`n_table`,`n_sql`,`d_created_at`) VALUES (8,'k_id_zona_geografica','n_nombre','zona_geografica',NULL,'2017-12-27 10:25:11');
 
 
 /*Table tipo_evento_1 */
 INSERT INTO `tipo_evento_1` (`k_id_tipo_evento_1`,`n_descripcion`) VALUES (1,'1. Fraude Interno');
 INSERT INTO `tipo_evento_1` (`k_id_tipo_evento_1`,`n_descripcion`) VALUES (2,'2. Fraude Externo');
 INSERT INTO `tipo_evento_1` (`k_id_tipo_evento_1`,`n_descripcion`) VALUES (3,'3. Relaciones Laborales');
-INSERT INTO `tipo_evento_1` (`k_id_tipo_evento_1`,`n_descripcion`) VALUES (4,'5. Daños a activos físicos');
-INSERT INTO `tipo_evento_1` (`k_id_tipo_evento_1`,`n_descripcion`) VALUES (5,'6. Fallas tecnológicas');
-INSERT INTO `tipo_evento_1` (`k_id_tipo_evento_1`,`n_descripcion`) VALUES (6,'7. Ejecución y administración de procesos');
-INSERT INTO `tipo_evento_1` (`k_id_tipo_evento_1`,`n_descripcion`) VALUES (7,'8. Lavado de Activos');
-INSERT INTO `tipo_evento_1` (`k_id_tipo_evento_1`,`n_descripcion`) VALUES (8,'9. Reputacional');
-INSERT INTO `tipo_evento_1` (`k_id_tipo_evento_1`,`n_descripcion`) VALUES (9,'10. Legal');
+INSERT INTO `tipo_evento_1` (`k_id_tipo_evento_1`,`n_descripcion`) VALUES (4,'4. Clientes');
+INSERT INTO `tipo_evento_1` (`k_id_tipo_evento_1`,`n_descripcion`) VALUES (5,'5. Daños a activos físicos');
+INSERT INTO `tipo_evento_1` (`k_id_tipo_evento_1`,`n_descripcion`) VALUES (6,'6. Fallas tecnológicas');
+INSERT INTO `tipo_evento_1` (`k_id_tipo_evento_1`,`n_descripcion`) VALUES (7,'7. Ejecución y administración de procesos');
+INSERT INTO `tipo_evento_1` (`k_id_tipo_evento_1`,`n_descripcion`) VALUES (8,'8. Lavado de Activos');
+INSERT INTO `tipo_evento_1` (`k_id_tipo_evento_1`,`n_descripcion`) VALUES (9,'9. Reputacional');
+INSERT INTO `tipo_evento_1` (`k_id_tipo_evento_1`,`n_descripcion`) VALUES (10,'10. Legal');
 
 
 /*Table tipo_evento_2 */
@@ -69,22 +71,7 @@ INSERT INTO `impacto` (`k_id_impacto`,`n_descripcion`) VALUES (3,'Significativo'
 INSERT INTO `impacto` (`k_id_impacto`,`n_descripcion`) VALUES (4,'Bajo');
 INSERT INTO `impacto` (`k_id_impacto`,`n_descripcion`) VALUES (5,'Insignificante');
 
-
--- Volcando datos para la tabla matriz_riesgo.ref_combox: ~7 rows (aproximadamente)
-/*!40000 ALTER TABLE `ref_combox` DISABLE KEYS */;
-INSERT INTO `ref_combox` (`k_id_combox`, `n_value`, `n_text`, `n_table`, `n_sql`, `d_created_at`) VALUES
-	(1, 'k_id_riesgo', 'n_riesgo', 'riesgo', NULL, '2017-12-19 11:09:40'),
-	(2, 'k_id_factor_riesgo', 'n_descripcion', 'factor_riesgo', NULL, '2017-12-19 11:34:01'),
-	(3, 'k_id_probabilidad', 'n_descripcion', 'probabilidad', NULL, '2017-12-19 11:42:14'),
-	(4, 'k_id_impacto', 'n_descripcion', 'impacto', NULL, '2017-12-19 11:49:17'),
-	(5, 'k_id_plataforma', 'n_nombre', 'plataforma', NULL, '2017-12-19 11:53:24'),
-	(6, 'k_id_control', 'n_descripcion', 'control', NULL, '2017-12-19 12:07:00'),
-	(7, 'k_id_tipo_evento_1', 'n_descripcion', 'tipo_evento_1', NULL, '2017-12-20 10:06:05'),
-	(8, 'k_id_zona_geografica', 'n_nombre', 'zona_geografica', NULL, '2017-12-27 10:25:11');
-/*!40000 ALTER TABLE `ref_combox` ENABLE KEYS */;
-
--- Volcando datos para la tabla matriz_riesgo.ref_probabilidad_impacto: ~25 rows (aproximadamente)
-/*!40000 ALTER TABLE `ref_probabilidad_impacto` DISABLE KEYS */;
+/*Table ref_probabilidad_impacto */
 INSERT INTO `ref_probabilidad_impacto` (`k_⁯id_ref`, `k_id_probabilidad`, `k_id_impacto`, `n_calificacion`, `n_color`, `n_text_color`) VALUES
 	(1, 5, 5, 'Bajo', '#ADFF2F', '#000000'),
 	(2, 5, 4, 'Bajo', '#ADFF2F', '#000000'),
@@ -111,4 +98,4 @@ INSERT INTO `ref_probabilidad_impacto` (`k_⁯id_ref`, `k_id_probabilidad`, `k_i
 	(23, 1, 3, 'Alto', '#FFFF00', '#000000'),
 	(24, 1, 2, 'Extremo', '#FF0000', '#FFFFFF'),
 	(25, 1, 1, 'Extremo', '#FF0000', '#FFFFFF');
-/*!40000 ALTER TABLE `ref_probabilidad_impacto` ENABLE KEYS */;
+
