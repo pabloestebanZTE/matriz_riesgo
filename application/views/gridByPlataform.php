@@ -26,7 +26,7 @@
                         </tr>
                         <tr>
                             <td class="item-left-vertical" rowspan="5">
-                                <img src="<?= URL::to('assets/img/probabilidad.png') ?>" class="img-probabilidad"/>
+                                <img src="<?= URL::to('assets/img/probabilidad.PNG') ?>" class="img-probabilidad"/>
                             </td>
                             <td class="item-grid item-green" data-index="1_5"></td>
                             <td class="item-grid item-blue" data-index="1_4"></td>
@@ -79,7 +79,7 @@
                         <tr>
                             <td class="item-border"></td>
                             <td class="item-border" colspan="5">
-                                <img src="<?= URL::to('assets/img/impacto.png') ?>" class="img-impacto"/>
+                                <img src="<?= URL::to('assets/img/impacto.PNG') ?>" class="img-impacto"/>
                             </td>
                         </tr>
                     </table>
