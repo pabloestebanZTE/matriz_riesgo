@@ -49,7 +49,7 @@ CREATE TABLE `control` (
 
 LOCK TABLES `control` WRITE;
 /*!40000 ALTER TABLE `control` DISABLE KEYS */;
-INSERT INTO `control` VALUES ('C1','Autorización en el siteaccess','Asignado','Jefe de central','Detectivo','Adecuado','Dependiente de T.I.','Cuando se requiera','Adecuado','Documentado','Adecuadas','Fuerte','Muy Importante','Sí','No',NULL);
+INSERT INTO `control` VALUES ('C1','Autorización en el siteaccess','Asignado','Jefe de central','Detectivo','Adecuado','Dependiente de T.I','Cuando se requiera','Adecuado','Documentado','Adecuadas','Fuerte','Muy Importante','Sí','No',NULL),('C2','departamento de seguridad (Guardia) verifica el documento','Asignado','Guardia','Preventivo','Adecuado','Manual','Cuando se requiera','Adecuado','Documentado','Adecuadas','Moderado','Muy Importante','Sí','No',NULL);
 /*!40000 ALTER TABLE `control` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -62,4 +62,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-12-21  9:06:12
+-- Dump completed on 2017-12-28 10:11:40

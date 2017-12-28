@@ -24,23 +24,21 @@ DROP TABLE IF EXISTS `control_especifico`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `control_especifico` (
   `k_id_control_especifico` int(11) NOT NULL AUTO_INCREMENT,
-  `k_id_riesgo_especifico` int(11) DEFAULT NULL,
   `k_id_control` varchar(50) DEFAULT NULL,
   `k_id_causa` int(11) DEFAULT NULL,
   `k_id_factor_riesgo` int(11) DEFAULT NULL,
   `k_id_calificacion` int(11) DEFAULT NULL,
+  `n_state` varchar(50) NOT NULL DEFAULT 'ACTIVE',
   PRIMARY KEY (`k_id_control_especifico`),
   KEY `fk_fk_ce_calificacion` (`k_id_calificacion`),
   KEY `fk_fk_ce_causa` (`k_id_causa`),
   KEY `fk_fk_ce_control` (`k_id_control`),
   KEY `fk_fk_ce_factor_riesgo` (`k_id_factor_riesgo`),
-  KEY `fk_fk_ce_riesgo_especifico` (`k_id_riesgo_especifico`),
   CONSTRAINT `fk_fk_ce_calificacion` FOREIGN KEY (`k_id_calificacion`) REFERENCES `calificacion` (`k_id_calificacion`),
   CONSTRAINT `fk_fk_ce_causa` FOREIGN KEY (`k_id_causa`) REFERENCES `causa` (`k_id_causa`),
   CONSTRAINT `fk_fk_ce_control` FOREIGN KEY (`k_id_control`) REFERENCES `control` (`k_id_control`),
-  CONSTRAINT `fk_fk_ce_factor_riesgo` FOREIGN KEY (`k_id_factor_riesgo`) REFERENCES `factor_riesgo` (`k_id_factor_riesgo`),
-  CONSTRAINT `fk_fk_ce_riesgo_especifico` FOREIGN KEY (`k_id_riesgo_especifico`) REFERENCES `riesgo_especifico` (`k_id_riesgo_especifico`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  CONSTRAINT `fk_fk_ce_factor_riesgo` FOREIGN KEY (`k_id_factor_riesgo`) REFERENCES `factor_riesgo` (`k_id_factor_riesgo`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -49,6 +47,7 @@ CREATE TABLE `control_especifico` (
 
 LOCK TABLES `control_especifico` WRITE;
 /*!40000 ALTER TABLE `control_especifico` DISABLE KEYS */;
+INSERT INTO `control_especifico` VALUES (1,'C1',1,1,1,'ACTIVE'),(2,'C2',2,1,NULL,'ACTIVE');
 /*!40000 ALTER TABLE `control_especifico` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -61,4 +60,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-12-21  9:06:18
+-- Dump completed on 2017-12-28 10:11:44
