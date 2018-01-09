@@ -525,9 +525,11 @@ class Dao_risk_model extends CI_Model {
 //                . "riesgo.k_id_riesgo = riesgo_especifico.k_id_riesgo WHERE k_id_plataforma = ")->get();
         $list = $daoRisk
                 ->join("riesgo", "riesgo.k_id_riesgo", "=", "riesgo_especifico.k_id_riesgo")
-                ->where("k_id_plataforma", "=", $request->id)
+                ->where("riesgo.k_id_plataforma", "=", $request->id)
                 ->select("riesgo.n_riesgo", "riesgo_especifico.*")
                 ->get();
+
+//        echo $daoRisk->getSQL();
 
         if (count($list) == 0) {
             $response = new Response(EMessages::NO_FOUND_REGISTERS);
