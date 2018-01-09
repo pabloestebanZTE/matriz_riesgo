@@ -25,7 +25,7 @@ class Control extends CI_Controller {
         $response = null;
         if (Auth::check()) {
             $dao = new Dao_control_model();
-            $res = $dao->getAllControlsAssigned();
+            $res = $dao->getAllControlsAssigned($this->request);
             $this->json($res);
         } else {
             $response = new Response(EMessages::NOT_ALLOWED);
@@ -43,6 +43,10 @@ class Control extends CI_Controller {
         $vm = new Dao_control_model();
         $response = $vm->findById($id);
         $answer['control'] = json_encode($response->data);
+        //Consultamos las plataformas...
+        $plataformaModel = new PlataformaModel();
+        $data = $plataformaModel->get();
+        $answer['plataformas'] = json_encode($data);
         $this->load->view('controlsView', $answer);
     }
 

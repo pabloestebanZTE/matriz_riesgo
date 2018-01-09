@@ -18,11 +18,22 @@
                         <legend>Administrador de Controles</legend>
                         <fieldset class="col-md-6 control-label">
                             <div class="form-group">
-                                <label for="k_id_control" class="col-md-3 control-label">ID:</label>
+                                <label for="k_id_plataforma" class="col-md-3 control-label">Plataforma:</label>
+                                <div class="col-md-8 selectContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-fw fa-globe"></i></span>
+                                        <select class="form-control" id="k_id_plataforma" name="k_id_plataforma">
+                                            <option>Seleccione</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="nombre_control" class="col-md-3 control-label">ID:</label>
                                 <div class="col-md-8 selectContainer">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-fw fa-street-view"></i></span>
-                                        <input type='text' name="k_id_control" id="k_id_control" class="form-control" required>
+                                        <input type='text' name="nombre_control" id="nombre_control" class="form-control" required>
                                     </div>
                                 </div>
                             </div>
@@ -121,7 +132,12 @@
                                         </select>
                                     </div>
                                 </div>
-                            </div>
+                            </div>                            
+                        </fieldset>
+                        <!--  fin seccion izquierda form---->
+
+                        <!--  inicio seccion derecha form---->
+                        <fieldset>
                             <div class="form-group">
                                 <label for="n_funcionalidad_frecuencia" class="col-md-3 control-label">Funcionalidad:</label>
                                 <div class="col-md-8 selectContainer">
@@ -135,11 +151,6 @@
                                     </div>
                                 </div>
                             </div>
-                        </fieldset>
-                        <!--  fin seccion izquierda form---->
-
-                        <!--  inicio seccion derecha form---->
-                        <fieldset>
                             <div class="form-group">
                                 <label for="n_documentacion" class="col-md-3 control-label">Documentación del Control:</label>
                                 <div class="col-md-8 selectContainer">
@@ -226,15 +237,15 @@
                                 </div>
                             </div>
 
-<!--                            <div class="form-group">
-                                <label for="n_riesgo_residual" class="col-md-3 control-label">Riesgo Residual</label>
-                                <div class="col-md-8 inputGroupContainer">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
-                                        <input type="text" class="form-control" name="n_riesgo_residual" id="n_riesgo_residual">
-                                    </div>
-                                </div>
-                            </div>-->
+                            <!--                            <div class="form-group">
+                                                            <label for="n_riesgo_residual" class="col-md-3 control-label">Riesgo Residual</label>
+                                                            <div class="col-md-8 inputGroupContainer">
+                                                                <div class="input-group">
+                                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+                                                                    <input type="text" class="form-control" name="n_riesgo_residual" id="n_riesgo_residual">
+                                                                </div>
+                                                            </div>
+                                                        </div>-->
                         </fieldset>
                         <!--   fin seccion derecha---->
 
@@ -288,20 +299,24 @@
         <script type="text/javascript">
             $(function () {
                 var control = <?php echo (isset($control) ? $control : 'null'); ?>;
-                console.log(control);
-                
                 if (control !== null) {
-                    $("#controls").attr("action","Control/updateControl");
+                    $("#controls").attr("action", "Control/updateControl");
+                    $('#controls').append('<input type="hidden" value="' + control.k_id + '" name="k_id_registro" id="k_id_registro" />');
                     $('#controls').fillForm(control);
                 }
-                
+
                 if ($("#controls").attr("action") === "Control/insertControl") {
                     dom.submit($('#controls'));
-                }else {
+                } else {
                     dom.submit($('#controls'), function () {
                         location.href = app.urlTo('Matriz/generalControlsView');
                     });
                 }
+
+
+                var plataformas = <?= $plataformas; ?>
+                //Listamos las plataformas...
+                dom.llenarCombo($('#k_id_plataforma'), plataformas, {text: "n_nombre", value: "k_id_plataforma"});
             });
         </script>
     </script>

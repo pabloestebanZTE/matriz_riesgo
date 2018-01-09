@@ -13,14 +13,19 @@
                     <form class= 'well form-horizontal' action='' method='post'  id='' name='' enctype= 'multipart/form-data'>
                         <fieldset>
                             <div class="row">
-                                <div class="col col-md-12" >
+                                <div class="col col-md-3">
+                                    <select class="form-control" id="cmbPlataformas">
+                                        <option value="">Seleccione</option>
+                                    </select>
+                                </div>
+                                <div class="col col-md-9" >                                                                       
                                     <a class="btn btn-primary" href="<?= URL::to('Matriz/controlsView') ?>"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Crear control</a>
                                 </div>
                                 <div class="col col-md-12 p-t-40">
                                     <input type="hidden" value="<?= Auth::getRole() ?>" id="rol">
                                     <table id="tablaPrincipal" class="table table-hover table-condensed table-striped"></table>
                                     <br/>
-                                </div>
+                                </div>                                
                             </div>
                         </fieldset>
                     </form>
@@ -53,8 +58,11 @@
         <div class="for-full-back" id="footer">
             Zolid By ZTE Colombia | All Right Reserved
         </div>
+        <script type="text/javascript">
+            var plataformas = <?= $plataformas; ?>
+        </script>
         <?php $this->load->view('parts/generic/scripts'); ?>
         <!-- CUSTOM SCRIPT   -->
-        <script src="<?= URL::to('assets/js/modules/generalControls.js') ?>" type="text/javascript"></script>
+        <script src="<?= URL::to('assets/js/modules/generalControls.js?v=' . time()) ?>" type="text/javascript"></script>
     </body>
 </html>

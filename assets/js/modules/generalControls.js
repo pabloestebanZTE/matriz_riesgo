@@ -3,21 +3,33 @@ $(function () {
         timers: [],
         init: function () {
             ini.events();
-            ini.listActivities();
+            ini.configView();
         },
         //Eventos de la ventana.
         events: function () {
-
+            $('#cmbPlataformas').on('change', ini.onChangeCmbPlataformas);
+            $('#cmbPlataformas').on('selectfilled', function () {
+                $('#cmbPlataformas option:eq(1)').prop('selected', true);
+                $('#cmbPlataformas').trigger('change.select2');
+                ini.listControls();
+            });
+        },
+        onChangeCmbPlataformas: function () {
+            ini.listControls();
+        },
+        configView: function () {
+            //Listamos las plataformas...
+            dom.llenarCombo($('#cmbPlataformas'), plataformas, {text: "n_nombre", value: "k_id_plataforma"});
         },
         /**
          * Listará las actividades de los usuarios que ingresan al sistema...
          */
-        listActivities: function () {
+        listControls: function () {
             //Invoca fillTable para configurar la TABLA.
             // ini.fillTable([]);
             //Realiza la petición AJAX para traer los datos...
             var alert = dom.printAlert('Consultando registros, por favor espere.', 'loading', $('#principalAlert'));
-            app.post('Control/getALLControls')
+            app.post('Control/getALLControls', {idPlataforma: $('#cmbPlataformas').val()})
                     .complete(function () {
                         alert.hide();
                         $('.contentPrincipal').removeClass('hidden');
@@ -38,7 +50,6 @@ $(function () {
             return "N/A";
         },
         getButtons: function (obj) {
-
             var m = "";
             if (obj.k_control_asinado) {
                 if (obj.k_control_asinado === "0") {
@@ -57,7 +68,7 @@ $(function () {
             }
             ini.tablaPrincipal = $('#tablaPrincipal').DataTable(dom.configTable(data,
                     [
-                        {title: "ID", data: "k_id_control"},
+                        {title: "ID", data: "nombre_control"},
                         {title: "Descripción del Control", data: "n_descripcion"},
                         {title: "Asignación", data: "n_asignacion"},
                         {title: "Cargo", data: "n_cargo"},

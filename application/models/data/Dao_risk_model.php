@@ -13,6 +13,14 @@ class Dao_risk_model extends CI_Model {
     public function insertRisk($request) {
         try {
             $riesgo = new RiesgoModel();
+            //Verificamos que no exista un control con le mismo nombre en la misma plataforma...
+            $exist = $riesgo->where("k_id_plataforma", "=", $request->k_id_plataforma)
+                            ->where("nombre_riesgo", "=", $request->nombre_riesgo)->exist();
+            if ($exist) {
+                return (new Response(EMessages::ERROR))->setMessage("Ya existe un riesgo con el mismo id para esta plataforma.");
+            }
+            $request->k_id_riesgo = $request->nombre_riesgo;
+            $riesgo = new RiesgoModel();
             $datos = $riesgo->insert($request->all());
             $response = new Response(EMessages::SUCCESS);
             $response->setData($datos);
@@ -45,10 +53,10 @@ class Dao_risk_model extends CI_Model {
         }
     }
 
-    public function getAll() {
+    public function getAll($request) {
         try {
             $user = new RiesgoModel();
-            $datos = $user->get();
+            $datos = $user->where("k_id_plataforma", "=", $request->idPlataforma)->get();
             $response = new Response(EMessages::SUCCESS);
             $response->setData($datos);
             return $response;
@@ -426,7 +434,16 @@ class Dao_risk_model extends CI_Model {
     public function updateGeneralRisk($request) {
         try {
             $rm = new RiesgoModel();
-            $datos = $rm->where("k_id_riesgo", "=", $request->k_id_riesgo)
+            $exist = $rm->where("k_id_plataforma", "=", $request->k_id_plataforma)
+                    ->where("nombre_riesgo", "=", $request->nombre_riesgo)
+                    ->where("k_id", "!=", $request->k_id_registro)
+                    ->exist();
+            if ($exist) {
+                return (new Response(EMessages::ERROR))->setMessage("Ya existe un control con el mismo id para esta plataforma.");
+            }
+
+            $rm = new RiesgoModel();
+            $datos = $rm->where("k_id", "=", $request->k_id_registro)
                     ->update($request->all());
             $response = new Response(EMessages::UPDATE);
             $response->setData($datos);

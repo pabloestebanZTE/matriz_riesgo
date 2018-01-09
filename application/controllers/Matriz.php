@@ -51,15 +51,23 @@ class Matriz extends CI_Controller {
     }
 
     public function controlsView() {
-        $this->load->view('controlsView');
+        //Consultamos las plataformas...
+        $plataformaModel = new PlataformaModel();
+        $data = $plataformaModel->get();
+        $this->load->view('controlsView', ["plataformas" => json_encode($data)]);
     }
 
     public function generalControlsView() {
-        $this->load->view('generalControlsView');
+        $plataformaModel = new PlataformaModel();
+        $data = $plataformaModel->get();
+        $this->load->view('generalControlsView', ["plataformas" => json_encode($data)]);
     }
 
     public function riskView() {
-        $this->load->view('riskView');
+        //Consultamos las plataformas...
+        $plataformaModel = new PlataformaModel();
+        $data = $plataformaModel->get();
+        $this->load->view('riskView', ["plataformas" => json_encode($data)]);
     }
 
     public function generalRisksMatrixView() {
@@ -77,7 +85,10 @@ class Matriz extends CI_Controller {
     }
 
     public function generalRisksView() {
-        $this->load->view('generalRisksView');
+        //Consultamos las plataformas...
+        $plataformaModel = new PlataformaModel();
+        $data = $plataformaModel->get();
+        $this->load->view('generalRisksView', ["plataformas" => json_encode($data)]);
     }
 
     public function gridView() {
