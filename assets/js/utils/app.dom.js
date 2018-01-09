@@ -5,7 +5,7 @@
  */
 
 var dom = {
-    //Para agregar todas las interacciones del dom genericas.
+//Para agregar todas las interacciones del dom genericas.
     init: function () {
         try {
             $('body').on('click', '.alert .close', function () {
@@ -244,9 +244,7 @@ var dom = {
         var state = obj.i_state;
         var percentValue = obj.i_percent;
         var today = obj.today;
-
         var interval = null;
-
         if (typeof callback === "function" && (state == "CHANGE_FASE")) {
             location.reload();
         }
@@ -320,7 +318,6 @@ var dom = {
         var refresh = function () {
             var mathTime = (1000 * 60);
             today += mathTime;
-
             var v = dom.betweenHours(new Date('01/01/2017 06:00'), new Date('01/01/2017 18:00'), new Date(today));
 //            var hrs = 0;
 //            var hour = formatDate(new Date(today), 'HH');
@@ -338,13 +335,11 @@ var dom = {
             timeRecord -= mathTime;
             parseTimer(timeRecord, element, progressElement, percentValue);
         };
-
         //Número de tiempos al límite...
         if (element) {
             element.html('<i class="fa fa-fw fa-refresh fa-spin"></i> --:--');
         }
         parseTimer(time, element, progressElement, percentValue);
-
         //Creamos el intervalo a un minuto...
         interval = window.setInterval(function () {
             refresh();
@@ -474,13 +469,18 @@ var dom = {
     configTable: function (data, columns, onDraw) {
         return {
             data: data,
+            dom: 'Bfrtip',
             columns: columns,
+            dom: 'Bfrtip',
+            buttons: [
+                'colvis'
+            ],
             "language": {
                 "url": app.urlbase + "assets/plugins/datatables/lang/es.json"
             },
             columnDefs: [{
                     defaultContent: "",
-                    targets: 0,
+                    targets: -1,
                     orderable: false,
                 }],
             order: [[1, 'asc']],
@@ -530,13 +530,13 @@ var dom = {
     formatDate(dateString, method) {
         if (dateString && dateString.trim() != "") {
             if (method === "month") {
-                //dateString, outputFormat, inputFormat...            
+//dateString, outputFormat, inputFormat...            
                 return formatDate(dateString, 'dd/NNN/yyyy', 'yyyy/MM/dd');
             } else if (method === "fillForm") {
-                //dateString, outputFormat, inputFormat...            
+//dateString, outputFormat, inputFormat...            
                 return formatDate(dateString, 'dd/MM/yyyy', 'yyyy/MM/dd');
             } else if (method === "getFormData") {
-                //dateString, outputFormat, inputFormat...
+//dateString, outputFormat, inputFormat...
                 return formatDate(dateString, 'yyyy-MM-dd', 'dd/MM/yyyy');
             }
         } else {

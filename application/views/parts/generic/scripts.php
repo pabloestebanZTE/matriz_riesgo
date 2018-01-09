@@ -18,3 +18,5 @@
 <script src="<?= URL::to('assets/plugins/sweetalert-master/dist/sweetalert.min.js') ?>"></script>
 <script src="<?= URL::to("assets/plugins/HelperForm.js") ?>" type="text/javascript"></script>
 <script src="<?= URL::to("assets/plugins/FormatDate.js") ?>" type="text/javascript"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.1/js/dataTables.buttons.min.js" type="text/javascript"></script>
+<script src="<?= URL::to("assets/plugins/datatables/js/datatables.colvis.js") ?>" type="text/javascript"></script>
