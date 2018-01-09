@@ -26,7 +26,7 @@ CREATE TABLE `tipo_evento_1` (
   `k_id_tipo_evento_1` int(11) NOT NULL AUTO_INCREMENT,
   `n_descripcion` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`k_id_tipo_evento_1`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -35,7 +35,7 @@ CREATE TABLE `tipo_evento_1` (
 
 LOCK TABLES `tipo_evento_1` WRITE;
 /*!40000 ALTER TABLE `tipo_evento_1` DISABLE KEYS */;
-INSERT INTO `tipo_evento_1` VALUES (1,'1. Fraude Interno'),(2,'2. Fraude Externo'),(3,'3. Relaciones Laborales'),(4,'5. Daños a activos físicos'),(5,'6. Fallas tecnológicas'),(6,'7. Ejecución y administración de procesos'),(7,'8. Lavado de Activos'),(8,'9. Reputacional'),(9,'10. Legal');
+INSERT INTO `tipo_evento_1` VALUES (1,'1. Fraude Interno'),(2,'2. Fraude Externo'),(3,'3. Relaciones Laborales'),(4,'4. Clientes'),(5,'5. Daños a activos físicos'),(6,'6. Fallas tecnológicas'),(7,'7. Ejecución y administración de procesos'),(8,'8. Lavado de Activos'),(9,'9. Reputacional'),(10,'10. Legal');
 /*!40000 ALTER TABLE `tipo_evento_1` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -48,4 +48,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-12-21  9:06:18
+-- Dump completed on 2017-12-28 10:11:45
