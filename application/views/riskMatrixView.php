@@ -256,8 +256,8 @@
         <?php $this->load->view('parts/generic/scripts'); ?>
         <!-- CUSTOM SCRIPT   -->
         <script type="text/javascript">
-            var dataForm = '<?php echo json_encode($dataForm) ?>';
+            var dataForm = <?= $dataForm; ?>;
         </script>
-        <script src="<?= URL::to('assets/js/modules/riskMatrix.js') ?>" type="text/javascript"></script>
+        <script src="<?= URL::to('assets/js/modules/riskMatrix.js?v=' . time()) ?>" type="text/javascript"></script>
     </body>
 </html>

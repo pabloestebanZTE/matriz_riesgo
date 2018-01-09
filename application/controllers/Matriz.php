@@ -73,7 +73,7 @@ class Matriz extends CI_Controller {
     public function riskMatrixView() {
         //Consultamos la información de los select...
         $dao = new Dao_risk_model();
-        $this->load->view('riskMatrixView', ["dataForm" => $dao->getFormData($this->request)]);
+        $this->load->view('riskMatrixView', ["dataForm" => json_encode($dao->getFormData($this->request))]);
     }
 
     public function generalRisksView() {
@@ -86,6 +86,20 @@ class Matriz extends CI_Controller {
 
     public function gridByPlataform() {
         $this->load->view('gridByPlataform');
+    }
+
+    public function adminPlataform() {
+        $plataformModel = new PlataformaModel();
+        $id = $this->request->id;
+        if ($id) {
+            $data = $plataformModel->where("k_id_plataforma", "=", $id)->first();
+            return $this->load->view('newPlataforma', ["formData" => json_encode($data)]);
+        }
+        $this->load->view('newPlataforma');
+    }
+
+    public function listPlataforms() {
+        $this->load->view('listPlataforms');
     }
 
 }

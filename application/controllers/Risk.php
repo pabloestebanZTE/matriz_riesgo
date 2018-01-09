@@ -82,4 +82,22 @@ class Risk extends CI_Controller {
         $this->json($resposne);
     }
 
+    public function insertPlataform() {
+        $dao = new Dao_risk_model();
+        $response = $dao->insertPlataform($this->request);
+        $this->json($response);
+    }
+    
+    public function updatePlataform() {
+        $dao = new Dao_risk_model();
+        $response = $dao->updatePlataform($this->request);
+        $this->json($response);
+    }
+    
+    public function listPlataforms(){
+        $dao = new Dao_risk_model();
+        $response = $dao->listPlataforms();
+        $this->json($response);
+    }
+
 }

@@ -27,7 +27,7 @@
                 </div>
             </div>
         </div>
-        
+
         <!--modal riesgos asociados-->
         <div id="modalChangeState" class="modal fade" role="dialog">
             <div class="modal-dialog modal-xs">
@@ -38,7 +38,7 @@
                         <h4 class="modal-title"><i class="fa fa-fw fa-edit"></i> Riesgos asociados</h4>
                     </div>
                     <div class="modal-body">
-                        <table id="tablaRiesgosAsociados" class="table table-hover table-condensed table-striped"></table>   
+                        <table id="tablaRiesgosAsociados" class="table table-hover table-condensed table-striped" width='100%'></table>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-fw fa-times"></i> Cerrar</button>
@@ -48,7 +48,7 @@
             </div>
         </div>
         <!--modal riesgos asociados-->
-        
+
         <!--footer Section -->
         <div class="for-full-back" id="footer">
             Zolid By ZTE Colombia | All Right Reserved

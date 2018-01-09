@@ -22,6 +22,29 @@ class Dao_risk_model extends CI_Model {
         }
     }
 
+    public function updatePlataform($request) {
+        try {
+            $response = new Response(EMessages::INSERT);
+            $plataformaModel = new PlataformaModel();
+            $plataformaModel->where("k_id_plataforma", "=", $request->k_id_plataforma)
+                    ->update($request->all());
+            return $response;
+        } catch (ZolidException $ex) {
+            return $ex;
+        }
+    }
+
+    public function insertPlataform($request) {
+        try {
+            $response = new Response(EMessages::INSERT);
+            $plataformaModel = new PlataformaModel();
+            $plataformaModel->insert($request->all());
+            return $response;
+        } catch (ZolidException $ex) {
+            return $ex;
+        }
+    }
+
     public function getAll() {
         try {
             $user = new RiesgoModel();
@@ -105,7 +128,7 @@ class Dao_risk_model extends CI_Model {
                     }
                 }
             }
-            return new Response(EMessages::INSERT, "ADFKJASDF", $idRiesgo);
+            return (new Response(EMessages::INSERT))->setData($idRiesgo);
         } catch (ZolidException $ex) {
             return $ex;
         }
@@ -494,6 +517,14 @@ class Dao_risk_model extends CI_Model {
 //            $response->setData($daoRisk->getSQL());
         }
         $response->setData($list);
+        return $response;
+    }
+
+    public function listPlataforms() {
+        $response = new Response(EMessages::QUERY);
+        $plataformsModel = new PlataformaModel();
+        $data = $plataformsModel->orderBy("n_nombre", "asc")->get();
+        $response->setData($data);
         return $response;
     }
 
