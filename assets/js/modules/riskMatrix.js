@@ -1,7 +1,6 @@
 var modeloControles = $('<select class="form-control m-r-0" data-combox="6" id="cmbControles" name="controles[]" >'
         + '<option value="">Seleccione</option>'
         + '</select>');
-
 var contControles = 0;
 var contCausas = 0;
 var vista = {
@@ -11,6 +10,7 @@ var vista = {
         vista.evetns();
         vista.configView();
         vista.get();
+        vista.addTipoActividad();
     },
     evetns: function () {
         $("div.bhoechie-tab-menu>div.list-group>a").on('click', vista.onClickTab);
@@ -21,6 +21,55 @@ var vista = {
         $('#form3').on('click', '.btn-add-control', vista.onClickAddControl);
         $('#form3').on('click', '.btn-remove-control', vista.onClickRemoveControl);
         $('.select-severidad').on('change', vista.onChangeSelectSeveridad);
+        $('#tiposDeActividad').on('click', '.btn-add-actividad', vista.onClickBtnAddActividad);
+        $('#tiposDeActividad').on('click', '.btn-remove-actividad', vista.onClickBtnRemoveActividad);
+    },
+    onClickBtnAddActividad: function () {
+        console.log("Add Actividad");
+        vista.addTipoActividad();
+    },
+    onClickBtnRemoveActividad: function () {
+        console.log('Remove Actividad');
+        var btn = $(this);
+        var parent = btn.parents('.group-tipo-actividad');
+        if ($('.group-tipo-actividad').length > 1) {
+            parent.remove();
+            var groups = $('.group-tipo-actividad');
+            for (var i = 0; i < groups.length; i++) {
+                var group = $(groups[i]);
+                console.log('CHANGE LABEL;')
+                group.find('label').html('Tipo de Actividad [' + (i + 1) + ']');
+            }
+        } else {
+            console.log('CHANGE LABEL SINGLE;')
+            parent.find('Tipo de Actividad [1]');
+        }
+    },
+    addTipoActividad: function (id) {
+        var num = ((num = $('.group-tipo-actividad').length + 1) > 0) ? ' [' + num + ']' : '';
+        var target = (id) ? 'data-target="' + id + '"' : '';
+        var html = '<div class="form-group group-tipo-actividad" ' + target + '>'
+                + '<label for="txtTipoActividad" class="col-sm-2 control-label">Tipo de Actividad' + num + '</label>'
+                + '<div class="col-sm-10"><div class="input-group">'
+                + '<select class="form-control" name="riesgo_especifico.n_tipo_activad[]">'
+                + '<option value="">Seleccione</option>'
+                + '<option value="OT">OT</option>'
+                + '<option value="MANTENIMIENTO">MANTENIMIENTO</option>'
+                + '<option value="INCIDENCIAS/EVENTOS">INCIDENCIAS/EVENTOS</option>'
+                + '<option value="FACTURACIÓN">FACTURACIÓN</option>'
+                + '<option value="APROVISIONAMIENTO">APROVISIONAMIENTO</option>'
+                + '</select>'
+                + '<div class="input-group-btn">'
+                + '<button type="button" class="btn-add-actividad btn btn-primary" title="Agregar" class="btn btn-primary">'
+                + '<i class="fa fa-fw fa-plus"></i></button>'
+                + '<button type="button" class="btn-remove-actividad btn btn-danger" title="Eliminar" class="btn btn-primary">'
+                + '<i class="fa fa-fw fa-minus"></i></button>'
+                + '</div>'
+                + '</div></div>'
+                + '</div>';
+        var select = $(html);
+        $('#tiposDeActividad').append(select);
+        return select;
     },
     onChangeSelectSeveridad: function () {
         if ($('.select-severidad#cmbProbabilidad').val().trim() != "" && $('.select-severidad#cmbImpacto').val().trim() != "") {
@@ -261,7 +310,6 @@ var vista = {
                     }).send();
             console.log(obj);
         };
-
         if (confirmar) {
             swal({
                 title: 'Confirmación',
