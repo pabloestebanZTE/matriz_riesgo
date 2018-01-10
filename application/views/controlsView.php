@@ -21,7 +21,7 @@
                                 <label for="k_id_control" class="col-md-3 control-label">ID:</label>
                                 <div class="col-md-8 selectContainer">
                                     <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-fw fa-street-view"></i></span>
+                                        <span class="input-group-addon"><i class="fa fa-fw fa-hashtag"></i></span>
                                         <input type='text' name="k_id_control" id="k_id_control" class="form-control" required>
                                     </div>
                                 </div>
