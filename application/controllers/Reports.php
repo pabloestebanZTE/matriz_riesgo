@@ -49,9 +49,9 @@ class Reports extends CI_Controller {
 //                    )
 //        ));
 
-        $objPhpExcel->getActiveSheet()->mergeCells('A1:T1');
+        $objPhpExcel->getActiveSheet()->mergeCells('A1:P1');
         $objPhpExcel->getActiveSheet()->setCellValue('A1', 'Matriz de riesgos');
-        $objPhpExcel->getActiveSheet()->getStyle('A1:T1')->applyFromArray(
+        $objPhpExcel->getActiveSheet()->getStyle('A1:P1')->applyFromArray(
                 array(
                     'font' => array(
                         'bold' => true,
@@ -71,9 +71,9 @@ class Reports extends CI_Controller {
                         )
                     )
         ));
-        $objPhpExcel->getActiveSheet()->mergeCells('A2:T2');
+        $objPhpExcel->getActiveSheet()->mergeCells('A2:P2');
         $objPhpExcel->getActiveSheet()->setCellValue('A2', 'Proceso:');
-        $objPhpExcel->getActiveSheet()->getStyle('A2:T2')->applyFromArray(
+        $objPhpExcel->getActiveSheet()->getStyle('A2:P2')->applyFromArray(
                 array(
                     'font' => array(
                         'bold' => false,
@@ -93,9 +93,9 @@ class Reports extends CI_Controller {
                         )
                     )
         ));
-        $objPhpExcel->getActiveSheet()->mergeCells('A3:T3');
+        $objPhpExcel->getActiveSheet()->mergeCells('A3:P3');
         $objPhpExcel->getActiveSheet()->setCellValue('A3', 'Responsable:');
-        $objPhpExcel->getActiveSheet()->getStyle('A3:T3')->applyFromArray(
+        $objPhpExcel->getActiveSheet()->getStyle('A3:P3')->applyFromArray(
                 array(
                     'font' => array(
                         'bold' => false,
@@ -115,11 +115,65 @@ class Reports extends CI_Controller {
                         )
                     )
         ));
+
+        $gdImage = imagecreatefrompng('assets/img/logo_reporte.png');
+        $objDrawing = new PHPExcel_Worksheet_MemoryDrawing();
+        $objDrawing->setName('Sample image');
+        $objDrawing->setDescription('Sample image');
+        $objDrawing->setImageResource($gdImage);
+        $objDrawing->setOffsetX(15);
+        $objDrawing->setRenderingFunction(PHPExcel_Worksheet_MemoryDrawing::RENDERING_PNG);
+        $objDrawing->setMimeType(PHPExcel_Worksheet_MemoryDrawing::MIMETYPE_DEFAULT);
+        $objDrawing->setHeight(90);
+        $objDrawing->setCoordinates('Q1');
+        $objDrawing->setWorksheet($objPhpExcel->getActiveSheet());
+
+        $objPhpExcel->getActiveSheet()->getStyle('Q1:S2')->applyFromArray(
+                array(
+                    'fill' => array(
+                        'type' => PHPExcel_Style_Fill::FILL_SOLID,
+                        'color' => array('rgb' => 'ffffff')
+                    ),
+                    'alignment' => array(
+                        'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_LEFT,
+                        'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
+                    ),
+                    'borders' => array(
+                        'allborders' => array(
+                            'style' => PHPExcel_Style_Border::BORDER_THIN
+                        )
+                    )
+        ));
+
+
+        $objPhpExcel->getActiveSheet()->mergeCells('Q1:S2');
+
+        $objPhpExcel->getActiveSheet()->getColumnDimension('Q')->setWidth(20);
+        $objPhpExcel->getActiveSheet()->getColumnDimension('R')->setWidth(20);
+        $objPhpExcel->getActiveSheet()->getColumnDimension('S')->setWidth(20);
 
         $objPhpExcel->getActiveSheet()->getRowDimension('1')->setRowHeight(40);
         $objPhpExcel->getActiveSheet()->getRowDimension('2')->setRowHeight(30);
         $objPhpExcel->getActiveSheet()->getRowDimension('3')->setRowHeight(30);
 
+        $objPhpExcel->getActiveSheet()->mergeCells('Q3:S3');
+        $objPhpExcel->getActiveSheet()->getStyle('Q3:S3')->applyFromArray(
+                array(
+                    'fill' => array(
+                        'type' => PHPExcel_Style_Fill::FILL_SOLID,
+                        'color' => array('rgb' => 'ffffff')
+                    ),
+                    'alignment' => array(
+                        'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+                        'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
+                    ),
+                    'borders' => array(
+                        'allborders' => array(
+                            'style' => PHPExcel_Style_Border::BORDER_THIN
+                        )
+                    )
+        ));
+        $objPhpExcel->getActiveSheet()->setCellValue("Q3", "Versión: 1");
 
         //Escribir cabecearas.
 //        $objPhpExcel->getActiveSheet()->setCellValue("A1", "Id-On Air");
@@ -171,7 +225,7 @@ class Reports extends CI_Controller {
         $objWriter = new PHPExcel_Writer_Excel2007($objPhpExcel);
         $filename = 'Reporte Comentarios - (' . date("Y-m-d") . ').xlsx';
         $objWriter->save($filename);
-        Redirect::to(URL::to($filename));
+        echo "<a href=\"" . Redirect::to(URL::to($filename)) . "\">Descargar</a>";
     }
 
 }
