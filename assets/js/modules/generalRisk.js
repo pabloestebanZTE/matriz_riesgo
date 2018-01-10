@@ -69,6 +69,5 @@ $(function () {
                     ));
         }
     };
-
     ini.init();
 });

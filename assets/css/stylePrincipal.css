@@ -970,3 +970,8 @@ table td{
     display: none;
     opacity: 0;
 }
+table{
+    min-width: 100% !important;
+    width: 100% !important;
+    max-width: 100% !important;
+}

@@ -49,12 +49,14 @@ $(function () {
             }
             ini.tablaPrincipal = $('#tablaPrincipal').DataTable(dom.configTable(data,
                     [
+                        {title: "Plataforma", data: "k_id_zona_geografica.n_nombre", visible: false},
                         {title: "Zona Geográfica", data: "k_id_zona_geografica.n_nombre"},
                         {title: "Macro proceso", data: "n_macro_proceso"},
                         {title: "Objetivo", data: "n_objetivo"},
                         {title: "Responsable", data: "n_responsable"},
                         {title: "Riesgo", data: "k_id_riesgo.n_riesgo"},
                         {title: "Probabilidad", data: "k_id_probabilidad.n_descripcion"},
+                        {title: "Tipo evento 2", data: "k_id_tipo_evento_2.n_descripcion", visible: false},
                         {title: "Impacto", data: "k_id_impacto.n_descripcion"},
                         {title: "Severidad del Riesgo Inherente", data: "n_severidad_riesgo_inherente"},
                         {title: "Opciones", data: ini.getButtons}
