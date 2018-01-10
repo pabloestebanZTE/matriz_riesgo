@@ -34,6 +34,8 @@
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-fw fa-street-view"></i></span>
                                         <input type='text' name="nombre_control" id="nombre_control" class="form-control" required>
+                                        <span class="input-group-addon"><i class="fa fa-fw fa-hashtag"></i></span>
+                                        <input type='text' name="k_id_control" id="k_id_control" class="form-control" required>
                                     </div>
                                 </div>
                             </div>

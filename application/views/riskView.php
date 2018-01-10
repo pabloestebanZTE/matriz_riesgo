@@ -41,7 +41,7 @@
                                 <label for="n_responsable" class="col-md-3 control-label">Responsable Riesgo:</label>
                                 <div class="col-md-8 selectContainer">
                                     <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-fw fa-globe"></i></span>
+                                        <span class="input-group-addon"><i class="fa fa-fw fa-user"></i></span>
                                         <input type='text' name="n_responsable" id="n_responsable" class="form-control" >
                                     </div>
                                 </div>
@@ -55,7 +55,7 @@
                                 <label for="n_riesgo" class="col-md-3 control-label">Riesgo:</label>
                                 <div class="col-md-8 selectContainer">
                                     <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-fw fa-tablet"></i></span>
+                                        <span class="input-group-addon"><i class="fa fa-fw fa-exclamation-triangle"></i></span>
                                         <input type="text" name="n_riesgo" id="n_riesgo" class="form-control">
                                     </div>
                                 </div>
@@ -65,7 +65,7 @@
                                 <label for="txtDescripcionRiesgo" class="col-md-3 control-label">Descripción del Riesgo:</label>
                                 <div class="col-md-8 selectContainer">
                                     <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-fw fa-briefcase"></i></span>
+                                        <span class="input-group-addon"><i class="fa fa-fw fa-exclamation-triangle"></i></span>
                                         <textarea id="n_riesgo_descripcion" name="n_riesgo_descripcion" class="form-control"></textarea>
                                     </div>
                                 </div>
