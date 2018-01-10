@@ -17,15 +17,26 @@
                         <legend>Administrador de Riesgo</legend>
                         <fieldset class="col-md-6 control-label">
                             <div class="form-group">
-                                <label for="k_id_riesgo" class="col-md-3 control-label">ID:</label>
+                                <label for="k_id_plataforma" class="col-md-3 control-label">Plataforma:</label>
                                 <div class="col-md-8 selectContainer">
                                     <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-fw fa-hashtag"></i></span>
-                                        <input type='text' name="k_id_riesgo" id="k_id_riesgo" class="form-control" required>
+                                        <span class="input-group-addon"><i class="fa fa-fw fa-globe"></i></span>
+                                        <select class="form-control" id="k_id_plataforma" name="k_id_plataforma">
+                                            <option>Seleccione</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
-                            
+                            <div class="form-group">
+                                <label for="nombre_riesgo" class="col-md-3 control-label">ID:</label>
+                                <div class="col-md-8 selectContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-fw fa-street-view"></i></span>
+                                        <input type='text' name="nombre_riesgo" id="nombre_riesgo" class="form-control" required>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="form-group">
                                 <label for="n_responsable" class="col-md-3 control-label">Responsable Riesgo:</label>
                                 <div class="col-md-8 selectContainer">
@@ -104,19 +115,24 @@
             $(function () {
                 var riesgo = <?php echo (isset($riesgo) ? $riesgo : 'null'); ?>;
                 console.log(riesgo);
-                
+
                 if (riesgo !== null) {
-                    $("#risks").attr("action","Risk/updateGeneralRisk");
+                    $("#risks").attr("action", "Risk/updateGeneralRisk");
                     $('#risks').fillForm(riesgo);
+                    $('#risks').append('<input type="hidden" name="k_id_registro" value="' + riesgo.k_id + '" id="k_id_registro" />');
                 }
-                
+
                 if ($("#risks").attr("action") === "Risk/insertRisk") {
                     dom.submit($('#risks'));
-                }else {
+                } else {
                     dom.submit($('#risks'), function () {
                         location.href = app.urlTo('Matriz/generalRisksView');
                     });
                 }
+
+                var plataformas = <?= $plataformas; ?>
+                //Listamos las plataformas...
+                dom.llenarCombo($('#k_id_plataforma'), plataformas, {text: "n_nombre", value: "k_id_plataforma"});
             });
         </script>
     </script>

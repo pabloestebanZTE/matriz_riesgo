@@ -1,7 +1,6 @@
 var modeloControles = $('<select class="form-control m-r-0" data-combox="6" id="cmbControles" name="controles[]" >'
         + '<option value="">Seleccione</option>'
         + '</select>');
-
 var contControles = 0;
 var contCausas = 0;
 var vista = {
@@ -21,6 +20,56 @@ var vista = {
         $('#form3').on('click', '.btn-add-control', vista.onClickAddControl);
         $('#form3').on('click', '.btn-remove-control', vista.onClickRemoveControl);
         $('.select-severidad').on('change', vista.onChangeSelectSeveridad);
+        $('#tiposDeActividad').on('click', '.btn-add-actividad', vista.onClickBtnAddActividad);
+        $('#tiposDeActividad').on('click', '.btn-remove-actividad', vista.onClickBtnRemoveActividad);
+    },
+    onClickBtnAddActividad: function () {
+        console.log("Add Actividad");
+        vista.addTipoActividad().select2({width: '100%'});
+    },
+    onClickBtnRemoveActividad: function () {
+        console.log('Remove Actividad');
+        var btn = $(this);
+        var parent = btn.parents('.group-tipo-actividad');
+        if ($('.group-tipo-actividad').length > 1) {
+            parent.remove();
+            var groups = $('.group-tipo-actividad');
+            for (var i = 0; i < groups.length; i++) {
+                var group = $(groups[i]);
+                console.log('CHANGE LABEL;')
+                group.find('label').html('Tipo de Actividad [' + (i + 1) + ']');
+            }
+        } else {
+            console.log('CHANGE LABEL SINGLE;')
+            parent.find('Tipo de Actividad [1]');
+        }
+    },
+    addTipoActividad: function (value) {
+        var num = ((num = $('.group-tipo-actividad').length + 1) > 0) ? ' [' + num + ']' : '';
+        var target = (value) ? 'data-target="' + value + '"' : '';
+        var html = '<div class="form-group group-tipo-actividad" ' + target + '>'
+                + '<label for="txtTipoActividad" class="col-sm-2 control-label">Tipo de Actividad' + num + '</label>'
+                + '<div class="col-sm-10"><div class="input-group">'
+                + '<select class="form-control" name="riesgo_especifico.n_tipo_activad[]">'
+                + '<option value="">Seleccione</option>'
+                + '<option value="OT" ' + ((value == "OT") ? 'selected="true"' : '') + '>OT</option>'
+                + '<option value="MANTENIMIENTO" ' + ((value == "MANTENIMIENTO") ? 'selected="selected"' : '') + '>MANTENIMIENTO</option>'
+                + '<option value="INCIDENCIAS/EVENTOS" ' + ((value == "INCIDENCIAS/EVENTOS") ? 'selected="selected"' : '') + '>INCIDENCIAS/EVENTOS</option>'
+                + '<option value="FACTURACIÓN" ' + ((value == "FACTURACIÓN") ? 'selected="selected"' : '') + '>FACTURACIÓN</option>'
+                + '<option value="APROVISIONAMIENTO" ' + ((value == "APROVISIONAMIENTO") ? 'selected="selected"' : '') + '>APROVISIONAMIENTO</option>'
+                + '</select>'
+                + '<div class="input-group-btn">'
+                + '<button type="button" class="btn-add-actividad btn btn-primary" title="Agregar" >'
+                + '<i class="fa fa-fw fa-plus"></i></button>'
+                + '<button type="button" class="btn-remove-actividad btn btn-danger" title="Eliminar" >'
+                + '<i class="fa fa-fw fa-minus"></i></button>'
+                + '</div>'
+                + '</div></div>'
+                + '</div>';
+        console.log(html);
+        var select = $(html);
+        $('#tiposDeActividad').append(select);
+        return select.find('select');
     },
     onChangeSelectSeveridad: function () {
         if ($('.select-severidad#cmbProbabilidad').val().trim() != "" && $('.select-severidad#cmbImpacto').val().trim() != "") {
@@ -57,9 +106,25 @@ var vista = {
                 formGlobal.fillForm(data);
                 formGlobal.find('#cmbSoporteImpacto1').attr('data-value', data["soporte_impacto[]"][0]);
                 formGlobal.find('#cmbSoporteImpacto2').attr('data-value', data["soporte_impacto[]"][1]);
-                vista.listCausas(data.causas);
                 formGlobal.find('button:submit').html('<i class="fa fa-fw fa-save"></i> Actualizar');
+                vista.listCausas(data.causas);
+                try {
+                    var args = dataForm.record.riesgo_especifico.n_tipo_activad;
+                    if (args) {
+                        var tiposActividad = JSON.parse(args);
+                        if (tiposActividad.length) {
+                            for (var i = 0; i < tiposActividad.length; i++) {
+                                vista.addTipoActividad(tiposActividad[i]).select2({width: '100%'});
+                            }
+                        }
+                    }
+                } catch (e) {
+                    console.error(e);
+                }
             }
+        } else {
+            vista.addTipoActividad().select2({width: '100%'});
+            $('select').select2({width: '100%'});
         }
     },
     listCausas: function (causas) {
@@ -194,7 +259,6 @@ var vista = {
             obj.controlsForDelete = vista.controlsForDelete;
         }
 
-
         var start = function (obj) {
             //Buscamos las causas agregadas...
             var causasAdded = $('#form3').find('.causa-added');
@@ -237,6 +301,8 @@ var vista = {
                 forUpdate = true;
             }
 
+            obj.riesgo_especifico.n_tipo_activad = JSON.stringify(obj.riesgo_especifico["n_tipo_activad[]"]);
+
             //Se hace la petición AJAX y se envia el objeto completo con toda la información de los tres formularios para ser procesada...
             app.post(uri, obj)
                     .complete(function () {
@@ -261,7 +327,6 @@ var vista = {
                     }).send();
             console.log(obj);
         };
-
         if (confirmar) {
             swal({
                 title: 'Confirmación',
@@ -323,7 +388,7 @@ var vista = {
         $('.cmb-factor-riesgo').prop('disabled', false).trigger('selectfilled');
     },
     configView: function () {
-        dataForm = JSON.parse(dataForm);
+//        dataForm = JSON.parse(dataForm);
         console.log(dataForm);
         dom.llenarCombo($('#cmbPlataforma'), dataForm.plataforma, {text: "text", value: "value"});
         dom.llenarCombo($('#cmbRiesgoId'), dataForm.riesgos, {text: "text", value: "value"});

@@ -13,7 +13,12 @@
                     <form class= 'well form-horizontal' action='' method='post'  id='' name='' enctype= 'multipart/form-data'>
                         <fieldset>
                             <div class="row">
-                                <div class="col col-md-12" >
+                                <div class="col col-md-3">
+                                    <select class="form-control" id="cmbPlataformas">
+                                        <option value="">Seleccione</option>
+                                    </select>
+                                </div>
+                                <div class="col col-md-9" >
                                     <a class="btn btn-primary" href="<?= URL::to('Matriz/riskView') ?>"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Crear Riesgo</a>
                                 </div>
                                 <div class="col col-md-12 p-t-40">
@@ -35,6 +40,9 @@
         </div>
         <?php $this->load->view('parts/generic/scripts'); ?>
         <!-- CUSTOM SCRIPT   -->
-        <script src="<?= URL::to('assets/js/modules/generalRisk.js') ?>" type="text/javascript"></script>
+        <script type="text/javascript">
+            var plataformas = <?= $plataformas; ?>
+        </script>
+        <script src="<?= URL::to('assets/js/modules/generalRisk.js?v=' . time()) ?>" type="text/javascript"></script>
     </body>
 </html>

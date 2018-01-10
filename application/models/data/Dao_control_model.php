@@ -13,6 +13,14 @@ class Dao_control_model extends CI_Model {
     public function insertControl($request) {
         try {
             $cvm = new ControlModel();
+            //Verificamos que no exista un control con le mismo nombre en la misma plataforma...
+            $exist = $cvm->where("k_id_plataforma", "=", $request->k_id_plataforma)
+                    ->where("nombre_control", "=", $request->nombre_control)
+                    ->exist();
+            if ($exist) {
+                return (new Response(EMessages::ERROR))->setMessage("Ya existe un control con el mismo id para esta plataforma.");
+            }
+            $request->k_id_control = $request->nombre_control;
             $datos = $cvm->insert($request->all());
             $response = new Response(EMessages::SUCCESS);
             $response->setData($datos);
@@ -22,12 +30,13 @@ class Dao_control_model extends CI_Model {
         }
     }
 
-    public function getAllControlsAssigned() {
+    public function getAllControlsAssigned($request) {
         try {
             $db = new DB();
             $datos = $db->select("SELECT co.*, count(coe.k_id_control) k_control_asinado
                                 FROM control co
-                                LEFT JOIN control_especifico coe ON co.k_id_control = coe.k_id_control
+                                LEFT JOIN control_especifico coe ON co.k_id_control = coe.k_id_control 
+                                WHERE co.k_id_plataforma =  $request->idPlataforma
                                 GROUP BY co.k_id_control")->get();
             $response = new Response(EMessages::SUCCESS);
             $response->setData($datos);
@@ -53,8 +62,19 @@ class Dao_control_model extends CI_Model {
     public function updateControl($request) {
         try {
             $cm = new ControlModel();
-            $datos = $cm->where("k_id_control", "=", $request->k_id_control)
-                    ->update($request->all());
+            //Verificamos que no exista un control con le mismo nombre en la misma plataforma...
+            $exist = $cm->where("k_id_plataforma", "=", $request->k_id_plataforma)
+                    ->where("nombre_control", "=", $request->nombre_control)
+                    ->where("k_id", "!=", $request->k_id_registro)
+                    ->exist();
+            if ($exist) {
+                return (new Response(EMessages::ERROR))->setMessage("Ya existe un control con el mismo id para esta plataforma.");
+            }
+            $id = $request->k_id_registro;
+            $args = $request->all();
+            $cm = new ControlModel();
+            $datos = $cm->where("k_id", "=", $id)
+                    ->update($args);
             $response = new Response(EMessages::UPDATE);
             $response->setData($datos);
             return $response;
@@ -62,7 +82,7 @@ class Dao_control_model extends CI_Model {
             return $ex;
         }
     }
-    
+
     public function findSpecificControlById($id) {
         try {
             $db = new DB();

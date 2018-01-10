@@ -3,21 +3,32 @@ $(function () {
         timers: [],
         init: function () {
             ini.events();
-            ini.listActivities();
+            ini.configView();
         },
         //Eventos de la ventana.
         events: function () {
-
+            $('#cmbPlataformas').on('change', ini.onChangeCmbPlataformas);
+            $('#cmbPlataformas').on('selectfilled', function () {
+                $('#cmbPlataformas option:eq(1)').prop('selected', true);
+                $('#cmbPlataformas').trigger('change.select2');
+                ini.listRisks();
+            });
         },
-        /**
+        onChangeCmbPlataformas: function () {
+            ini.listRisks();
+        },
+        configView: function () {
+            //Listamos las plataformas...
+            dom.llenarCombo($('#cmbPlataformas'), plataformas, {text: "n_nombre", value: "k_id_plataforma"});
+        }, /**
          * Listará las actividades de los usuarios que ingresan al sistema...
          */
-        listActivities: function () {
+        listRisks: function () {
             //Invoca fillTable para configurar la TABLA.
             // ini.fillTable([]);
             //Realiza la petición AJAX para traer los datos...
             var alert = dom.printAlert('Consultando registros, por favor espere.', 'loading', $('#principalAlert'));
-            app.post('Risk/getALLRisks')
+            app.post('Risk/getALLRisks', {idPlataforma: $('#cmbPlataformas').val()})
                     .complete(function () {
                         alert.hide();
                         $('.contentPrincipal').removeClass('hidden');
@@ -49,7 +60,7 @@ $(function () {
             }
             ini.tablaPrincipal = $('#tablaPrincipal').DataTable(dom.configTable(data,
                     [
-                        {title: "ID", data: "k_id_riesgo"},
+                        {title: "ID", data: "nombre_riesgo"},
                         {title: "Riesgo", data: "n_riesgo"},
                         {title: "Descripción del Riesgo", data: "n_riesgo_descripcion"},
                         {title: "Responsable Riesgo", data: "n_responsable"},
@@ -58,6 +69,5 @@ $(function () {
                     ));
         }
     };
-
     ini.init();
 });

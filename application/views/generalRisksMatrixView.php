@@ -35,6 +35,6 @@
         </div>
         <?php $this->load->view('parts/generic/scripts'); ?>
         <!-- CUSTOM SCRIPT   -->
-        <script src="<?= URL::to('assets/js/modules/generalRisksMatrix.js') ?>" type="text/javascript"></script>
+        <script src="<?= URL::to('assets/js/modules/generalRisksMatrix.js?v=' . time()) ?>" type="text/javascript"></script>
     </body>
 </html>

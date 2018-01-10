@@ -102,18 +102,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="txtTipoActividad" class="col-sm-2 control-label">Tipo de Actividad</label>
-                                        <div class="col-sm-10">
-                                            <select class="form-control" name="riesgo_especifico.n_tipo_activad">
-                                                <option value="">Seleccione</option>
-                                                <option value="OT">OT</option>
-                                                <option value="MANTENIMIENTO">MANTENIMIENTO</option>
-                                                <option value="INCIDENCIAS/EVENTOS">INCIDENCIAS/EVENTOS</option>
-                                                <option value="FACTURACIÓN">FACTURACIÓN</option>
-                                                <option value="APROVISIONAMIENTO">APROVISIONAMIENTO</option>
-                                            </select>
-                                        </div>
+                                    <div id="tiposDeActividad">                                        
                                     </div>
                                     <div class="form-group">
                                         <label for="cmbTipoEventoNivel1" class="col-sm-2 control-label">Tipo de evento (nivel 1)</label>
@@ -267,8 +256,8 @@
         <?php $this->load->view('parts/generic/scripts'); ?>
         <!-- CUSTOM SCRIPT   -->
         <script type="text/javascript">
-            var dataForm = '<?php echo json_encode($dataForm) ?>';
+            var dataForm = <?= $dataForm; ?>;
         </script>
-        <script src="<?= URL::to('assets/js/modules/riskMatrix.js') ?>" type="text/javascript"></script>
+        <script src="<?= URL::to('assets/js/modules/riskMatrix.js?v=' . time()) ?>" type="text/javascript"></script>
     </body>
 </html>

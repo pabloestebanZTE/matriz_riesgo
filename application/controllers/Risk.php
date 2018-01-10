@@ -25,7 +25,7 @@ class Risk extends CI_Controller {
         $response = null;
         if (Auth::check()) {
             $dao = new Dao_risk_model();
-            $res = $dao->getAll();
+            $res = $dao->getAll($this->request);
             $this->json($res);
         } else {
             $response = new Response(EMessages::NOT_ALLOWED);
@@ -49,6 +49,10 @@ class Risk extends CI_Controller {
         $dao = new Dao_risk_model();
         $response = $dao->findById($id);
         $answer['riesgo'] = json_encode($response->data);
+        //Consultamos las plataformas...
+        $plataformaModel = new PlataformaModel();
+        $data = $plataformaModel->get();
+        $answer['plataformas'] = json_encode($data);
         $this->load->view('riskView', $answer);
     }
 
@@ -80,6 +84,24 @@ class Risk extends CI_Controller {
         $dao = new Dao_risk_model();
         $resposne = $dao->getRiskByIdPlataform($this->request);
         $this->json($resposne);
+    }
+
+    public function insertPlataform() {
+        $dao = new Dao_risk_model();
+        $response = $dao->insertPlataform($this->request);
+        $this->json($response);
+    }
+
+    public function updatePlataform() {
+        $dao = new Dao_risk_model();
+        $response = $dao->updatePlataform($this->request);
+        $this->json($response);
+    }
+
+    public function listPlataforms() {
+        $dao = new Dao_risk_model();
+        $response = $dao->listPlataforms();
+        $this->json($response);
     }
 
 }

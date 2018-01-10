@@ -44,7 +44,7 @@ class Response {
     }
 
     public function get() {
-        return "HOLLA";
+//        return "HOLLA";
         return $this->json($this);
     }
 
@@ -62,14 +62,17 @@ class Response {
 
     function setCode($code) {
         $this->code = $code;
+        return $this;
     }
 
     function setMessage($message) {
         $this->message = $message;
+        return $this;
     }
 
     function setData($data) {
         $this->data = $data;
+        return $this;
     }
 
 }

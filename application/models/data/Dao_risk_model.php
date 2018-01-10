@@ -13,6 +13,14 @@ class Dao_risk_model extends CI_Model {
     public function insertRisk($request) {
         try {
             $riesgo = new RiesgoModel();
+            //Verificamos que no exista un control con le mismo nombre en la misma plataforma...
+            $exist = $riesgo->where("k_id_plataforma", "=", $request->k_id_plataforma)
+                            ->where("nombre_riesgo", "=", $request->nombre_riesgo)->exist();
+            if ($exist) {
+                return (new Response(EMessages::ERROR))->setMessage("Ya existe un riesgo con el mismo id para esta plataforma.");
+            }
+            $request->k_id_riesgo = $request->nombre_riesgo;
+            $riesgo = new RiesgoModel();
             $datos = $riesgo->insert($request->all());
             $response = new Response(EMessages::SUCCESS);
             $response->setData($datos);
@@ -22,10 +30,33 @@ class Dao_risk_model extends CI_Model {
         }
     }
 
-    public function getAll() {
+    public function updatePlataform($request) {
+        try {
+            $response = new Response(EMessages::INSERT);
+            $plataformaModel = new PlataformaModel();
+            $plataformaModel->where("k_id_plataforma", "=", $request->k_id_plataforma)
+                    ->update($request->all());
+            return $response;
+        } catch (ZolidException $ex) {
+            return $ex;
+        }
+    }
+
+    public function insertPlataform($request) {
+        try {
+            $response = new Response(EMessages::INSERT);
+            $plataformaModel = new PlataformaModel();
+            $plataformaModel->insert($request->all());
+            return $response;
+        } catch (ZolidException $ex) {
+            return $ex;
+        }
+    }
+
+    public function getAll($request) {
         try {
             $user = new RiesgoModel();
-            $datos = $user->get();
+            $datos = $user->where("k_id_plataforma", "=", $request->idPlataforma)->get();
             $response = new Response(EMessages::SUCCESS);
             $response->setData($datos);
             return $response;
@@ -105,7 +136,7 @@ class Dao_risk_model extends CI_Model {
                     }
                 }
             }
-            return new Response(EMessages::INSERT, "ADFKJASDF", $idRiesgo);
+            return (new Response(EMessages::INSERT))->setData($idRiesgo);
         } catch (ZolidException $ex) {
             return $ex;
         }
@@ -403,7 +434,16 @@ class Dao_risk_model extends CI_Model {
     public function updateGeneralRisk($request) {
         try {
             $rm = new RiesgoModel();
-            $datos = $rm->where("k_id_riesgo", "=", $request->k_id_riesgo)
+            $exist = $rm->where("k_id_plataforma", "=", $request->k_id_plataforma)
+                    ->where("nombre_riesgo", "=", $request->nombre_riesgo)
+                    ->where("k_id", "!=", $request->k_id_registro)
+                    ->exist();
+            if ($exist) {
+                return (new Response(EMessages::ERROR))->setMessage("Ya existe un control con el mismo id para esta plataforma.");
+            }
+
+            $rm = new RiesgoModel();
+            $datos = $rm->where("k_id", "=", $request->k_id_registro)
                     ->update($request->all());
             $response = new Response(EMessages::UPDATE);
             $response->setData($datos);
@@ -485,15 +525,25 @@ class Dao_risk_model extends CI_Model {
 //                . "riesgo.k_id_riesgo = riesgo_especifico.k_id_riesgo WHERE k_id_plataforma = ")->get();
         $list = $daoRisk
                 ->join("riesgo", "riesgo.k_id_riesgo", "=", "riesgo_especifico.k_id_riesgo")
-                ->where("k_id_plataforma", "=", $request->id)
+                ->where("riesgo.k_id_plataforma", "=", $request->id)
                 ->select("riesgo.n_riesgo", "riesgo_especifico.*")
                 ->get();
+
+//        echo $daoRisk->getSQL();
 
         if (count($list) == 0) {
             $response = new Response(EMessages::NO_FOUND_REGISTERS);
 //            $response->setData($daoRisk->getSQL());
         }
         $response->setData($list);
+        return $response;
+    }
+
+    public function listPlataforms() {
+        $response = new Response(EMessages::QUERY);
+        $plataformsModel = new PlataformaModel();
+        $data = $plataformsModel->orderBy("n_nombre", "asc")->get();
+        $response->setData($data);
         return $response;
     }
 

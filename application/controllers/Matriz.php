@@ -51,15 +51,23 @@ class Matriz extends CI_Controller {
     }
 
     public function controlsView() {
-        $this->load->view('controlsView');
+        //Consultamos las plataformas...
+        $plataformaModel = new PlataformaModel();
+        $data = $plataformaModel->get();
+        $this->load->view('controlsView', ["plataformas" => json_encode($data)]);
     }
 
     public function generalControlsView() {
-        $this->load->view('generalControlsView');
+        $plataformaModel = new PlataformaModel();
+        $data = $plataformaModel->get();
+        $this->load->view('generalControlsView', ["plataformas" => json_encode($data)]);
     }
 
     public function riskView() {
-        $this->load->view('riskView');
+        //Consultamos las plataformas...
+        $plataformaModel = new PlataformaModel();
+        $data = $plataformaModel->get();
+        $this->load->view('riskView', ["plataformas" => json_encode($data)]);
     }
 
     public function generalRisksMatrixView() {
@@ -73,11 +81,14 @@ class Matriz extends CI_Controller {
     public function riskMatrixView() {
         //Consultamos la información de los select...
         $dao = new Dao_risk_model();
-        $this->load->view('riskMatrixView', ["dataForm" => $dao->getFormData($this->request)]);
+        $this->load->view('riskMatrixView', ["dataForm" => json_encode($dao->getFormData($this->request))]);
     }
 
     public function generalRisksView() {
-        $this->load->view('generalRisksView');
+        //Consultamos las plataformas...
+        $plataformaModel = new PlataformaModel();
+        $data = $plataformaModel->get();
+        $this->load->view('generalRisksView', ["plataformas" => json_encode($data)]);
     }
 
     public function gridView() {
@@ -86,6 +97,20 @@ class Matriz extends CI_Controller {
 
     public function gridByPlataform() {
         $this->load->view('gridByPlataform');
+    }
+
+    public function adminPlataform() {
+        $plataformModel = new PlataformaModel();
+        $id = $this->request->id;
+        if ($id) {
+            $data = $plataformModel->where("k_id_plataforma", "=", $id)->first();
+            return $this->load->view('newPlataforma', ["formData" => json_encode($data)]);
+        }
+        $this->load->view('newPlataforma');
+    }
+
+    public function listPlataforms() {
+        $this->load->view('listPlataforms');
     }
 
 }
