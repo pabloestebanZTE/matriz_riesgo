@@ -9,7 +9,7 @@
         <div class="container autoheight">
             <div class='tab-content' id='tab3'><br><br>
                 <div class="container">
-                    <form class="well form-horizontal" action="Risk/insertPlataform" data-action-update="Risk/updatePlataform" method="post"  id="risks" name="risks">
+                    <form class="well form-horizontal" action="Risk/insertPlataform" data-action-update="Risk/updatePlataform" method="post"  id="risks" >
                         <div class="alert alert-success alert-dismissable hidden">
                             <a href="#" class="close" >&times;</a>
                             <p class="p-b-0" id="text"></p>
@@ -70,7 +70,7 @@
                     location.href = app.urlTo('Matriz/listPlataforms');
                 });
 
-                var formData = <?= $formData ?>
+                var formData = <?= ($formData) ? $formData : 'null' ?>
 
                 var id = app.getParamURL('id');
                 if (id && formData) {
