@@ -106,13 +106,27 @@ class Matriz extends CI_Controller {
         if ($id) {
             $data = $plataformModel->where("k_id_plataforma", "=", $id)->first();
             $formData = json_encode($data);
-        }        
+        }
         return $this->load->view('newPlataforma', ["formData" => $formData]);
 //        $this->load->view('newPlataforma');
     }
 
     public function listPlataforms() {
         $this->load->view('listPlataforms');
+    }
+
+    public function tratamiento() {
+        $id = $this->request->id;
+        if (!$id) {
+            Redirect::to(URL::to("Matriz/listTratamiento"));
+            return;
+        }
+        $dao = new Dao_risk_model();
+        $this->load->view('tratamiento', ["dataForm" => json_encode($dao->getFormData($this->request))]);
+    }
+
+    public function listTratamiento() {
+        $this->load->view('listTratamiento');
     }
 
 }

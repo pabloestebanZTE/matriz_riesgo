@@ -47,6 +47,9 @@
                                 <a href="<?= URL::to('Reports/downloadReportMatriz') ?>"><i class="fa fa-fw fa-home"></i>&nbsp;&nbsp;Exportar Informe</a>
                             </li>
                             <li>
+                                <a href="<?= URL::to('Matriz/listTratamiento') ?>"><i class="fa fa-fw fa-asterisk"></i>&nbsp;&nbsp;Tratamiento</a>
+                            </li>
+                            <li>
                                 <a id="exitLink" href="<?= URL::to('Matriz/logout') ?>" /><i class="fa fa-fw fa-power-off"></i>&nbsp;&nbsp;Salir</a>
                             </li>
                         </ul>

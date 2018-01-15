@@ -20,5 +20,5 @@ class Qualification extends CI_Controller {
         $response = $dao->updateQualification($this->request);
         $this->json($response);
     }
-
+    
 }

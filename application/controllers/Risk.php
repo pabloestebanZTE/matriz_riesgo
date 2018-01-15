@@ -32,6 +32,23 @@ class Risk extends CI_Controller {
         }
     }
 
+    public function getListMatricesByRisk() {
+        //Se comprueba si no hay sesión.
+        if (!Auth::check()) {
+            $this->json(new Response(EMessages::SESSION_INACTIVE));
+            return;
+        }
+
+        $response = null;
+        if (Auth::check()) {
+            $dao = new Dao_risk_model();
+            $res = $dao->getListMatrizByRisk($this->request);
+            $this->json($res);
+        } else {
+            $response = new Response(EMessages::NOT_ALLOWED);
+        }
+    }
+
     public function insertRiskFull() {
         $dao = new Dao_risk_model();
         $response = $dao->insertRiskFull($this->request);
@@ -59,6 +76,12 @@ class Risk extends CI_Controller {
     public function listAllRisk() {
         $dao = new Dao_risk_model();
         $response = $dao->listAllRisk($this->request);
+        $this->json($response);
+    }
+
+    public function getListRisk() {
+        $dao = new Dao_risk_model();
+        $response = $dao->getListRisk($this->request);
         $this->json($response);
     }
 

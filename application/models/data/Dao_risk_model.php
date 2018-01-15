@@ -65,6 +65,31 @@ class Dao_risk_model extends CI_Model {
         }
     }
 
+    public function getListRisk($request) {
+        try {
+            $user = new RiesgoModel();
+            $datos = $user->get();
+            $response = new Response(EMessages::SUCCESS);
+            $response->setData($datos);
+            return $response;
+        } catch (ZolidException $ex) {
+            return $ex;
+        }
+    }
+
+    public function getListMatrizByRisk($request) {
+        try {
+            $model = new RiesgoEspecificoModel();
+            $datos = $model->where("k_id_riesgo", "=", $request->idRisk)->get();
+            $this->getRiskListFKDetails($datos);
+            $response = new Response(EMessages::SUCCESS);
+            $response->setData($datos);
+            return $response;
+        } catch (ZolidException $ex) {
+            return $ex;
+        }
+    }
+
     public function insertRiskFull($request) {
         try {
             //Insertamos el riesgo especifico.
