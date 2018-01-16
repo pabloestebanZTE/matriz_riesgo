@@ -108,7 +108,7 @@ class Risk extends CI_Controller {
         $resposne = $dao->getRiskByIdPlataform($this->request);
         $this->json($resposne);
     }
-
+    
     public function insertPlataform() {
         $dao = new Dao_risk_model();
         $response = $dao->insertPlataform($this->request);
@@ -124,6 +124,12 @@ class Risk extends CI_Controller {
     public function listPlataforms() {
         $dao = new Dao_risk_model();
         $response = $dao->listPlataforms();
+        $this->json($response);
+    }
+
+    public function insertTratamiento() {
+        $dao = new Dao_risk_model();
+        $response = $dao->insertTratamiento($this->request);
         $this->json($response);
     }
 

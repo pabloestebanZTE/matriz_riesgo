@@ -16,9 +16,24 @@
             </div>
             <!-- Collect the nav links for toggling -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
-                <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <div>
+                <ul class="nav navbar-nav navbar-left">
+                    <li class="dropdown">
+                        <a class="dropdown">
+                            <i class="fa fa-fw fa-bar-chart-o"></i> Mapas
+                        </a>
+                        <ul>
+                            <li>
+                                <a href="<?= URL::to('Matriz/gridRiesgosInherentes') ?>"><i class="fa fa-fw fa-line-chart"></i>&nbsp;&nbsp;Riesgos Inherentes</a>
+                            </li>
+                            <li>
+                                <a href="<?= URL::to('Matriz/gridRiesgosResiduales') ?>"><i class="fa fa-fw fa-line-chart"></i>&nbsp;&nbsp;Riesgos Residuales</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">                    
+                    <li class="dropdown">
+                        <div class="">
                             <div id="divImg"><img id="imgRol" src="<?= URL::to('assets/img/' . Auth::getRole() . '.png') ?>"/></div>
                             <div id="infoUsu">
                                 <span>
@@ -39,10 +54,7 @@
                             </li>
                             <li>
                                 <a href="<?= URL::to('Matriz/generalRisksView') ?>"><i class="fa fa-fw fa-home"></i>&nbsp;&nbsp;Riesgos</a>
-                            </li>
-                            <li>
-                                <a href="<?= URL::to('Matriz/gridByPlataform') ?>"><i class="fa fa-fw fa-home"></i>&nbsp;&nbsp;Mapa de Riesgos</a>
-                            </li>
+                            </li>                            
                             <li>
                                 <a href="<?= URL::to('Reports/downloadReportMatriz') ?>"><i class="fa fa-fw fa-home"></i>&nbsp;&nbsp;Exportar Informe</a>
                             </li>

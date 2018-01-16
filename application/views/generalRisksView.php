@@ -4,12 +4,17 @@
     <body data-base="<?= URL::base() ?>">
         <?php $this->load->view('parts/generic/header'); ?>
         <div class="container autoheight p-t-20">
+            <nav class="breadcrumb">
+                <a class="breadcrumb-item" href="<?= URL::to("Matriz/generalRiskMatrixView") ?>">Home</a>
+                <span class="breadcrumb-item" >Módulos</span>                        
+                <span class="breadcrumb-item active">Administración de Riesgos</span>
+            </nav>
             <div class="alert alert-success alert-dismissable hidden" id="principalAlert">
                 <a href="#" class="close">&times;</a>
                 <p id="text" class="m-b-0 p-b-0"></p>
             </div>
             <div class='tab-content contentPrincipal' id='tab1'>
-                <div class='container'>
+                <div class=''>
                     <form class= 'well form-horizontal' action='' method='post'  id='' name='' enctype= 'multipart/form-data'>
                         <fieldset>
                             <div class="row">

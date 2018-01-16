@@ -7,18 +7,26 @@
     <body data-base="<?= URL::base() ?>">
         <?php $this->load->view('parts/generic/header'); ?>
         <div class="container">
-
-            <div class='tab-content' id='tab3'><br><br>
-                <div class="container">
+            <div class='tab-content' id='tab3'>
+                <nav class="breadcrumb m-t-20">
+                    <a class="breadcrumb-item" href="<?= URL::to("Matriz/generalRiskMatrixView") ?>">Home</a>
+                    <span class="breadcrumb-item" >Módulos</span>                        
+                    <a class="breadcrumb-item" href="<?= URL::to("Matriz/listTratamiento"); ?>">Administración de Tratamientos</a>
+                    <span class="breadcrumb-item" >Editar</span>
+                </nav>
+                <div class="">
                     <form class="well form-horizontal" action="Risk/insertTratamiento" method="post"  id="formTratamiento" name="controls">
                         <div class="alert alert-success alert-dismissable hidden">
                             <a href="#" class="close" >&times;</a>
                             <p class="p-b-0" id="text"></p>
                         </div>
+                        <input type="hidden" id="k_id_probabilidad_riesgo_residual" name="k_id_probabilidad_riesgo_residual" />
+                        <input type="hidden" id="k_id_impacto_riesgo_residual" name="k_id_impacto_riesgo_residual" />
+                        <input type="hidden" id="k_id_riesgo_especifico" name="k_id_riesgo_especifico" />
                         <legend>Tratamiento de riesgos</legend>
                         <fieldset class="col-md-6 control-label">
                             <div class="form-group">
-                                <label for="k_id_riesgo" class="col-md-3 control-label">Riesgo:</label>
+                                <label for="cmbRiesgos" class="col-md-3 control-label">Riesgo:</label>
                                 <div class="col-md-8 selectContainer">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-fw fa-globe"></i></span>
@@ -29,19 +37,19 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="nombre_control" class="col-md-3 control-label">Nombre del riesgo:</label>
+                                <label for="txtDescripcionRiesgo" class="col-md-3 control-label">Descripción del riesgo:</label>
                                 <div class="col-md-8 selectContainer">
-                                    <input type="text" class="form-control" disabled="true" id="txtNombreRiesgo" />
+                                    <input type="text" class="form-control" disabled="true" id="txtDescripcionRiesgo" name="descripcion_riesgo" />
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="nombre_control" class="col-md-3 control-label">Riesgo Inherente:</label>
+                                <label for="txtRiesgoInherente" class="col-md-3 control-label">Riesgo Inherente:</label>
                                 <div class="col-md-8 selectContainer">
-                                    <input type="text" class="form-control" disabled="true" id="txtRiesgoInherente" />
+                                    <input type="text" class="form-control" disabled="true" id="txtRiesgoInherente"  />
                                 </div>
                             </div>                            
                             <div class="form-group">
-                                <label for="nombre_control" class="col-md-3 control-label">Riesgo Residual:</label>
+                                <label for="txtRiesgoResidual" class="col-md-3 control-label">Riesgo Residual:</label>
                                 <div class="col-md-8 selectContainer">
                                     <input type="text" class="form-control" disabled="true" id="txtRiesgoResidual" />
                                 </div>
@@ -51,7 +59,7 @@
                                 <div class="col-md-8 selectContainer">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-fw fa-wrench"></i></span>
-                                        <select class="form-control" id="n_asignacion" name="cmbOpcionesManejo" name="opcion_manejo">
+                                        <select class="form-control" id="cmbOpcionesManejo" name="opcion_manejo">
                                             <option value="">Seleccione</option>
                                             <option value="EVT">EVT</option>
                                             <option value="RE">RE</option>
@@ -80,7 +88,7 @@
                                 <div class="col-md-8 selectContainer">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-fw fa-address-book"></i></span>
-                                        <select class="form-control" id="n_tipo" name="n_tipo">
+                                        <select class="form-control" id="n_tipo" name="tipo_control">
                                             <option value="">Seleccione</option>
                                             <option value="Preventivo">Preventivo</option>
                                             <option value="Detectivo">Detectivo</option>
@@ -94,7 +102,7 @@
                                 <div class="col-md-8 selectContainer">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-fw fa-calendar"></i></span>
-                                        <input type="date" class="form-control" />
+                                        <input type="date" class="form-control" name="fecha_inicio" />
                                     </div>
                                 </div>
                             </div>
@@ -103,7 +111,7 @@
                                 <div class="col-md-8 selectContainer">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-fw fa-calendar"></i></span>
-                                        <input type="date" class="form-control" />
+                                        <input type="date" class="form-control" name="fecha_fin" />
                                     </div>
                                 </div>
                             </div>
@@ -112,7 +120,7 @@
                                 <div class="col-md-8 selectContainer">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-fw fa-user"></i></span>
-                                        <input type="text" class="form-control" />
+                                        <input type="text" class="form-control" name="responsable" />
                                     </div>
                                 </div>
                             </div>
@@ -121,7 +129,7 @@
                                 <div class="col-md-8 selectContainer">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-fw fa-cny"></i></span>
-                                        <textarea class="form-control" placeholder="Indicador para la evaluación de acciones"></textarea>
+                                        <textarea class="form-control" placeholder="Indicador para la evaluación de acciones" name="indicador"></textarea>
                                     </div>
                                 </div>
                             </div>

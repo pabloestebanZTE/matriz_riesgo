@@ -19,6 +19,7 @@ $(function () {
         },
         configView: function () {
             //Listamos las plataformas...
+            plataformas.push({"-1": "Todos"});
             dom.llenarCombo($('#cmbPlataformas'), plataformas, {text: "n_nombre", value: "k_id_plataforma"});
         }, /**
          * Listará las actividades de los usuarios que ingresan al sistema...

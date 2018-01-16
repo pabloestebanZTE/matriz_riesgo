@@ -95,8 +95,12 @@ class Matriz extends CI_Controller {
         $this->load->view('gridView');
     }
 
-    public function gridByPlataform() {
-        $this->load->view('gridByPlataform');
+    public function gridRiesgosInherentes() {
+        $this->load->view('gridRiesgosInherentes');
+    }
+
+    public function gridRiesgosResiduales() {
+        $this->load->view('gridRiesgosResiduales');
     }
 
     public function adminPlataform() {
