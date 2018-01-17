@@ -7,7 +7,7 @@ var vista = {
     },
     events: function () {
         $('#cmbPlataforma').on('change', vista.onChangePlataforma);
-        $('#listRiesgos').on('click', '.chk-risk-item', vista.onClickItemRiskList);
+        $('#listRiesgos').on('change', '.chk-risk-item', vista.onClickItemRiskList);
         $('td.item-grid').on('click', vista.onClickItemGrid);
         $('#tableRiskList').off('click', '.btn-view', vista.onClickItemTableGrid);
         $('#tableRiskList').on('click', '.btn-view', vista.onClickItemTableGrid);
@@ -158,7 +158,9 @@ var vista = {
                 + '</label>'
                 + '</div>'
                 + '</div></div>';
+        item = $(item);
         $('#listRiesgos').append(item);
+        item.find('input.chk-risk-item').trigger('click');
     },
     noFoundRecords: function () {
         vista.data = [];

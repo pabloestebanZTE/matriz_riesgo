@@ -56,7 +56,36 @@ class Dao_risk_model extends CI_Model {
     public function getAll($request) {
         try {
             $user = new RiesgoModel();
-            $datos = $user->where("k_id_plataforma", "=", $request->idPlataforma)->get();
+            if ($request->idPlataforma != "-1") {
+                $datos = $user->where("k_id_plataforma", "=", $request->idPlataforma)->get();
+            } else {
+                $datos = $user->get();
+            }
+            $response = new Response(EMessages::SUCCESS);
+            $response->setData($datos);
+            return $response;
+        } catch (ZolidException $ex) {
+            return $ex;
+        }
+    }
+
+    public function getListRisk($request) {
+        try {
+            $user = new RiesgoModel();
+            $datos = $user->get();
+            $response = new Response(EMessages::SUCCESS);
+            $response->setData($datos);
+            return $response;
+        } catch (ZolidException $ex) {
+            return $ex;
+        }
+    }
+
+    public function getListMatrizByRisk($request) {
+        try {
+            $model = new RiesgoEspecificoModel();
+            $datos = $model->where("k_id_riesgo", "=", $request->idRisk)->get();
+            $this->getRiskListFKDetails($datos);
             $response = new Response(EMessages::SUCCESS);
             $response->setData($datos);
             return $response;
@@ -402,6 +431,60 @@ class Dao_risk_model extends CI_Model {
                 "causas" => $causas
             ];
         }
+
+        //Consultamos el riesgo inherente.
+        $obj["riesgo_inherente"] = (new RefProbabilidadImpactoModel())
+                        ->where("k_id_probabilidad", "=", $data->k_id_probabilidad)
+                        ->where("k_id_impacto", "=", $data->k_id_impacto)->first();
+
+        //Consultamos el riesgo...
+        $obj["riesgo"] = (new RiesgoModel())->where("k_id_riesgo", "=", $data->k_id_riesgo)->first();
+
+        //Consultamos el riesgo residual...
+        $idRisk = $data->k_id_riesgo_especifico;
+        $db = new DB();
+        //Verificamos si disminuye la probabilidad...
+        $dProbabilidad = $db->select("select c.*, cc.k_id_causa, ce.k_id_control, ctrl.n_disminuye_probabilidad, ctrl.n_disminuye_impacto from calificacion c inner join control_especifico ce 
+                                    on c.k_id_calificacion = ce.k_id_calificacion inner join causa cc 
+                                    inner join control ctrl on ctrl.k_id_control = ce.k_id_control 
+                                    where cc.k_id_riesgo_especifico = " . $idRisk . " and ctrl.n_disminuye_probabilidad = 'Sí' 
+                                    group by ce.k_id_control 
+                                    order by c.niveles_disminuye desc limit 1;")->first();
+
+        //Verificamos si disminuye el impacto...
+        $dImpacto = $db->select("select c.*, cc.k_id_causa, ce.k_id_control, ctrl.n_disminuye_probabilidad, 
+                    ctrl.n_disminuye_impacto from calificacion c inner join control_especifico ce 
+                    on c.k_id_calificacion = ce.k_id_calificacion inner join causa cc 
+                    inner join control ctrl on ctrl.k_id_control = ce.k_id_control 
+                    where cc.k_id_riesgo_especifico = " . $idRisk . " and ctrl.n_disminuye_impacto = 'Sí' 
+                    group by ce.k_id_control 
+                    order by c.niveles_disminuye desc limit 1;")->first();
+
+        //Ahora verificamos a cual escala baja...
+        $idProbabilidad = $data->k_id_probabilidad;
+        $idImpacto = $data->k_id_impacto;
+        if ($dProbabilidad && $dProbabilidad->niveles_disminuye <= 2) {
+            $idProbabilidad += $dProbabilidad->niveles_disminuye;
+            if ($idProbabilidad > 5) {
+                $idProbabilidad = 5;
+            }
+        }
+        if ($dImpacto && $dImpacto->niveles_disminuye <= 2) {
+            $idImpacto += $dImpacto->niveles_disminuye;
+            if ($idImpacto > 5) {
+                $idImpacto = 5;
+            }
+        }
+
+        $model = new RefProbabilidadImpactoModel();
+        $riesgoResidual = $model->where("k_id_probabilidad", "=", $idProbabilidad)
+                        ->where("k_id_impacto", "=", $idImpacto)->first();
+
+        $obj["riesgo_residual"] = $riesgoResidual;
+        $obj["cmpl_riesgo_residual"] = [
+            "k_id_probabilidad" => $idProbabilidad,
+            "k_id_impacto" => $idImpacto
+        ];
         $response->setData($obj);
         return $response;
     }
@@ -519,21 +602,68 @@ class Dao_risk_model extends CI_Model {
     public function getRiskByIdPlataform($request) {
         $response = new Response(EMessages::QUERY);
         $daoRisk = new RiesgoEspecificoModel();
+        $typeFilter = ($request->typeFilter == "WITHCONTROL") ? $request->typeFilter : "NONE";
         $db = new DB();
 //        $list = $db->select("SELECT riesgo_especifico.*, reisgo.n_riesgo FROM riesgo_especifico "
 //                . "INNER JOIN riesgo ON "
 //                . "riesgo.k_id_riesgo = riesgo_especifico.k_id_riesgo WHERE k_id_plataforma = ")->get();
-        $list = $daoRisk
-                ->join("riesgo", "riesgo.k_id_riesgo", "=", "riesgo_especifico.k_id_riesgo")
-                ->where("riesgo.k_id_plataforma", "=", $request->id)
-                ->select("riesgo.n_riesgo", "riesgo_especifico.*")
-                ->get();
+        $list = null;
+        if ($typeFilter == "NONE") {
+            $list = $daoRisk
+                            ->join("riesgo", "riesgo.k_id_riesgo", "=", "riesgo_especifico.k_id_riesgo")
+                            ->where("riesgo.k_id_plataforma", "=", $request->id)
+                            ->select("riesgo.n_riesgo", "riesgo_especifico.*")->get();
+        } else if ($typeFilter == "WITHCONTROL") {
+            $list = (new DB())->select("select re.*, r.n_riesgo from riesgo_especifico re inner join 
+                                        causa c on re.k_id_riesgo_especifico = c.k_id_riesgo_especifico 
+                                        inner join control_especifico ce on ce.k_id_causa = c.k_id_causa 
+                                        inner join riesgo r on r.k_id_riesgo = re.k_id_riesgo 
+                                        inner join calificacion cc on cc.k_id_calificacion = ce.k_id_calificacion
+                                        inner join control ctrl on ce.k_id_control = ctrl.k_id_control 
+                                        where re.k_id_plataforma = $request->id group by re.k_id_riesgo_especifico")->get();
+            //Calculmos el riesgo residual de cada registro.
+            foreach ($list as $record) {
+                $idRisk = $record->k_id_riesgo_especifico;
+                $db = new DB();
+                //Verificamos si disminuye la probabilidad...
+                $dProbabilidad = $db->select("select c.*, cc.k_id_causa, ce.k_id_control, ctrl.n_disminuye_probabilidad, ctrl.n_disminuye_impacto from calificacion c inner join control_especifico ce 
+                                    on c.k_id_calificacion = ce.k_id_calificacion inner join causa cc 
+                                    inner join control ctrl on ctrl.k_id_control = ce.k_id_control 
+                                    where cc.k_id_riesgo_especifico = " . $idRisk . " and ctrl.n_disminuye_probabilidad = 'Sí' 
+                                    group by ce.k_id_control 
+                                    order by c.niveles_disminuye desc limit 1;")->first();
 
-//        echo $daoRisk->getSQL();
+                //Verificamos si disminuye el impacto...
+                $dImpacto = $db->select("select c.*, cc.k_id_causa, ce.k_id_control, ctrl.n_disminuye_probabilidad, 
+                    ctrl.n_disminuye_impacto from calificacion c inner join control_especifico ce 
+                    on c.k_id_calificacion = ce.k_id_calificacion inner join causa cc 
+                    inner join control ctrl on ctrl.k_id_control = ce.k_id_control 
+                    where cc.k_id_riesgo_especifico = " . $idRisk . " and ctrl.n_disminuye_impacto = 'Sí' 
+                    group by ce.k_id_control 
+                    order by c.niveles_disminuye desc limit 1;")->first();
+
+                //Ahora verificamos a cual escala baja...
+                $idProbabilidad = $record->k_id_probabilidad;
+                $idImpacto = $record->k_id_impacto;
+                if ($dProbabilidad && $dProbabilidad->niveles_disminuye <= 2) {
+                    $idProbabilidad += $dProbabilidad->niveles_disminuye;
+                    if ($idProbabilidad > 5) {
+                        $idProbabilidad = 5;
+                    }
+                }
+                if ($dImpacto && $dImpacto->niveles_disminuye <= 2) {
+                    $idImpacto += $dImpacto->niveles_disminuye;
+                    if ($idImpacto > 5) {
+                        $idImpacto = 5;
+                    }
+                }
+                $record->k_id_probabilidad = $idProbabilidad;
+                $record->k_id_impacto = $idImpacto;
+            }
+        }
 
         if (count($list) == 0) {
             $response = new Response(EMessages::NO_FOUND_REGISTERS);
-//            $response->setData($daoRisk->getSQL());
         }
         $response->setData($list);
         return $response;
@@ -545,6 +675,24 @@ class Dao_risk_model extends CI_Model {
         $data = $plataformsModel->orderBy("n_nombre", "asc")->get();
         $response->setData($data);
         return $response;
+    }
+
+    public function insertTratamiento($request) {
+        try {
+            $valid = new Validator();
+            //Se limpia el objeto de posibles cadenas vacias...
+            foreach ($request->all() as $key => $value) {
+                if ((!is_object($value)) && (!$valid->required(null, $value))) {
+                    $request->{$key} = DB::NULLED;
+                }
+            }
+            $response = new Response(EMessages::INSERT);
+            $request->create_at = Hash::getDate();
+            (new TratamientoRiesgosModel())->insert($request->all());
+            return $response;
+        } catch (ZolidException $ex) {
+            return $ex;
+        }
     }
 
 }

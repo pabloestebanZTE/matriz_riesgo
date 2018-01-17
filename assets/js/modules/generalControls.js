@@ -19,6 +19,7 @@ $(function () {
         },
         configView: function () {
             //Listamos las plataformas...
+            plataformas.push({"k_id_plataforma": "-1", "n_nombre": "Todos"});
             dom.llenarCombo($('#cmbPlataformas'), plataformas, {text: "n_nombre", value: "k_id_plataforma"});
         },
         /**
@@ -59,6 +60,7 @@ $(function () {
             return '<div class="btn-group">'
                     + '<a href="' + app.urlTo('Control/findControlById?idControl=' + obj.k_id_control) + '" class="btn btn-default btn-xs" data-toggle="tooltip" title="Editar Control"><span class="fa fa-fw fa-pencil-square-o"></span></a>'
                     + '<a onclick="showModalqualificationControls(\'' + obj.k_id_control + '\')" class="btn btn-default btn-xs" data-toggle="tooltip" title="ver Riesgos Asociados"' + m + '><span class="fa fa-fw fa-list-ul"></span></a>'
+                    + '<a href="' + app.urlTo('Control/duplicarControl?idControl=' + obj.k_id_control) + '" class="btn btn-default btn-xs" data-toggle="tooltip" title="Duplicar"><span class="fa fa-fw fa-copy"></span></a>'
                     + '</div>';
         },
         fillTable: function (data) {

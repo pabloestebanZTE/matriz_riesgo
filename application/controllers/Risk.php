@@ -32,6 +32,23 @@ class Risk extends CI_Controller {
         }
     }
 
+    public function getListMatricesByRisk() {
+        //Se comprueba si no hay sesión.
+        if (!Auth::check()) {
+            $this->json(new Response(EMessages::SESSION_INACTIVE));
+            return;
+        }
+
+        $response = null;
+        if (Auth::check()) {
+            $dao = new Dao_risk_model();
+            $res = $dao->getListMatrizByRisk($this->request);
+            $this->json($res);
+        } else {
+            $response = new Response(EMessages::NOT_ALLOWED);
+        }
+    }
+
     public function insertRiskFull() {
         $dao = new Dao_risk_model();
         $response = $dao->insertRiskFull($this->request);
@@ -56,9 +73,31 @@ class Risk extends CI_Controller {
         $this->load->view('riskView', $answer);
     }
 
+    public function duplicarRiesgo() {
+        $v = strpos($this->request->url, "duplicarRiesgo") != false;
+        $id = $this->request->idRiesgo;
+        $dao = new Dao_risk_model();
+        $response = $dao->findById($id);
+        $answer['riesgo'] = json_encode($response->data);
+        //Consultamos las plataformas...
+        $plataformaModel = new PlataformaModel();
+        $data = $plataformaModel->get();
+        $answer['plataformas'] = json_encode($data);
+        if ($v) {
+            $answer["duplicar"] = true;
+        }
+        $this->load->view('riskView', $answer);
+    }
+
     public function listAllRisk() {
         $dao = new Dao_risk_model();
         $response = $dao->listAllRisk($this->request);
+        $this->json($response);
+    }
+
+    public function getListRisk() {
+        $dao = new Dao_risk_model();
+        $response = $dao->getListRisk($this->request);
         $this->json($response);
     }
 
@@ -101,6 +140,12 @@ class Risk extends CI_Controller {
     public function listPlataforms() {
         $dao = new Dao_risk_model();
         $response = $dao->listPlataforms();
+        $this->json($response);
+    }
+
+    public function insertTratamiento() {
+        $dao = new Dao_risk_model();
+        $response = $dao->insertTratamiento($this->request);
         $this->json($response);
     }
 

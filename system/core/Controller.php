@@ -79,15 +79,15 @@ class CI_Controller {
 
         $this->load = & load_class('Loader', 'core');
         $this->load->initialize();
-        $this->load->model('bin/Request');
         $this->load->model('bin/DB');
+        $this->load->model('bin/URL');
+        $this->load->model('bin/Request');
         $this->load->model('bin/Response');
         $this->load->model('bin/EMessages');
         $this->load->model('bin/Validator');
         $this->load->model('bin/Crud');
         $this->load->model('bin/Model');
         $this->load->model('bin/Auth');
-        $this->load->model('bin/URL');
         $this->load->model('bin/Hash');
         $this->load->model('bin/Session');
         $this->load->model('bin/Redirect');

@@ -4,8 +4,13 @@
     <body data-base="<?= URL::base() ?>">
         <?php $this->load->view('parts/generic/header'); ?>
         <div class="container autoheight p-t-20">
+            <nav class="breadcrumb">
+                <a class="breadcrumb-item" href="<?= URL::to("Matriz/generalRiskMatrixView") ?>">Home</a>
+                <span class="breadcrumb-item" >Módulos</span>                        
+                <span class="breadcrumb-item active">Calificación de controles</span>
+            </nav>
             <div class='tab-content contentPrincipal' id='tab1'>
-                <div class='container'>
+                <div class=''>
                     <form class="well form-horizontal" id="qualification" action="Qualification/insertQualification" data-action-update="Qualification/updateQualification" method="post">
                         <div class="alert alert-success alert-dismissable hidden" id="principalAlert">
                             <a href="#" class="close">&times;</a>

@@ -172,11 +172,224 @@ class Reports extends CI_Controller {
         $objPhpExcel->setActiveSheetIndex(0);
         //Guardamos.
         $objWriter = new PHPExcel_Writer_Excel2007($objPhpExcel);
-        $filename = 'Reporte Comentarios - (' . date("Y-m-d") . ').xlsx';
+        $filename = 'Reporte Matriz de Riesgos - (' . date("Y-m-d") . ').xlsx';
         $objWriter->save($filename);
         echo "<a href=\"" . Redirect::to(URL::to($filename)) . "\">Descargar</a>";
     }
+    
+    function createHeaderTable1(&$objPhpExcel) {
+        $objPhpExcel->getActiveSheet()->mergeCells('A1:O1');
+        $objPhpExcel->getActiveSheet()->setCellValue('A1', 'Matriz de riesgos');
+        $objPhpExcel->getActiveSheet()->getStyle('A1:O1')->applyFromArray(
+                array(
+                    'font' => array(
+                        'bold' => true,
+                        'size' => 20
+                    ),
+                    'fill' => array(
+                        'type' => PHPExcel_Style_Fill::FILL_SOLID,
+                        'color' => array('rgb' => 'ffffff')
+                    ),
+                    'alignment' => array(
+                        'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+                        'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
+                    ),
+                    'borders' => array(
+                        'allborders' => array(
+                            'style' => PHPExcel_Style_Border::BORDER_THIN
+                        )
+                    )
+        ));
+        $objPhpExcel->getActiveSheet()->mergeCells('A2:O2');
+        $objPhpExcel->getActiveSheet()->setCellValue('A2', 'Proceso:');
+        $objPhpExcel->getActiveSheet()->getStyle('A2:O2')->applyFromArray(
+                array(
+                    'font' => array(
+                        'bold' => false,
+                        'size' => 13
+                    ),
+                    'fill' => array(
+                        'type' => PHPExcel_Style_Fill::FILL_SOLID,
+                        'color' => array('rgb' => 'ffffff')
+                    ),
+                    'alignment' => array(
+                        'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_LEFT,
+                        'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
+                    ),
+                    'borders' => array(
+                        'allborders' => array(
+                            'style' => PHPExcel_Style_Border::BORDER_THIN
+                        )
+                    )
+        ));
+        $objPhpExcel->getActiveSheet()->mergeCells('A3:O3');
+        $objPhpExcel->getActiveSheet()->setCellValue('A3', 'Responsable:');
+        $objPhpExcel->getActiveSheet()->getStyle('A3:O3')->applyFromArray(
+                array(
+                    'font' => array(
+                        'bold' => false,
+                        'size' => 13
+                    ),
+                    'fill' => array(
+                        'type' => PHPExcel_Style_Fill::FILL_SOLID,
+                        'color' => array('rgb' => 'ffffff')
+                    ),
+                    'alignment' => array(
+                        'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_LEFT,
+                        'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
+                    ),
+                    'borders' => array(
+                        'allborders' => array(
+                            'style' => PHPExcel_Style_Border::BORDER_THIN
+                        )
+                    )
+        ));
 
+        $gdImage = imagecreatefrompng('assets/img/logo_reporte.png');
+        $objDrawing = new PHPExcel_Worksheet_MemoryDrawing();
+        $objDrawing->setName('Sample image');
+        $objDrawing->setDescription('Sample image');
+        $objDrawing->setImageResource($gdImage);
+        $objDrawing->setOffsetX(15);
+        $objDrawing->setRenderingFunction(PHPExcel_Worksheet_MemoryDrawing::RENDERING_PNG);
+        $objDrawing->setMimeType(PHPExcel_Worksheet_MemoryDrawing::MIMETYPE_DEFAULT);
+        $objDrawing->setHeight(90);
+        $objDrawing->setCoordinates('P1');
+        $objDrawing->setWorksheet($objPhpExcel->getActiveSheet());
+
+        $objPhpExcel->getActiveSheet()->getStyle('P1:R2')->applyFromArray(
+                array(
+                    'fill' => array(
+                        'type' => PHPExcel_Style_Fill::FILL_SOLID,
+                        'color' => array('rgb' => 'ffffff')
+                    ),
+                    'alignment' => array(
+                        'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_LEFT,
+                        'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
+                    ),
+                    'borders' => array(
+                        'allborders' => array(
+                            'style' => PHPExcel_Style_Border::BORDER_THIN
+                        )
+                    )
+        ));
+
+
+        $objPhpExcel->getActiveSheet()->mergeCells('P1:R2');
+
+        $objPhpExcel->getActiveSheet()->getColumnDimension('P')->setWidth(20);
+        $objPhpExcel->getActiveSheet()->getColumnDimension('Q')->setWidth(20);
+        $objPhpExcel->getActiveSheet()->getColumnDimension('R')->setWidth(20);
+
+        $objPhpExcel->getActiveSheet()->getRowDimension('1')->setRowHeight(40);
+        $objPhpExcel->getActiveSheet()->getRowDimension('2')->setRowHeight(30);
+        $objPhpExcel->getActiveSheet()->getRowDimension('3')->setRowHeight(30);
+
+        $objPhpExcel->getActiveSheet()->setCellValue("P3", "Versión: 1");
+        $objPhpExcel->getActiveSheet()->mergeCells('P3:R3');
+
+        $objPhpExcel->getActiveSheet()->getStyle('P3:R3')->applyFromArray(
+                array(
+                    'fill' => array(
+                        'type' => PHPExcel_Style_Fill::FILL_SOLID,
+                        'color' => array('rgb' => 'ffffff')
+                    ),
+                    'alignment' => array(
+                        'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+                        'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
+                    ),
+                    'borders' => array(
+                        'allborders' => array(
+                            'style' => PHPExcel_Style_Border::BORDER_THIN
+                        )
+                    )
+        ));
+
+        $objPhpExcel->getActiveSheet()->mergeCells('Q5:R5');
+        $objPhpExcel->getActiveSheet()->getStyle('Q5:R5')->applyFromArray(
+                array(
+                    'font' => array(
+                        'bold' => true,
+                        'size' => 13
+                    ),
+                    'fill' => array(
+                        'type' => PHPExcel_Style_Fill::FILL_SOLID,
+                        'color' => array('rgb' => 'fffccc')
+                    ),
+                    'alignment' => array(
+                        'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+                        'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
+                    ),
+                    'borders' => array(
+                        'allborders' => array(
+                            'style' => PHPExcel_Style_Border::BORDER_THIN
+                        )
+                    )
+        ));
+
+        //Creando las cabeceras de la tabla... 85c2ff
+        $objPhpExcel->getActiveSheet()->getStyle('A5:P5')->applyFromArray(
+                array(
+                    'font' => array(
+                        'bold' => true,
+                        'size' => 13
+                    ),
+                    'fill' => array(
+                        'type' => PHPExcel_Style_Fill::FILL_SOLID,
+                        'color' => array('rgb' => 'b4c6e7')
+                    ),
+                    'alignment' => array(
+                        'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+                        'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
+                    ),
+                    'borders' => array(
+                        'allborders' => array(
+                            'style' => PHPExcel_Style_Border::BORDER_THIN
+                        )
+                    )
+        ));
+
+        //Escribir cabecearas.
+        $objPhpExcel->getActiveSheet()->setCellValue("A5", "Zona Geográfica");
+        $objPhpExcel->getActiveSheet()->setCellValue("B5", "Macro proceso");
+        $objPhpExcel->getActiveSheet()->setCellValue("C5", "Proceso");
+        $objPhpExcel->getActiveSheet()->setCellValue("D5", "Servicios");
+        $objPhpExcel->getActiveSheet()->setCellValue("E5", "Objetivo");
+        $objPhpExcel->getActiveSheet()->setCellValue("F5", "ID");
+        $objPhpExcel->getActiveSheet()->setCellValue("G5", "Responsable");
+        $objPhpExcel->getActiveSheet()->setCellValue("H5", "Riesgo");
+        $objPhpExcel->getActiveSheet()->setCellValue("I5", "Descripción del Riesgo");
+        $objPhpExcel->getActiveSheet()->setCellValue("J5", "Tipo de Actividad");
+        $objPhpExcel->getActiveSheet()->setCellValue("K5", "Tipo de Evento (nivel 1)");
+        $objPhpExcel->getActiveSheet()->setCellValue("L5", "Tipo de Evento (nivel 2)");
+        $objPhpExcel->getActiveSheet()->setCellValue("M5", "Causa");
+        $objPhpExcel->getActiveSheet()->setCellValue("N5", "Factor de Riesgo");
+        $objPhpExcel->getActiveSheet()->setCellValue("O5", "Probabilidad");
+        $objPhpExcel->getActiveSheet()->setCellValue("P5", "Impacto");
+        $objPhpExcel->getActiveSheet()->setCellValue("Q5", "Severidad del Riesgo Inherente");
+//
+//        //Aplicamos las dimenciones a las celdas...
+//        //SET WIDTHs
+        $objPhpExcel->getActiveSheet()->getColumnDimension('A')->setWidth(20);
+        $objPhpExcel->getActiveSheet()->getColumnDimension('B')->setWidth(20);
+        $objPhpExcel->getActiveSheet()->getColumnDimension('C')->setWidth(20);
+        $objPhpExcel->getActiveSheet()->getColumnDimension('D')->setWidth(20);
+        $objPhpExcel->getActiveSheet()->getColumnDimension('E')->setWidth(20);
+        $objPhpExcel->getActiveSheet()->getColumnDimension('F')->setWidth(20);
+        $objPhpExcel->getActiveSheet()->getColumnDimension('G')->setWidth(20);
+        $objPhpExcel->getActiveSheet()->getColumnDimension('H')->setWidth(20);
+        $objPhpExcel->getActiveSheet()->getColumnDimension('I')->setWidth(30);
+        $objPhpExcel->getActiveSheet()->getColumnDimension('J')->setWidth(30);
+        $objPhpExcel->getActiveSheet()->getColumnDimension('K')->setWidth(30);
+        $objPhpExcel->getActiveSheet()->getColumnDimension('L')->setWidth(30);
+        $objPhpExcel->getActiveSheet()->getColumnDimension('M')->setWidth(40);
+        $objPhpExcel->getActiveSheet()->getColumnDimension('N')->setWidth(20);
+        $objPhpExcel->getActiveSheet()->getColumnDimension('O')->setWidth(20);
+        $objPhpExcel->getActiveSheet()->getColumnDimension('P')->setWidth(30);
+        //SET HEIGHTs
+        $objPhpExcel->getActiveSheet()->getRowDimension('5')->setRowHeight(30);
+    }
+    
     public function createHeaderTable2(&$objPhpExcel) {
         $objPhpExcel->getActiveSheet()->mergeCells('T1:AF1');
         $objPhpExcel->getActiveSheet()->setCellValue('T1', 'Inventario de Controles');
@@ -608,219 +821,6 @@ class Reports extends CI_Controller {
         $objPhpExcel->getActiveSheet()->getColumnDimension('AU')->setWidth(25);
         //SET HEIGHTs
 //        $objPhpExcel->getActiveSheet()->getRowDimension('5')->setRowHeight(30);
-    }
-
-    function createHeaderTable1(&$objPhpExcel) {
-        $objPhpExcel->getActiveSheet()->mergeCells('A1:O1');
-        $objPhpExcel->getActiveSheet()->setCellValue('A1', 'Matriz de riesgos');
-        $objPhpExcel->getActiveSheet()->getStyle('A1:O1')->applyFromArray(
-                array(
-                    'font' => array(
-                        'bold' => true,
-                        'size' => 20
-                    ),
-                    'fill' => array(
-                        'type' => PHPExcel_Style_Fill::FILL_SOLID,
-                        'color' => array('rgb' => 'ffffff')
-                    ),
-                    'alignment' => array(
-                        'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
-                        'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
-                    ),
-                    'borders' => array(
-                        'allborders' => array(
-                            'style' => PHPExcel_Style_Border::BORDER_THIN
-                        )
-                    )
-        ));
-        $objPhpExcel->getActiveSheet()->mergeCells('A2:O2');
-        $objPhpExcel->getActiveSheet()->setCellValue('A2', 'Proceso:');
-        $objPhpExcel->getActiveSheet()->getStyle('A2:O2')->applyFromArray(
-                array(
-                    'font' => array(
-                        'bold' => false,
-                        'size' => 13
-                    ),
-                    'fill' => array(
-                        'type' => PHPExcel_Style_Fill::FILL_SOLID,
-                        'color' => array('rgb' => 'ffffff')
-                    ),
-                    'alignment' => array(
-                        'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_LEFT,
-                        'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
-                    ),
-                    'borders' => array(
-                        'allborders' => array(
-                            'style' => PHPExcel_Style_Border::BORDER_THIN
-                        )
-                    )
-        ));
-        $objPhpExcel->getActiveSheet()->mergeCells('A3:O3');
-        $objPhpExcel->getActiveSheet()->setCellValue('A3', 'Responsable:');
-        $objPhpExcel->getActiveSheet()->getStyle('A3:O3')->applyFromArray(
-                array(
-                    'font' => array(
-                        'bold' => false,
-                        'size' => 13
-                    ),
-                    'fill' => array(
-                        'type' => PHPExcel_Style_Fill::FILL_SOLID,
-                        'color' => array('rgb' => 'ffffff')
-                    ),
-                    'alignment' => array(
-                        'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_LEFT,
-                        'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
-                    ),
-                    'borders' => array(
-                        'allborders' => array(
-                            'style' => PHPExcel_Style_Border::BORDER_THIN
-                        )
-                    )
-        ));
-
-        $gdImage = imagecreatefrompng('assets/img/logo_reporte.png');
-        $objDrawing = new PHPExcel_Worksheet_MemoryDrawing();
-        $objDrawing->setName('Sample image');
-        $objDrawing->setDescription('Sample image');
-        $objDrawing->setImageResource($gdImage);
-        $objDrawing->setOffsetX(15);
-        $objDrawing->setRenderingFunction(PHPExcel_Worksheet_MemoryDrawing::RENDERING_PNG);
-        $objDrawing->setMimeType(PHPExcel_Worksheet_MemoryDrawing::MIMETYPE_DEFAULT);
-        $objDrawing->setHeight(90);
-        $objDrawing->setCoordinates('P1');
-        $objDrawing->setWorksheet($objPhpExcel->getActiveSheet());
-
-        $objPhpExcel->getActiveSheet()->getStyle('P1:R2')->applyFromArray(
-                array(
-                    'fill' => array(
-                        'type' => PHPExcel_Style_Fill::FILL_SOLID,
-                        'color' => array('rgb' => 'ffffff')
-                    ),
-                    'alignment' => array(
-                        'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_LEFT,
-                        'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
-                    ),
-                    'borders' => array(
-                        'allborders' => array(
-                            'style' => PHPExcel_Style_Border::BORDER_THIN
-                        )
-                    )
-        ));
-
-
-        $objPhpExcel->getActiveSheet()->mergeCells('P1:R2');
-
-        $objPhpExcel->getActiveSheet()->getColumnDimension('P')->setWidth(20);
-        $objPhpExcel->getActiveSheet()->getColumnDimension('Q')->setWidth(20);
-        $objPhpExcel->getActiveSheet()->getColumnDimension('R')->setWidth(20);
-
-        $objPhpExcel->getActiveSheet()->getRowDimension('1')->setRowHeight(40);
-        $objPhpExcel->getActiveSheet()->getRowDimension('2')->setRowHeight(30);
-        $objPhpExcel->getActiveSheet()->getRowDimension('3')->setRowHeight(30);
-
-        $objPhpExcel->getActiveSheet()->setCellValue("P3", "Versión: 1");
-        $objPhpExcel->getActiveSheet()->mergeCells('P3:R3');
-
-        $objPhpExcel->getActiveSheet()->getStyle('P3:R3')->applyFromArray(
-                array(
-                    'fill' => array(
-                        'type' => PHPExcel_Style_Fill::FILL_SOLID,
-                        'color' => array('rgb' => 'ffffff')
-                    ),
-                    'alignment' => array(
-                        'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
-                        'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
-                    ),
-                    'borders' => array(
-                        'allborders' => array(
-                            'style' => PHPExcel_Style_Border::BORDER_THIN
-                        )
-                    )
-        ));
-
-        $objPhpExcel->getActiveSheet()->mergeCells('Q5:R5');
-        $objPhpExcel->getActiveSheet()->getStyle('Q5:R5')->applyFromArray(
-                array(
-                    'font' => array(
-                        'bold' => true,
-                        'size' => 13
-                    ),
-                    'fill' => array(
-                        'type' => PHPExcel_Style_Fill::FILL_SOLID,
-                        'color' => array('rgb' => 'fffccc')
-                    ),
-                    'alignment' => array(
-                        'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
-                        'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
-                    ),
-                    'borders' => array(
-                        'allborders' => array(
-                            'style' => PHPExcel_Style_Border::BORDER_THIN
-                        )
-                    )
-        ));
-
-        //Creando las cabeceras de la tabla... 85c2ff
-        $objPhpExcel->getActiveSheet()->getStyle('A5:P5')->applyFromArray(
-                array(
-                    'font' => array(
-                        'bold' => true,
-                        'size' => 13
-                    ),
-                    'fill' => array(
-                        'type' => PHPExcel_Style_Fill::FILL_SOLID,
-                        'color' => array('rgb' => 'b4c6e7')
-                    ),
-                    'alignment' => array(
-                        'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
-                        'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
-                    ),
-                    'borders' => array(
-                        'allborders' => array(
-                            'style' => PHPExcel_Style_Border::BORDER_THIN
-                        )
-                    )
-        ));
-
-        //Escribir cabecearas.
-        $objPhpExcel->getActiveSheet()->setCellValue("A5", "Zona Geográfica");
-        $objPhpExcel->getActiveSheet()->setCellValue("B5", "Macro proceso");
-        $objPhpExcel->getActiveSheet()->setCellValue("C5", "Proceso");
-        $objPhpExcel->getActiveSheet()->setCellValue("D5", "Servicios");
-        $objPhpExcel->getActiveSheet()->setCellValue("E5", "Objetivo");
-        $objPhpExcel->getActiveSheet()->setCellValue("F5", "ID");
-        $objPhpExcel->getActiveSheet()->setCellValue("G5", "Responsable");
-        $objPhpExcel->getActiveSheet()->setCellValue("H5", "Riesgo");
-        $objPhpExcel->getActiveSheet()->setCellValue("I5", "Descripción del Riesgo");
-        $objPhpExcel->getActiveSheet()->setCellValue("J5", "Tipo de Actividad");
-        $objPhpExcel->getActiveSheet()->setCellValue("K5", "Tipo de Evento (nivel 1)");
-        $objPhpExcel->getActiveSheet()->setCellValue("L5", "Tipo de Evento (nivel 2)");
-        $objPhpExcel->getActiveSheet()->setCellValue("M5", "Causa");
-        $objPhpExcel->getActiveSheet()->setCellValue("N5", "Factor de Riesgo");
-        $objPhpExcel->getActiveSheet()->setCellValue("O5", "Probabilidad");
-        $objPhpExcel->getActiveSheet()->setCellValue("P5", "Impacto");
-        $objPhpExcel->getActiveSheet()->setCellValue("Q5", "Severidad del Riesgo Inherente");
-//
-//        //Aplicamos las dimenciones a las celdas...
-//        //SET WIDTHs
-        $objPhpExcel->getActiveSheet()->getColumnDimension('A')->setWidth(20);
-        $objPhpExcel->getActiveSheet()->getColumnDimension('B')->setWidth(20);
-        $objPhpExcel->getActiveSheet()->getColumnDimension('C')->setWidth(20);
-        $objPhpExcel->getActiveSheet()->getColumnDimension('D')->setWidth(20);
-        $objPhpExcel->getActiveSheet()->getColumnDimension('E')->setWidth(20);
-        $objPhpExcel->getActiveSheet()->getColumnDimension('F')->setWidth(20);
-        $objPhpExcel->getActiveSheet()->getColumnDimension('G')->setWidth(20);
-        $objPhpExcel->getActiveSheet()->getColumnDimension('H')->setWidth(20);
-        $objPhpExcel->getActiveSheet()->getColumnDimension('I')->setWidth(30);
-        $objPhpExcel->getActiveSheet()->getColumnDimension('J')->setWidth(30);
-        $objPhpExcel->getActiveSheet()->getColumnDimension('K')->setWidth(30);
-        $objPhpExcel->getActiveSheet()->getColumnDimension('L')->setWidth(30);
-        $objPhpExcel->getActiveSheet()->getColumnDimension('M')->setWidth(40);
-        $objPhpExcel->getActiveSheet()->getColumnDimension('N')->setWidth(20);
-        $objPhpExcel->getActiveSheet()->getColumnDimension('O')->setWidth(20);
-        $objPhpExcel->getActiveSheet()->getColumnDimension('P')->setWidth(30);
-        //SET HEIGHTs
-        $objPhpExcel->getActiveSheet()->getRowDimension('5')->setRowHeight(30);
     }
 
     function getFkRecords(&$array) {

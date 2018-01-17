@@ -19,6 +19,7 @@ $(function () {
         },
         configView: function () {
             //Listamos las plataformas...
+            plataformas.push({"k_id_plataforma": "-1", "n_nombre": "Todos"});
             dom.llenarCombo($('#cmbPlataformas'), plataformas, {text: "n_nombre", value: "k_id_plataforma"});
         }, /**
          * Listará las actividades de los usuarios que ingresan al sistema...
@@ -51,6 +52,7 @@ $(function () {
         getButtons: function (obj) {
             return '<div class="btn-group">'
                     + '<a href="' + app.urlTo('Risk/findRiskById?idRiesgo=' + obj.k_id_riesgo) + '" class="btn btn-default btn-xs" data-toggle="tooltip" title="Editar Control"><span class="fa fa-fw fa-pencil-square-o"></span></a>'
+                    + '<a href="' + app.urlTo('Risk/duplicarRiesgo?idRiesgo=' + obj.k_id_riesgo) + '" class="btn btn-default btn-xs" data-toggle="tooltip" title="Duplicar"><span class="fa fa-fw fa-copy"></span></a>'
                     + '</div>';
         },
         fillTable: function (data) {

@@ -20,6 +20,7 @@ class Request {
                 $this->data[$key] = $value;
             }
         }
+        $this->data["url"] = URL::getFull();
     }
 
     public function __get($key) {
