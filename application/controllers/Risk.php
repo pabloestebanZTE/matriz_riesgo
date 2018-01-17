@@ -73,6 +73,22 @@ class Risk extends CI_Controller {
         $this->load->view('riskView', $answer);
     }
 
+    public function duplicarRiesgo() {
+        $v = strpos($this->request->url, "duplicarRiesgo") != false;
+        $id = $this->request->idRiesgo;
+        $dao = new Dao_risk_model();
+        $response = $dao->findById($id);
+        $answer['riesgo'] = json_encode($response->data);
+        //Consultamos las plataformas...
+        $plataformaModel = new PlataformaModel();
+        $data = $plataformaModel->get();
+        $answer['plataformas'] = json_encode($data);
+        if ($v) {
+            $answer["duplicar"] = true;
+        }
+        $this->load->view('riskView', $answer);
+    }
+
     public function listAllRisk() {
         $dao = new Dao_risk_model();
         $response = $dao->listAllRisk($this->request);
@@ -108,7 +124,7 @@ class Risk extends CI_Controller {
         $resposne = $dao->getRiskByIdPlataform($this->request);
         $this->json($resposne);
     }
-    
+
     public function insertPlataform() {
         $dao = new Dao_risk_model();
         $response = $dao->insertPlataform($this->request);

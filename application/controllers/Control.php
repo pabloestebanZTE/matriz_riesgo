@@ -50,6 +50,22 @@ class Control extends CI_Controller {
         $this->load->view('controlsView', $answer);
     }
 
+    public function duplicarControl() {
+        $v = strpos($this->request->url, "duplicarControl") != false;
+        $id = $this->request->idControl;
+        $vm = new Dao_control_model();
+        $response = $vm->findById($id);
+        $answer['control'] = json_encode($response->data);
+        //Consultamos las plataformas...
+        $plataformaModel = new PlataformaModel();
+        $data = $plataformaModel->get();
+        $answer['plataformas'] = json_encode($data);
+        if ($v) {
+            $answer["duplicar"] = true;
+        }
+        $this->load->view('controlsView', $answer);
+    }
+
     public function qualificationControl() {
         $dao = new Dao_risk_model();
         $dao->getControlEspecifico($this->request);

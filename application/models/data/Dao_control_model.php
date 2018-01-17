@@ -36,8 +36,8 @@ class Dao_control_model extends CI_Model {
             $datos = $db->select("SELECT co.*, count(coe.k_id_control) k_control_asinado
                                 FROM control co
                                 LEFT JOIN control_especifico coe ON co.k_id_control = coe.k_id_control 
-                                WHERE co.k_id_plataforma =  $request->idPlataforma
-                                GROUP BY co.k_id_control")->get();
+                                " . (($request->idPlataforma != "-1") ? "WHERE co.k_id_plataforma =  $request->idPlataforma" : "") . "
+                                 GROUP BY co.k_id_control")->get();
             $response = new Response(EMessages::SUCCESS);
             $response->setData($datos);
             return $response;

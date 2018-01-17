@@ -56,7 +56,11 @@ class Dao_risk_model extends CI_Model {
     public function getAll($request) {
         try {
             $user = new RiesgoModel();
-            $datos = $user->where("k_id_plataforma", "=", $request->idPlataforma)->get();
+            if ($request->idPlataforma != "-1") {
+                $datos = $user->where("k_id_plataforma", "=", $request->idPlataforma)->get();
+            } else {
+                $datos = $user->get();
+            }
             $response = new Response(EMessages::SUCCESS);
             $response->setData($datos);
             return $response;

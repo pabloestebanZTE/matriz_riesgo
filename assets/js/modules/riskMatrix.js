@@ -28,7 +28,6 @@ var vista = {
         vista.addTipoActividad().select2({width: '100%'});
     },
     onClickBtnRemoveActividad: function () {
-        console.log('Remove Actividad');
         var btn = $(this);
         var parent = btn.parents('.group-tipo-actividad');
         if ($('.group-tipo-actividad').length > 1) {
@@ -36,11 +35,9 @@ var vista = {
             var groups = $('.group-tipo-actividad');
             for (var i = 0; i < groups.length; i++) {
                 var group = $(groups[i]);
-                console.log('CHANGE LABEL;')
                 group.find('label').html('Tipo de Actividad [' + (i + 1) + ']');
             }
         } else {
-            console.log('CHANGE LABEL SINGLE;')
             parent.find('Tipo de Actividad [1]');
         }
     },
@@ -66,7 +63,6 @@ var vista = {
                 + '</div>'
                 + '</div></div>'
                 + '</div>';
-        console.log(html);
         var select = $(html);
         $('#tiposDeActividad').append(select);
         return select.find('select');
@@ -243,7 +239,6 @@ var vista = {
         app.stopEvent(e);
         var form1 = $('#form1');
         var form2 = $('#form2');
-//        var form3 = $('#form3');
 
         var obj = new Object();
         __mergeObj(obj, form1.getFormData());
@@ -382,14 +377,11 @@ var vista = {
         $("div.bhoechie-tab-content").eq(index).addClass("active");
         if ($(this).attr("id") === 'contentAll') {
             $("div.bhoechie-tab-content").addClass("active");
-            //            $("button").css("display","none");
         }
         $('.cmb-control').prop('disabled', false).trigger('selectfilled');
         $('.cmb-factor-riesgo').prop('disabled', false).trigger('selectfilled');
     },
     configView: function () {
-//        dataForm = JSON.parse(dataForm);
-        console.log(dataForm);
         dom.llenarCombo($('#cmbPlataforma'), dataForm.plataforma, {text: "text", value: "value"});
         dom.llenarCombo($('#cmbRiesgoId'), dataForm.riesgos, {text: "text", value: "value"});
         dom.llenarCombo($('#cmbTipoEventoNivel1'), dataForm.tipo_evento1, {text: "text", value: "value"});

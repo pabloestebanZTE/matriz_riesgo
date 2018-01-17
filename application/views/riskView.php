@@ -11,7 +11,7 @@
                 <a class="breadcrumb-item" href="<?= URL::to("Matriz/generalRiskMatrixView") ?>">Home</a>
                 <span class="breadcrumb-item" >Módulos</span>                        
                 <a class="breadcrumb-item" href="<?= URL::to("Matriz/generalControlsView"); ?>">Administración de Riesgos</a>
-                <span class="breadcrumb-item" >Editar</span>
+                <span class="breadcrumb-item" ><?= isset($duplicar) ? "Duplicar riesgo" : "Editar" ?></span>
             </nav>
             <div class='tab-content' id='tab3'>
                 <div class="">
@@ -85,7 +85,7 @@
                             <div class="form-group">
                                 <label class="col-md-12 control-label"></label>
                                 <div class="col-md-12">
-                                    <button type="submit" id="btnGuardar" class="btn btn-success" onclick = "">Guardar <span class="fa fa-fw fa-save"></span></button>
+                                    <button type="submit" id="btnGuardar" class="btn btn-success" onclick = ""><?= isset($duplicar) ? "Duplicar" : "Guardar" ?> <span class="fa fa-fw fa-save"></span></button>
                                 </div>
                             </div>
                         </center>
@@ -120,12 +120,15 @@
         <script type="text/javascript">
             $(function () {
                 var riesgo = <?php echo (isset($riesgo) ? $riesgo : 'null'); ?>;
+                var duplicar = <?= isset($duplicar) ? true : false ?>;
                 console.log(riesgo);
 
                 if (riesgo !== null) {
-                    $("#risks").attr("action", "Risk/updateGeneralRisk");
+                    $("#risks").attr("action", ((duplicar) ? "Risk/insertRisk" : "Risk/updateGeneralRisk"));
                     $('#risks').fillForm(riesgo);
-                    $('#risks').append('<input type="hidden" name="k_id_registro" value="' + riesgo.k_id + '" id="k_id_registro" />');
+                    if (!duplicar) {
+                        $('#risks').append('<input type="hidden" name="k_id_registro" value="' + riesgo.k_id + '" id="k_id_registro" />');
+                    }
                 }
 
                 if ($("#risks").attr("action") === "Risk/insertRisk") {

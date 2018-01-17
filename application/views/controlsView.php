@@ -11,7 +11,7 @@
                 <a class="breadcrumb-item" href="<?= URL::to("Matriz/generalRiskMatrixView") ?>">Home</a>
                 <span class="breadcrumb-item" >Módulos</span>                        
                 <a class="breadcrumb-item" href="<?= URL::to("Matriz/generalControlsView"); ?>">Administración de Controles</a>
-                <span class="breadcrumb-item" >Editar</span>
+                <span class="breadcrumb-item" ><?= isset($duplicar) ? "Duplicar control" : "Editar" ?></span>
             </nav>
             <div class='tab-content' id='tab3'>
                 <div class="">
@@ -261,7 +261,7 @@
                             <div class="form-group">
                                 <label class="col-md-12 control-label"></label>
                                 <div class="col-md-12">
-                                    <button type="submit" id="btnAsignar" class="btn btn-success" onclick = "">Guardar <span class="fa fa-fw fa-save"></span></button>
+                                    <button type="submit" id="btnAsignar" class="btn btn-success" onclick = ""><span class="fa fa-fw fa-save"></span> <?= isset($duplicar) ? "Duplicar" : "Guardar" ?></button>
                                 </div>
                             </div>
                         </center>
@@ -306,18 +306,20 @@
         <script type="text/javascript">
             $(function () {
                 var control = <?php echo (isset($control) ? $control : 'null'); ?>;
+                var duplicar = <?= isset($duplicar) ? "true" : "false"; ?>;
                 if (control !== null) {
-                    $("#controls").attr("action", "Control/updateControl");
+                    $("#controls").attr("action", ((duplicar) ? "Control/insertControl" : "Control/updateControl"));
                     $('#controls').append('<input type="hidden" value="' + control.k_id + '" name="k_id_registro" id="k_id_registro" />');
                     $('#controls').fillForm(control);
                 }
 
                 if ($("#controls").attr("action") === "Control/insertControl") {
-                    dom.submit($('#controls'));
-                } else {
                     dom.submit($('#controls'), function () {
-                        location.href = app.urlTo('Matriz/generalControlsView');
+                        if (duplicar) {
+                            location.href = app.urlTo('Matriz/generalControlsView');
+                        }
                     });
+                } else {
                 }
 
 
