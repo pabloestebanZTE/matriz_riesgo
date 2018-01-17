@@ -5,7 +5,7 @@
         <?php $this->load->view('parts/generic/header'); ?>
         <div class="container autoheight p-t-20">
             <nav class="breadcrumb">
-                <a class="breadcrumb-item" href="<?= URL::to("Matriz/generalRiskMatrixView") ?>">Home</a>
+                <a class="breadcrumb-item" href="<?= URL::to("Matriz/generalRisksMatrixView") ?>">Home</a>
                 <span class="breadcrumb-item" >Módulos</span>                        
                 <span class="breadcrumb-item active">Administración de Riesgos</span>
             </nav>

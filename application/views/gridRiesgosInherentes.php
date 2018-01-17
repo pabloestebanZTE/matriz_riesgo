@@ -10,7 +10,7 @@
                 <p id="text" class="m-b-0 p-b-0"></p>
             </div>
             <nav class="breadcrumb m-t-15 m-b-1">
-                <a class="breadcrumb-item" href="<?= URL::to("Matriz/generalRiskMatrixView") ?>">Home</a>
+                <a class="breadcrumb-item" href="<?= URL::to("Matriz/generalRisksMatrixView") ?>">Home</a>
                 <span class="breadcrumb-item" >Mapas</span>                        
                 <span class="breadcrumb-item active">Mapa de Riesgos Inherentes</span>
             </nav>

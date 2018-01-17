@@ -8,9 +8,9 @@
         <?php $this->load->view('parts/generic/header'); ?>
         <div class="container autoheight">
             <nav class="breadcrumb m-t-15">
-                <a class="breadcrumb-item" href="<?= URL::to("Matriz/generalRiskMatrixView") ?>">Home</a>
+                <a class="breadcrumb-item" href="<?= URL::to("Matriz/generalRisksMatrixView") ?>">Home</a>
                 <span class="breadcrumb-item" >Módulos</span>                        
-                <a class="breadcrumb-item" href="<?= URL::to("Matriz/generalControlsView"); ?>">Administración de Riesgos</a>
+                <a class="breadcrumb-item" href="<?= URL::to("Matriz/generalRisksView"); ?>">Administración de Riesgos</a>
                 <span class="breadcrumb-item" ><?= isset($duplicar) ? "Duplicar riesgo" : "Editar" ?></span>
             </nav>
             <div class='tab-content' id='tab3'>
@@ -120,7 +120,7 @@
         <script type="text/javascript">
             $(function () {
                 var riesgo = <?php echo (isset($riesgo) ? $riesgo : 'null'); ?>;
-                var duplicar = <?= isset($duplicar) ? true : false ?>;
+                var duplicar = <?= isset($duplicar) ? "true" : "false" ?>;
                 console.log(riesgo);
 
                 if (riesgo !== null) {

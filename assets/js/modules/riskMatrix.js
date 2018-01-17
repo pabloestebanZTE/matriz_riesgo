@@ -299,6 +299,9 @@ var vista = {
             obj.riesgo_especifico.n_tipo_activad = JSON.stringify(obj.riesgo_especifico["n_tipo_activad[]"]);
 
             //Se hace la petición AJAX y se envia el objeto completo con toda la información de los tres formularios para ser procesada...
+            console.log(obj);
+            obj.soporte_impacto = obj["soporte_impacto[]"];
+            delete obj["soporte_impacto[]"];
             app.post(uri, obj)
                     .complete(function () {
                         formGlobal.find('input, textarea, button, fieldset, select').prop('disabled', false);

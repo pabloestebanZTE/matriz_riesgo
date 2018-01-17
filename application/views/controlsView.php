@@ -8,7 +8,7 @@
         <?php $this->load->view('parts/generic/header'); ?>
         <div class="container">
             <nav class="breadcrumb m-t-15">
-                <a class="breadcrumb-item" href="<?= URL::to("Matriz/generalRiskMatrixView") ?>">Home</a>
+                <a class="breadcrumb-item" href="<?= URL::to("Matriz/generalRisksMatrixView") ?>">Home</a>
                 <span class="breadcrumb-item" >Módulos</span>                        
                 <a class="breadcrumb-item" href="<?= URL::to("Matriz/generalControlsView"); ?>">Administración de Controles</a>
                 <span class="breadcrumb-item" ><?= isset($duplicar) ? "Duplicar control" : "Editar" ?></span>
