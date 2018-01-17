@@ -74,7 +74,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="txtResponsablePlataforma" class="col-sm-2 control-label">Responsable Plataforma</label>
+                                        <label for="txtResponsablePlataforma" class="col-sm-2 control-label">Responsable Riesgo</label>
                                         <div class="col-sm-10">
                                             <input type="text" class="form-control" id="txtResponsablePlataforma" name="riesgo_especifico.n_responsable">
                                         </div>
@@ -93,6 +93,12 @@
                                     <div class="alert alert-success alert-dismissable hidden">
                                         <a href="#" class="close" >&times;</a>
                                         <p class="p-b-0" id="text"></p>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="" class="col-sm-2 control-label">Plataforma</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control txt-plataforma" disabled="disabled" />
+                                        </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="cmbRiesgoId" class="col-sm-2 control-label">Riesgo</label>
@@ -187,6 +193,12 @@
                                     <!--<div class="widget bg-gray text-left m-t-25 display-block">-->
                                     <h2 class="h4"><i class="fa fa-fw fa-check-square-o"></i> Causas y controles.</h2>
                                     <p class="muted m-b-0">Por favor, verifique los procesos a continuación y complete el checklist según sea el caso.</p>
+                                    <div class="form-group">
+                                        <label for="" class="col-sm-2 control-label">Plataforma</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control txt-plataforma" disabled="disabled" />
+                                        </div>
+                                    </div>
                                     <div class="widget bg-white" id="contentCausas">
                                         <div class="item-causa hidden" id="itemCausaIndex">
                                             <div class="item-icon">

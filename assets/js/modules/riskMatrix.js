@@ -23,6 +23,13 @@ var vista = {
         $('.select-severidad').on('change', vista.onChangeSelectSeveridad);
         $('#tiposDeActividad').on('click', '.btn-add-actividad', vista.onClickBtnAddActividad);
         $('#tiposDeActividad').on('click', '.btn-remove-actividad', vista.onClickBtnRemoveActividad);
+        $('#cmbPlataforma').on('change', vista.onChangeCmbPlataforma);
+        $('.list-group-item').on('click', function () {
+            $('#cmbPlataforma').trigger('change');
+        });
+    },
+    onChangeCmbPlataforma: function () {
+        $('.txt-plataforma').val($('#cmbPlataforma option:selected').text());
     },
     onClickBtnAddActividad: function () {
         vista.addTipoActividad().select2({width: '100%'});
