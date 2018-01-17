@@ -1,4 +1,5 @@
-var modeloControles = $('<select class="form-control m-r-0" data-combox="6" id="cmbControles" name="controles[]" >'
+var modeloControles = $('<select class="form-control m-r-0" data-combox="6" '
+        + 'id="cmbControles" name="controles[]" >'
         + '<option value="">Seleccione</option>'
         + '</select>');
 var contControles = 0;
@@ -24,7 +25,6 @@ var vista = {
         $('#tiposDeActividad').on('click', '.btn-remove-actividad', vista.onClickBtnRemoveActividad);
     },
     onClickBtnAddActividad: function () {
-        console.log("Add Actividad");
         vista.addTipoActividad().select2({width: '100%'});
     },
     onClickBtnRemoveActividad: function () {
@@ -304,7 +304,6 @@ var vista = {
                         formGlobal.find('input, textarea, button, fieldset, select').prop('disabled', false);
                     })
                     .success(function (response) {
-                        console.log(response);
                         var v = app.validResponse(response);
                         if (v) {
                             swal((forUpdate ? "Actualizado" : "Guardado"), (forUpdate ? "Se ha actualizado correctamente el registro." : "Se ha guardado correctamente el registro."), "success");
@@ -320,7 +319,6 @@ var vista = {
                     .error(function () {
                         swal("Error inesperado", "Lo sentimos, se ha producido un error inesperado.", "error");
                     }).send();
-            console.log(obj);
         };
         if (confirmar) {
             swal({
@@ -401,7 +399,6 @@ $(document).ready(function () {
 });
 function cambiarSoporteImpacto() {
     var impacto = $('#cmbImpacto').val();
-    console.log("AAAAAA");
     var option = '';
     if (impacto === '5') {
         option = '<option value="">Seleccione</option>'
