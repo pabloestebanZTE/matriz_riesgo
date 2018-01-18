@@ -133,6 +133,11 @@ class Matriz extends CI_Controller {
         $this->load->view('listTratamiento');
     }
 
+    public function riskTratamientos() {
+        $dao = new Dao_risk_model();
+        $this->load->view("riskTratamientos");
+    }
+
 }
 ?>
 
