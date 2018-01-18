@@ -35,7 +35,8 @@ class Control extends CI_Controller {
     public function updateControl() {
         $vm = new Dao_control_model();
         $response = $vm->updateControl($this->request);
-        $this->json($response);
+        // $this->json($response);
+        header('Location: '. URL::to("Matriz/generalControlsView"));
     }
 
     public function findControlById() {

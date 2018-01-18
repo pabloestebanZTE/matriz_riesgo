@@ -164,6 +164,8 @@ nav.navbar {
     width:64px;
     margin-top: 10px;
     margin-bottom: 10px;
+    background-color:#fff;
+    border-radius:50%
 }
 
 #logoz{
@@ -984,7 +986,7 @@ table{
     padding-bottom: 29px;
 }
 .nav li:hover{
-    background: blue;
+    background: #207be5;
 }
 .nav li:hover .dropdown{
     background: blue;
