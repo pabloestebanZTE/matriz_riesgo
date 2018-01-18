@@ -704,6 +704,21 @@ class Dao_risk_model extends CI_Model {
             return $ex;
         }
     }
+    
+    public function listRiskByIdPlataform($id) {
+        try {
+            $risk = new RiesgoModel();
+            $datos = $risk->where("k_id_plataforma", "=", $id)
+                    ->get();
+//            echo $risk->getSQL();
+            $response = new Response(EMessages::SUCCESS);
+            $response->setData($datos);
+            return $response;
+        } catch (ZolidException $ex) {
+            return $ex;
+        }
+    }
+
 
 }
 

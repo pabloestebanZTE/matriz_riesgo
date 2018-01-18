@@ -13,7 +13,7 @@
                                 <h4 class="glyphicon glyphicon-plane"></h4><br/>Establecer Contexto
                             </a>
                             <a href="#" class="list-group-item text-center">
-                                <h4 class="glyphicon glyphicon-road"></h4><br/>Identificar Riesgos
+                                <h4 class="glyphicon glyphicon-road"></h4><br/>Tipificar Riesgos
                             </a>
                             <a href="#" class="list-group-item text-center">
                                 <h4 class="glyphicon glyphicon-home"></h4><br/>Analizar Riesgos
