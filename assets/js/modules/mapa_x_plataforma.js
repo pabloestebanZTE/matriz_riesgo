@@ -130,6 +130,7 @@ var vista = {
     },
     onChangePlataforma: function () {
         $('#listRiesgos').html('<div class="risk-item"><div class="checkbox checkbox-primary"><i class="fa fa-fw fa-refresh fa-spin"></i> Consultando...</div></div>');
+        $('table td .point').remove();
         app.post('Risk/getRiskByIdPlataform', {id: $('#cmbPlataforma').val()})
                 .success(function (response) {
                     var data = app.parseResponse(response);
