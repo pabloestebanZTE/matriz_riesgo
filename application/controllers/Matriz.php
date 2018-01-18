@@ -133,6 +133,10 @@ class Matriz extends CI_Controller {
         $this->load->view('listTratamiento');
     }
 
+    public function riskTratamientos() {
+        $this->load->view("riskTratamientos");
+    }
+
 }
 ?>
 

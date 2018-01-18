@@ -16,23 +16,28 @@ var vista = {
         });
     },
     listRisk: function () {
-        app.post('Risk/getListRisk')
-                .success(function (response) {
-                    console.log(response);
-                    var data = app.parseResponse(response);
-                    var cmb = $('#cmbRiesgos');
-                    if (data) {
-                        dom.llenarCombo(cmb, data, {text: "nombre_riesgo", value: "k_id_riesgo"});
-                        cmb.on('selectfilled', vista.listMatrices);
-                    } else {
-                        dom.comboVacio(cmb);
-                    }
-                })
-                .error(function (e) {
-                    console.error(e);
-                    swal("Error", "Se ha producido un error inesperado y no se pudo consultar los riesgos", "error");
-                })
-                .send();
+        $('#cmbPlataformas').on('selectfilled', function () {
+            $('#cmbPlataformas').find('option:eq(1)').prop('selected', true).trigger('change.select2');
+            app.post('Risk/getListRisk', {
+                idPlataforma: $('#cmbPlataformas').val()
+            })
+                    .success(function (response) {
+                        console.log(response);
+                        var data = app.parseResponse(response);
+                        var cmb = $('#cmbRiesgos');
+                        if (data) {
+                            dom.llenarCombo(cmb, data, {text: "nombre_riesgo", value: "k_id_riesgo"});
+                            cmb.on('selectfilled', vista.listMatrices);
+                        } else {
+                            dom.comboVacio(cmb);
+                        }
+                    })
+                    .error(function (e) {
+                        console.error(e);
+                        swal("Error", "Se ha producido un error inesperado y no se pudo consultar los riesgos", "error");
+                    })
+                    .send();
+        });
     },
     listMatrices: function () {
         var cmb = $('#cmbRiesgos');
@@ -78,7 +83,8 @@ var vista = {
                 ));
     },
     getButtons: function (obj) {
-        return '<a href="' + app.urlTo('Matriz/tratamiento?id=' + obj.k_id_riesgo_especifico) + '" class="btn btn-default btn-xs"><i class="fa fa-fw fa-check-square"></i></a>';
+        return '<a href="' + app.urlTo('Matriz/tratamiento?id=' + obj.k_id_riesgo_especifico) + '" class="btn btn-default btn-xs"><i class="fa fa-fw fa-check-square"></i></a>'
+                + '<a href="' + app.urlTo('Matriz/riskTratamientos?id=' + obj.k_id_riesgo_especifico) + '" class="btn btn-default btn-xs"><i class="fa fa-fw fa-list"></i></a>';
     }
 };
 

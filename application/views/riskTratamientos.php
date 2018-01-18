@@ -7,7 +7,7 @@
             <nav class="breadcrumb">
                 <a class="breadcrumb-item" href="<?= URL::to("Matriz/generalRisksMatrixView") ?>">Home</a>
                 <span class="breadcrumb-item" >Módulos</span>                        
-                <span class="breadcrumb-item active">Tratamiento de riesgos</span>
+                <span class="breadcrumb-item active">Administración de Riesgos</span>
             </nav>
             <div class="alert alert-success alert-dismissable hidden" id="principalAlert">
                 <a href="#" class="close">&times;</a>
@@ -24,49 +24,35 @@
                                     </select>
                                 </div>
                                 <div class="col col-md-3">
-                                    <select class="form-control" id="cmbRiesgos">
+                                    <select class="form-control" id="cmbPlataformas">
                                         <option value="">Seleccione</option>
                                     </select>
                                 </div>
+                                <div class="col col-md-6" >
+                                    <a class="btn btn-primary" href="<?= URL::to('Matriz/riskView') ?>"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Crear Riesgo</a>
+                                </div>
                                 <div class="col col-md-12 p-t-40">
                                     <input type="hidden" value="<?= Auth::getRole() ?>" id="rol">
-                                    <table id="tablaTratamiento" class="table table-hover table-condensed table-striped"></table>
+                                    <table id="tablaPrincipal" class="table table-hover table-condensed table-striped"></table>
                                     <br/>
-                                </div>                                
+                                </div>
                             </div>
                         </fieldset>
                     </form>
                 </div>
             </div>
         </div>
-
-        <!--modal riesgos asociados-->
-        <div id="modalChangeState" class="modal fade" role="dialog">
-            <div class="modal-dialog modal-xs">
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title"><i class="fa fa-fw fa-edit"></i> Riesgos asociados</h4>
-                    </div>
-                    <div class="modal-body">
-                        <table id="tablaRiesgosAsociados" class="table table-hover table-condensed table-striped" width='100%'></table>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-fw fa-times"></i> Cerrar</button>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-        <!--modal riesgos asociados-->
-
+        <br>
+        <br>
         <!--footer Section -->
         <div class="for-full-back" id="footer">
             Zolid By ZTE Colombia | All Right Reserved
         </div>
         <?php $this->load->view('parts/generic/scripts'); ?>
         <!-- CUSTOM SCRIPT   -->
-        <script src="<?= URL::to('assets/js/modules/listTratamiento.js?v=' . time()) ?>" type="text/javascript"></script>
+        <script type="text/javascript">
+            var plataformas = <?= $plataformas; ?>
+        </script>
+        <script src="<?= URL::to('assets/js/modules/generalRisk.js?v=' . time()) ?>" type="text/javascript"></script>
     </body>
 </html>

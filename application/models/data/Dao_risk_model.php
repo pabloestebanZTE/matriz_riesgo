@@ -2,8 +2,6 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-//    session_start();
-
 class Dao_risk_model extends CI_Model {
 
     public function __construct() {
