@@ -4,6 +4,7 @@ class Request {
 
     protected $request;
     protected $data;
+    public $url;
     public $method;
 
     public function __construct($request = null) {
@@ -11,7 +12,7 @@ class Request {
             $request = $_REQUEST;
         }
         $this->request = $request;
-        $this->method = $_SERVER['REQUEST_METHOD'];
+        $this->url = $this->method = $_SERVER['REQUEST_METHOD'];
         $this->data = array();
         foreach ($request as $key => $value) {
             if (is_array($value)) {
@@ -20,7 +21,7 @@ class Request {
                 $this->data[$key] = $value;
             }
         }
-        $this->data["url"] = URL::getFull();
+        $this->url = URL::getFull();
     }
 
     public function __get($key) {

@@ -7,11 +7,11 @@
     <body data-base="<?= URL::base() ?>">
         <?php $this->load->view('parts/generic/header'); ?>
         <div class="container">
-            <nav class="breadcrumb m-t-15">
+            <nav class="breadcrumb m-t-20">
                 <a class="breadcrumb-item" href="<?= URL::to("Matriz/generalRisksMatrixView") ?>">Home</a>
                 <span class="breadcrumb-item" >Módulos</span>                        
                 <a class="breadcrumb-item" href="<?= URL::to("Matriz/generalControlsView"); ?>">Administración de Controles</a>
-                <span class="breadcrumb-item" ><?= isset($duplicar) ? "Duplicar control" : "Editar" ?></span>
+                <span class="breadcrumb-item" ><?= isset($duplicar) ? "Duplicar control" : ((isset($_GET["idControl"])) ? "Editar" : "Crear nuevo") ?></span>
             </nav>
             <div class='tab-content' id='tab3'>
                 <div class="">
@@ -39,8 +39,6 @@
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-fw fa-street-view"></i></span>
                                         <input type='text' name="nombre_control" id="nombre_control" class="form-control" required>
-                                        <span class="input-group-addon"><i class="fa fa-fw fa-hashtag"></i></span>
-                                        <input type='text' name="k_id_control" id="k_id_control" class="form-control" required>
                                     </div>
                                 </div>
                             </div>
@@ -268,16 +266,6 @@
                     </form>
                 </div>
             </div>
-
-            <div class='tab-content' id='tab1'>
-                <div class='container'>
-                    <form class= 'well form-horizontal' action='' method='post'>
-                        <fieldset>
-                            <table id="tableAssignMoney" class="table table-hover table-condensed table-striped" width='100%'></table>
-                        </fieldset>
-                    </form>
-                </div>
-            </div>
         </div>
         <!--footer Section -->
         <div class="for-full-back" id="footer">
@@ -323,9 +311,23 @@
                 }
 
 
-                var plataformas = <?= $plataformas; ?>
+                var plataformas = <?= $plataformas; ?>;
+                var consecutivo = "<?= isset($consecutivo) ? $consecutivo : null; ?>";
                 //Listamos las plataformas...
                 dom.llenarCombo($('#k_id_plataforma'), plataformas, {text: "n_nombre", value: "k_id_plataforma"});
+                if (consecutivo) {
+                    $('#nombre_control').attr('placeholder', consecutivo).val(consecutivo);
+                }
+
+                $('#k_id_plataforma').on('change', function () {
+                    app.post('Utils/getConsecutivoControl',
+                            {idPlataforma: $('#k_id_plataforma').val()}
+                    )
+                            .success(function (response) {
+                                $('#nombre_control').attr('placeholder', response.data).val(response.data);
+                            })
+                            .send();
+                });
             });
         </script>
     </script>
