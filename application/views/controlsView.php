@@ -308,7 +308,7 @@
                 var control = <?php echo (isset($control) ? $control : 'null'); ?>;
                 var duplicar = <?= isset($duplicar) ? "true" : "false"; ?>;
                 if (control !== null) {
-                    $("#controls").attr("action", ((duplicar) ? "Control/insertControl" : "Control/updateControl"));
+                    $("#controls").attr("action", ((duplicar) ? "Control/insertControl" : app.urlTo('Control/updateControl')));
                     $('#controls').append('<input type="hidden" value="' + control.k_id + '" name="k_id_registro" id="k_id_registro" />');
                     $('#controls').fillForm(control);
                 }
