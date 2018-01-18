@@ -155,6 +155,12 @@ class Risk extends CI_Controller {
         $this->json($response);
     }
 
+    public function updateTratamiento() {
+        $dao = new Dao_risk_model();
+        $response = $dao->updateTratamiento($this->request);
+        $this->json($response);
+    }
+
     public function getListTratamientoByMatriz() {
         $dao = new Dao_risk_model();
         $response = $dao->getListTratamientosByIdMatriz($this->request);

@@ -20,6 +20,9 @@ var vista = {
             var data = app.parseResponse(response);
             if (data) {
                 vista.fillTable(data);
+                var r = data[0];
+                $('#txtNamePlataforma').val(r.k_id_riesgo_especifico.k_id_plataforma.n_nombre);
+                $('#txtNameRiesgo').val(r.k_id_riesgo.nombre_riesgo);
             } else {
                 vista.fillTable([]);
             }
@@ -47,7 +50,7 @@ var vista = {
                 ));
     },
     getButtons: function (obj) {
-        return '<a class="btn btn-default btn-xs" href="' + app.urlTo('Matriz/editarTratamiento?id=' + obj.k_id_riesgo_especifico.k_id_riesgo_especifico) + '" title="Editar tratamiento"><i class="fa fa-fw fa-edit"></i></a>';
+        return '<a class="btn btn-default btn-xs" href="' + app.urlTo('Matriz/editarTratamiento?id=' + obj.k_id_tratamiento) + '" title="Editar tratamiento"><i class="fa fa-fw fa-edit"></i></a>';
     }
 };
 

@@ -130,4 +130,11 @@ class Utils extends CI_Controller {
         $this->json($response);
     }
 
+    function getRiskById() {
+        $response = new Response(EMessages::QUERY);
+        $data = (new RiesgoModel())->where("k_id_riesgo", "=", $this->request->id)->first();
+        $response->setData($data);
+        $this->json($response);
+    }
+
 }

@@ -555,9 +555,33 @@ var dom = {
         cmb.on('selectfilled', function () {
             console.log("SELEECT FILL COMBNO", cmb, value);
             cmb.val(cmb.attr('data-value')).trigger('change.select2');
-            cmb.off('selectfilled'); 
+            cmb.off('selectfilled');
         });
-    }
+    },
+    formatDateForPrint(dateString, method) {
+        if (dateString && dateString.trim() != "") {
+            if (method === "fillForm") {
+                //dateString, outputFormat, inputFormat...            
+                return formatDate(dateString, "yyyy-MM-dd", "yyyy-MM-dd");
+            } else if (method === "getFormData") {
+                return dateString;
+            }
+        } else {
+            return "Indefinido";
+        }
+    },
+    formatDateTimeForPrint(dateString, method) {
+        if (dateString && dateString.trim() != "") {
+            if (method === "fillForm") {
+                //dateString, outputFormat, inputFormat...            
+                return formatDate(dateString, "yyyy-MM-ddThh:mm", "yyyy-MM-dd HH:mm");
+            } else if (method === "getFormData") {
+                return dateString;
+            }
+        } else {
+            return "Indefinido";
+        }
+    },
 };
 $(function () {
     dom.init();

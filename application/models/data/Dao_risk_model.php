@@ -705,6 +705,25 @@ class Dao_risk_model extends CI_Model {
         }
     }
 
+    public function updateTratamiento($request) {
+        try {
+            $valid = new Validator();
+            //Se limpia el objeto de posibles cadenas vacias...
+            foreach ($request->all() as $key => $value) {
+                if ((!is_object($value)) && (!$valid->required(null, $value))) {
+                    $request->{$key} = DB::NULLED;
+                }
+            }
+            $response = new Response(EMessages::UPDATE);
+            $request->create_at = Hash::getDate();
+            (new TratamientoRiesgosModel())->where("k_id_tratamiento", "=", $request->id_tratamiento)
+                    ->update($request->all());
+            return $response;
+        } catch (ZolidException $ex) {
+            return $ex;
+        }
+    }
+
     public function listRiskByIdPlataform($id) {
         try {
             $risk = new RiesgoModel();
@@ -728,6 +747,8 @@ class Dao_risk_model extends CI_Model {
                     ->where("k_id_probabilidad", "=", $riesgoEspecifico->k_id_probabilidad)
                     ->where("k_id_impacto", "=", $riesgoEspecifico->k_id_impacto)
                     ->first();
+
+            $riesgoEspecifico->k_id_plataforma = (new PlataformaModel())->where("k_id_plataforma", "=", $riesgoEspecifico->k_id_plataforma)->first();
         } else {
             return new Response(EMessages::ERROR_QUERY);
         }
@@ -740,11 +761,50 @@ class Dao_risk_model extends CI_Model {
                     ->where("k_id_probabilidad", "=", $dato->k_id_probabilidad_riesgo_residual)
                     ->where("k_id_impacto", "=", $dato->k_id_impacto_riesgo_residual)
                     ->first();
-            
-//            echo $tempModel->getSQL();
         }
         $response->setData($datos);
         return $response;
+    }
+
+    function getTratamientoById($request) {
+        $response = new Response(EMessages::QUERY);
+        $tratamientoModel = new TratamientoRiesgosModel();
+        $riesgoEspecifico = new RiesgoEspecificoModel();
+        $tratamiento = $tratamientoModel->where("k_id_tratamiento", "=", $request->id)->first();
+        if ($tratamiento) {
+            //Consultamos el riesgo...
+            $tratamiento->k_id_riesgo_especifico = $riesgoEspecifico->where("k_id_riesgo_especifico", "=", $tratamiento->k_id_riesgo_especifico)->first();
+            //Consultamos el riesgo inherente...
+            $riesgoTempModel = new RefProbabilidadImpactoModel();
+            $riesgoInherente = $riesgoTempModel
+                    ->where("k_id_probabilidad", "=", $tratamiento->k_id_riesgo_especifico->k_id_probabilidad)
+                    ->where("k_id_impacto", "=", $tratamiento->k_id_riesgo_especifico->k_id_impacto)
+                    ->first();
+            //Consultamos el riesgo residual...
+            $riesgoTempModel = new RefProbabilidadImpactoModel();
+            $riesgoResidual = $riesgoTempModel
+                    ->where("k_id_probabilidad", "=", $tratamiento->k_id_probabilidad_riesgo_residual)
+                    ->where("k_id_impacto", "=", $tratamiento->k_id_impacto_riesgo_residual)
+                    ->first();
+        }
+        $comboxDAO = new Dao_combox_model();
+
+        //Organizamos el objeto que vamos a retornar...
+        $tratamiento = [
+            "record" => [
+                "riesgo" => (new RiesgoModel())->where("k_id_riesgo", "=", $tratamiento->k_id_riesgo_especifico->k_id_riesgo)->first(),
+                "riesgo_especifico" => $tratamiento->k_id_riesgo_especifico,
+                "riesgo_inherente" => $riesgoInherente,
+                "riesgo_residual" => $riesgoResidual,
+                "cmpl_riesgo_residual" => [
+                    "k_id_probabilidad" => $tratamiento->k_id_probabilidad_riesgo_residual,
+                    "k_id_impacto" => $tratamiento->k_id_impacto_riesgo_residual,
+                ]
+            ],
+            "riesgos" => $comboxDAO->getListComboxById(1)->data,
+            "tratamiento" => $tratamiento
+        ];
+        return $tratamiento;
     }
 
 }
