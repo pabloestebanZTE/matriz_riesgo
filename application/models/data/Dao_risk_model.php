@@ -704,7 +704,7 @@ class Dao_risk_model extends CI_Model {
             return $ex;
         }
     }
-    
+
     public function listRiskByIdPlataform($id) {
         try {
             $risk = new RiesgoModel();
@@ -719,6 +719,33 @@ class Dao_risk_model extends CI_Model {
         }
     }
 
+    public function getListTratamientosByIdMatriz($request) {
+        $response = new Response(EMessages::QUERY);
+        $tratamientosModel = new TratamientoRiesgosModel();
+        $riesgoEspecifico = (new RiesgoEspecificoModel())->where("k_id_riesgo_especifico ", "=", $request->k_id_riesgo_especifico)->first();
+        if ($riesgoEspecifico) {
+            $riesgoEspecifico->n_severidad_riesgo_inherente = (new RefProbabilidadImpactoModel())
+                    ->where("k_id_probabilidad", "=", $riesgoEspecifico->k_id_probabilidad)
+                    ->where("k_id_impacto", "=", $riesgoEspecifico->k_id_impacto)
+                    ->first();
+        } else {
+            return new Response(EMessages::ERROR_QUERY);
+        }
+        $datos = $tratamientosModel->where("k_id_riesgo_especifico", "=", $request->k_id_riesgo_especifico)->get();
+        foreach ($datos as $dato) {
+            $dato->k_id_riesgo_especifico = $riesgoEspecifico;
+            $dato->k_id_riesgo = (new RiesgoModel())->where("k_id_riesgo", "=", $dato->k_id_riesgo)->first();
+            $tempModel = new RefProbabilidadImpactoModel();
+            $dato->k_id_probabilidad = $tempModel
+                    ->where("k_id_probabilidad", "=", $dato->k_id_probabilidad_riesgo_residual)
+                    ->where("k_id_impacto", "=", $dato->k_id_impacto_riesgo_residual)
+                    ->first();
+            
+//            echo $tempModel->getSQL();
+        }
+        $response->setData($datos);
+        return $response;
+    }
 
 }
 

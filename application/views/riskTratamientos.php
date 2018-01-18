@@ -7,7 +7,8 @@
             <nav class="breadcrumb">
                 <a class="breadcrumb-item" href="<?= URL::to("Matriz/generalRisksMatrixView") ?>">Home</a>
                 <span class="breadcrumb-item" >Módulos</span>                        
-                <span class="breadcrumb-item active">Administración de Riesgos</span>
+                <a class="breadcrumb-item" href="listTratamiento">Tratamiento de riesgos</a>
+                <span class="breadcrumb-item active">Lista de tratamientos del riesgo</span>
             </nav>
             <div class="alert alert-success alert-dismissable hidden" id="principalAlert">
                 <a href="#" class="close">&times;</a>
@@ -19,21 +20,21 @@
                         <fieldset>
                             <div class="row">
                                 <div class="col col-md-3">
-                                    <select class="form-control" id="cmbPlataformas" data-combox="5">
-                                        <option value="">Seleccione</option>
-                                    </select>
+                                    <label>Plataforma:</label>
+                                    <input type="text" class="form-control" id="txtNamePlataforma" disabled="" />
                                 </div>
                                 <div class="col col-md-3">
-                                    <select class="form-control" id="cmbPlataformas">
-                                        <option value="">Seleccione</option>
-                                    </select>
+                                    <label>Nombre del riesgo:</label>
+                                    <input type="text" class="form-control" id="txtNameRiesgo" disabled="" />
                                 </div>
-                                <div class="col col-md-6" >
-                                    <a class="btn btn-primary" href="<?= URL::to('Matriz/riskView') ?>"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Crear Riesgo</a>
+                                <div class="col col-md-6">
+                                    <div class="col col-md-6 p-t-25" >
+                                        <a class="btn btn-primary" href="<?= URL::to('Matriz/tratamiento?id=' . ((isset($_GET["id"])) ? $_GET["id"] : 0)) ?>"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Crear Tratamiento</a>
+                                    </div>
                                 </div>
                                 <div class="col col-md-12 p-t-40">
                                     <input type="hidden" value="<?= Auth::getRole() ?>" id="rol">
-                                    <table id="tablaPrincipal" class="table table-hover table-condensed table-striped"></table>
+                                    <table id="tablaTratamiento" class="table table-hover table-condensed table-striped"></table>
                                     <br/>
                                 </div>
                             </div>
@@ -50,9 +51,6 @@
         </div>
         <?php $this->load->view('parts/generic/scripts'); ?>
         <!-- CUSTOM SCRIPT   -->
-        <script type="text/javascript">
-            var plataformas = <?= $plataformas; ?>
-        </script>
-        <script src="<?= URL::to('assets/js/modules/generalRisk.js?v=' . time()) ?>" type="text/javascript"></script>
+        <script src="<?= URL::to('assets/js/modules/riskTratamientos.js?v=' . time()) ?>" type="text/javascript"></script>
     </body>
 </html>

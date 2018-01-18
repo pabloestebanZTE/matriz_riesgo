@@ -9,35 +9,40 @@ var vista = {
     init: function () {
         vista.events();
         vista.listRisk();
+        $('#cmbPlataformas').on('selectfilled', function () {
+            vista.listRisk();
+        });
     },
     events: function () {
         dom.submit($('#formTratamiento'), function () {
             location.href = app.urlTo('Matriz/listTratamiento');
         });
+
+        $('#cmbPlataformas').on('change', function () {
+            vista.listRisk();
+        });
     },
     listRisk: function () {
-        $('#cmbPlataformas').on('selectfilled', function () {
-            $('#cmbPlataformas').find('option:eq(1)').prop('selected', true).trigger('change.select2');
-            app.post('Risk/getListRisk', {
-                idPlataforma: $('#cmbPlataformas').val()
-            })
-                    .success(function (response) {
-                        console.log(response);
-                        var data = app.parseResponse(response);
-                        var cmb = $('#cmbRiesgos');
-                        if (data) {
-                            dom.llenarCombo(cmb, data, {text: "nombre_riesgo", value: "k_id_riesgo"});
-                            cmb.on('selectfilled', vista.listMatrices);
-                        } else {
-                            dom.comboVacio(cmb);
-                        }
-                    })
-                    .error(function (e) {
-                        console.error(e);
-                        swal("Error", "Se ha producido un error inesperado y no se pudo consultar los riesgos", "error");
-                    })
-                    .send();
-        });
+        $('#cmbPlataformas').find('option:eq(1)').prop('selected', true).trigger('change.select2');
+        app.post('Risk/listRiskByIdPlataform', {
+            id: $('#cmbPlataformas').val()
+        })
+                .success(function (response) {
+                    console.log(response);
+                    var data = app.parseResponse(response);
+                    var cmb = $('#cmbRiesgos');
+                    if (data) {
+                        dom.llenarCombo(cmb, data, {text: "nombre_riesgo", value: "k_id_riesgo"});
+                        cmb.on('selectfilled', vista.listMatrices);
+                    } else {
+                        dom.comboVacio(cmb);
+                    }
+                })
+                .error(function (e) {
+                    console.error(e);
+                    swal("Error", "Se ha producido un error inesperado y no se pudo consultar los riesgos", "error");
+                })
+                .send();
     },
     listMatrices: function () {
         var cmb = $('#cmbRiesgos');
