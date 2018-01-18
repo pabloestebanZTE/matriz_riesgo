@@ -63,6 +63,24 @@ class Control extends CI_Controller {
         if ($v) {
             $answer["duplicar"] = true;
         }
+        $c = strpos($this->request->url, "controlsView") != false;
+        if ($v || $c) {
+            //Consultamos el consecutivo...
+            $controlDao = new ControlModel();
+            $consecutivo = $controlDao->where("k_id_plataforma", "=", $response->data->k_id_plataforma)
+                    ->orderBy("k_id", "desc")
+                    ->exist();
+            if ($consecutivo) {
+                $count = (new DB())
+                        ->select("select count(k_id) as count from control where k_id_plataforma = "
+                                . $response->data->k_id_plataforma)
+                        ->first();
+                $consecutivo = "C" . $count->count;
+            } else {
+                $consecutivo = "C1";
+            }
+            $answer["consecutivo"] = $consecutivo;
+        }
         $this->load->view('controlsView', $answer);
     }
 

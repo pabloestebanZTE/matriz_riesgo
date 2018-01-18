@@ -120,4 +120,22 @@ class Utils extends CI_Controller {
         }
     }
 
+    function getConsecutivoControl() {
+        $controlDao = new ControlModel();
+        $consecutivo = $controlDao->where("k_id_plataforma", "=", $this->request->idPlataforma)
+                ->orderBy("k_id", "desc")
+                ->exist();
+        if ($consecutivo) {
+            $count = (new DB())
+                    ->select("select count(k_id) as count from control where k_id_plataforma = "
+                            . $this->request->idPlataforma)
+                    ->first();
+            $consecutivo = "C" . $count->count;
+        } else {
+            $consecutivo = "C1";
+        }
+        $response = (new Response(EMessages::SUCCESS))->setData($consecutivo);
+        $this->json($response);
+    }
+
 }

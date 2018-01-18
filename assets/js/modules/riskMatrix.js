@@ -160,13 +160,16 @@ var vista = {
         var btn = $(this);
         var contentControl = btn.parents('.body-causa');
         vista.addControl(contentControl);
+        if (contentControl.find('.item-control').length > 0) {
+            contentControl.find('.btn-unic').parents('.item-control').remove();
+        }
     },
     addControl: function (contentControl, control) {
         var model = $('#controlIndex');
         var run = function () {
             var clon = model.clone();
             contentControl.append(clon);
-            clon.find('#numControl').html(contentControl.find('.item-control').length);
+            clon.find('#numControl').html(contentControl.find('.item-control:not(.btn-added)').length);
             var selects = clon.find('select');
             selects.attr('class', 'form-control input-sm cmb-control');
             selects.removeAttr('tabindex');
@@ -177,6 +180,8 @@ var vista = {
                 clon.find('select:eq(0)').attr('data-id', control.k_id_control_especifico);
                 dom.fillCombo(clon.find('select:eq(0)'), control.k_id_control);
                 dom.fillCombo(clon.find('select:eq(1)'), control.k_id_factor_riesgo);
+            } else if (control == false) {
+                clon.addClass('btn-added').find('.content-control').html('<button class="btn btn-primary btn-add-control btn-unic"><i class="fa fa-fw fa-plus"></i> Agregar control</button>');
             }
         };
         if (model.find('option').length > 2) {
@@ -197,11 +202,16 @@ var vista = {
             };
             vista.controlsForDelete.push(obj);
         }
+        contentCausa = controlItem.parents('.body-causa');
         controlItem.remove();
+        if (contentCausa.find('.item-control').length == 0) {
+            vista.addControl(contentCausa, false);
+        }
     },
     addCausa: function (causa) {
         var model = $('#itemCausaIndex');
         var clon = model.clone();
+        clon.find('input:eq(0)').prop('disabled', false);
         clon.removeAttr('id').removeClass('hidden').addClass('causa-added');
         //Jugamos con los select de los controles...
         var select = clon.find('select:eq(0)');
@@ -227,10 +237,15 @@ var vista = {
             clon.find('input:eq(0)').val(causa.n_nombre);
             clon.attr('data-id', causa.k_id_causa);
             //Recorremos los controles...
-            for (var i = 0; i < causa.controls.length; i++) {
-                var control = causa.controls[i];
+            if (causa.controls.length) {
+                for (var i = 0; i < causa.controls.length; i++) {
+                    var control = causa.controls[i];
+                    clon.find('.body-causa').html('');
+                    vista.addControl(clon.find('.body-causa'), control);
+                }
+            } else {
                 clon.find('.body-causa').html('');
-                vista.addControl(clon.find('.body-causa'), control);
+                vista.addControl(clon.find('.body-causa'), false);
             }
         }
     },
@@ -311,7 +326,7 @@ var vista = {
             delete obj["soporte_impacto[]"];
             app.post(uri, obj)
                     .complete(function () {
-                        formGlobal.find('input, textarea, button, fieldset, select').prop('disabled', false);
+                        formGlobal.find('input:not(.disabled), textarea, button, fieldset, select').prop('disabled', false);
                     })
                     .success(function (response) {
                         var v = app.validResponse(response);
