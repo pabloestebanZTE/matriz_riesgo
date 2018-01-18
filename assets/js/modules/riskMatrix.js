@@ -28,9 +28,13 @@ var vista = {
             $('#cmbPlataforma').trigger('change');
         });
         $('#cmbPlataforma').on('change', vista.onChangeRisk);
+        $('#cmbRiesgoId').on('change', vista.onChangeDescriptionRisk);
     },
     onChangeCmbPlataforma: function () {
         $('.txt-plataforma').val($('#cmbPlataforma option:selected').text());
+    },
+    onChangeDescriptionRisk: function () {
+        $("#cmbRiesgoDescripcion").val($('#cmbRiesgoId').val()).trigger('change.select2');
     },
     onClickBtnAddActividad: function () {
         vista.addTipoActividad().select2({width: '100%'});
@@ -40,10 +44,10 @@ var vista = {
             app.post('Risk/listRiskByIdPlataform', {
                 id: $('#cmbPlataforma').val()
             }).success(function (response) {
-//                console.log(response.data.length);
                 dom.llenarCombo($('#cmbRiesgoId'), response.data, {text: "n_riesgo", value: "k_id_riesgo"});
+                dom.llenarCombo($('#cmbRiesgoDescripcion'), response.data, {text: "n_riesgo_descripcion", value: "k_id_riesgo"});
             }).error(function () {
-                $('#txtSeveridadRiesgoInherente').val("ERROR INESPERADO");
+                swal("Error inesperado", "Lo sentimos, se ha producido un error inesperado.", "error");
             }).send();
         }
     },
