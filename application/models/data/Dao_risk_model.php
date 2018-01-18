@@ -153,15 +153,17 @@ class Dao_risk_model extends CI_Model {
                                 "n_nombre" => $causa->text
                             ])->data;
                     //Insertamos los controles...
-                    $controls = $causa->controls->all();
-                    foreach ($controls as $control) {
-                        $controlEspecificoModel = new ControlEspecificoModel();
-                        $controlEspecificoModel->insert([
-                            "k_id_riesgo_especifico" => $idRiesgo,
-                            "k_id_control" => $control->id,
-                            "k_id_causa" => $idCausa,
-                            "k_id_factor_riesgo" => $control->factorRiesgo,
-                        ]);
+                    if (count($causa->controls)) {
+                        $controls = $causa->controls->all();
+                        foreach ($controls as $control) {
+                            $controlEspecificoModel = new ControlEspecificoModel();
+                            $controlEspecificoModel->insert([
+                                "k_id_riesgo_especifico" => $idRiesgo,
+                                "k_id_control" => $control->id,
+                                "k_id_causa" => $idCausa,
+                                "k_id_factor_riesgo" => $control->factorRiesgo,
+                            ]);
+                        }
                     }
                 }
             }
@@ -235,7 +237,8 @@ class Dao_risk_model extends CI_Model {
                 $i = 0;
                 foreach ($temp as $value) {
                     $soporteModel = new SoporteModel();
-                    if ($soporteRecords) {
+                    //Comprobamos el index exista en soporteRecords...
+                    if ($soporteRecords && count($soporteRecords) < $i) {
                         var_dump($soporteRecords[$i]);
                         if ($valid->required(null, $soporteRecords[$i])) {
                             $soporteModel->where("k_id_soporte", "=", $value->k_id_soporte)->update([
@@ -280,7 +283,7 @@ class Dao_risk_model extends CI_Model {
             if ($causas) {
                 $causas = $request->causas->all();
                 foreach ($causas as $causa) {
-                    if ($causa) {
+                    if (is_object($causa)) {
                         $causa = new ObjUtil($causa->all());
                         $causaModel = new CausaModel();
                         //Verificamos si el valor es válido y si la causa existe...
@@ -297,20 +300,22 @@ class Dao_risk_model extends CI_Model {
                                     foreach ($controls as $control) {
                                         $controlEspecificoModel = new ControlEspecificoModel();
                                         //Verificamos si el control viene con id de registro y lo actualizamos...
-                                        if ($control && $control->idRecord > 0) {
-                                            $controlEspecificoModel
-                                                    ->where("k_id_control_especifico", "=", $control->idRecord)
-                                                    ->update([
-                                                        "k_id_control" => $control->id,
-                                                        "k_id_factor_riesgo" => $control->factorRiesgo,
-                                            ]);
-                                        } else { //De lo contrario, significará que es un registro nuevo, entonces lo actualizamos...
-                                            $controlEspecificoModel->insert([
-                                                "k_id_riesgo_especifico" => $idRiesgo,
-                                                "k_id_control" => $control->id,
-                                                "k_id_causa" => $causa->idRecord,
-                                                "k_id_factor_riesgo" => $control->factorRiesgo,
-                                            ]);
+                                        if (is_object($control)) {
+                                            if ($control->idRecord > 0) {
+                                                $controlEspecificoModel
+                                                        ->where("k_id_control_especifico", "=", $control->idRecord)
+                                                        ->update([
+                                                            "k_id_control" => $control->id,
+                                                            "k_id_factor_riesgo" => $control->factorRiesgo,
+                                                ]);
+                                            } else { //De lo contrario, significará que es un registro nuevo, entonces lo actualizamos...
+                                                $controlEspecificoModel->insert([
+                                                    "k_id_riesgo_especifico" => $idRiesgo,
+                                                    "k_id_control" => $control->id,
+                                                    "k_id_causa" => $causa->idRecord,
+                                                    "k_id_factor_riesgo" => $control->factorRiesgo,
+                                                ]);
+                                            }
                                         }
                                     }
                                 }
@@ -321,15 +326,17 @@ class Dao_risk_model extends CI_Model {
                                             "n_nombre" => $causa->text
                                         ])->data;
                                 //Insertamos los controles..
-                                $controls = $causa->controls->all();
-                                foreach ($controls as $control) {
-                                    $controlEspecificoModel = new ControlEspecificoModel();
-                                    $controlEspecificoModel->insert([
-                                        "k_id_riesgo_especifico" => $idRiesgo,
-                                        "k_id_control" => $control->id,
-                                        "k_id_causa" => $idCausa,
-                                        "k_id_factor_riesgo" => $control->factorRiesgo,
-                                    ]);
+                                if (count($causa->controls) > 0) {
+                                    $controls = $causa->controls->all();
+                                    foreach ($controls as $control) {
+                                        $controlEspecificoModel = new ControlEspecificoModel();
+                                        $controlEspecificoModel->insert([
+                                            "k_id_riesgo_especifico" => $idRiesgo,
+                                            "k_id_control" => $control->id,
+                                            "k_id_causa" => $idCausa,
+                                            "k_id_factor_riesgo" => $control->factorRiesgo,
+                                        ]);
+                                    }
                                 }
                             }
                         }

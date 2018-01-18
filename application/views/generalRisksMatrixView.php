@@ -4,9 +4,6 @@
     <body data-base="<?= URL::base() ?>">
         <?php $this->load->view('parts/generic/header'); ?>
         <div class="container autoheight p-t-20">
-            <nav class="breadcrumb">
-                <a class="breadcrumb-item" href="<?= URL::to("Matriz/generalRisksMatrixView") ?>">Home</a>
-            </nav>
             <div class="alert alert-success alert-dismissable hidden" id="principalAlert">
                 <a href="#" class="close">&times;</a>
                 <p id="text" class="m-b-0 p-b-0"></p>

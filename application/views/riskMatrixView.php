@@ -97,7 +97,7 @@
                                     <div class="form-group">
                                         <label for="" class="col-sm-2 control-label">Plataforma</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control txt-plataforma" disabled="disabled" />
+                                            <input type="text" class="form-control txt-plataforma disabled" disabled="disabled" />
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -196,7 +196,7 @@
                                     <div class="form-group">
                                         <label for="" class="col-sm-2 control-label">Plataforma</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control txt-plataforma" disabled="disabled" />
+                                            <input type="text" class="form-control txt-plataforma disabled" disabled="disabled" />
                                         </div>
                                     </div>
                                     <div class="widget bg-white" id="contentCausas">

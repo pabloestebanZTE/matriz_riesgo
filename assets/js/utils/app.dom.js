@@ -555,7 +555,7 @@ var dom = {
         cmb.on('selectfilled', function () {
             console.log("SELEECT FILL COMBNO", cmb, value);
             cmb.val(cmb.attr('data-value')).trigger('change.select2');
-            cmb.off('selectfilled');
+            cmb.off('selectfilled'); 
         });
     }
 };

@@ -35,7 +35,8 @@ class Control extends CI_Controller {
     public function updateControl() {
         $vm = new Dao_control_model();
         $response = $vm->updateControl($this->request);
-        $this->json($response);
+        // $this->json($response);
+        header('Location: '. URL::to("Matriz/generalControlsView"));
     }
 
     public function findControlById() {
@@ -62,6 +63,16 @@ class Control extends CI_Controller {
         $answer['plataformas'] = json_encode($data);
         if ($v) {
             $answer["duplicar"] = true;
+        }
+        $c = strpos($this->request->url, "controlsView") != false;
+        if ($v || $c) {
+            //Consultamos el consecutivo...
+            $count = (new DB())
+                    ->select("select count(k_id) as count from control where k_id_plataforma = "
+                            . $response->data->k_id_plataforma)
+                    ->first();
+            $consecutivo = "C" . ($count->count + 1);
+            $answer["consecutivo"] = $consecutivo;
         }
         $this->load->view('controlsView', $answer);
     }
