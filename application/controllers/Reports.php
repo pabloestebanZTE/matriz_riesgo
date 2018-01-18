@@ -157,8 +157,8 @@ class Reports extends CI_Controller {
         //Seleccionamos la página.
         $objPhpExcel->setActiveSheetIndex(0);
         $this->createHeaderTable1($objPhpExcel);
-        $this->createHeaderTable2($objPhpExcel);
-        $this->createHeaderTable3($objPhpExcel);
+//        $this->createHeaderTable2($objPhpExcel);
+//        $this->createHeaderTable3($objPhpExcel);
 
         //Consultamos las matrices...
         $matrizModel = new RiesgoEspecificoModel();
