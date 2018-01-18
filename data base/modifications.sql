@@ -17,3 +17,14 @@ ALTER TABLE `riesgo`
 
 ALTER TABLE `control`
 	ADD COLUMN `nombre_control` VARCHAR(50) NULL DEFAULT NULL AFTER `k_id_control`;
+
+
+
+-- Actualizaciones Jueves, 18 de enero 2018
+ALTER TABLE `control`
+	DROP INDEX `k_id_control`,
+	ADD INDEX `k_id_control` (`k_id_control`);
+
+ALTER TABLE `riesgo`
+	DROP INDEX `k_id_riesgo`,
+	ADD INDEX `k_id_riesgo` (`k_id_riesgo`);
