@@ -153,15 +153,17 @@ class Dao_risk_model extends CI_Model {
                                 "n_nombre" => $causa->text
                             ])->data;
                     //Insertamos los controles...
-                    $controls = $causa->controls->all();
-                    foreach ($controls as $control) {
-                        $controlEspecificoModel = new ControlEspecificoModel();
-                        $controlEspecificoModel->insert([
-                            "k_id_riesgo_especifico" => $idRiesgo,
-                            "k_id_control" => $control->id,
-                            "k_id_causa" => $idCausa,
-                            "k_id_factor_riesgo" => $control->factorRiesgo,
-                        ]);
+                    if (count($causa->controls)) {
+                        $controls = $causa->controls->all();
+                        foreach ($controls as $control) {
+                            $controlEspecificoModel = new ControlEspecificoModel();
+                            $controlEspecificoModel->insert([
+                                "k_id_riesgo_especifico" => $idRiesgo,
+                                "k_id_control" => $control->id,
+                                "k_id_causa" => $idCausa,
+                                "k_id_factor_riesgo" => $control->factorRiesgo,
+                            ]);
+                        }
                     }
                 }
             }
