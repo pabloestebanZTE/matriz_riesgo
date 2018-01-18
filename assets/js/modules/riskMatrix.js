@@ -282,7 +282,7 @@ var vista = {
             for (var i = 0; i < causasAdded.length; i++) {
                 var causaItem = $(causasAdded[i]);
                 //Buscamos los controles dentro de esa causa...
-                var controlsItems = causaItem.find('.content-control');
+                var controlsItems = causaItem.find('.item-control:not(.btn-added)');
                 var controls = [];
                 for (var j = 0; j < controlsItems.length; j++) {
                     var controlItem = $(controlsItems[j]);
@@ -336,7 +336,7 @@ var vista = {
                                 $('#idRecord').val(response.data);
                             }
                             formGlobal.attr('data-mode', 'FOR_UPDATE');
-                            form.find('button:submit').html('<i class="fa fa-fw fa-save"></i> Actualizar');
+                            form.find('button:submit').not('.btn-unic').html('<i class="fa fa-fw fa-save"></i> Actualizar');
                         } else {
                             swal((forUpdate ? "Error al actualizar" : "Error al guardar"), (forUpdate ? "Se ha producido un error al intentar actualizar el registro." : "Se ha producido un error al intentar guardar el registro."), "warning");
                         }
