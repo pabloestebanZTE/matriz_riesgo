@@ -75,35 +75,78 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label for="n_tipo" class="col-md-3 control-label">Tipo:</label>
-                                <div class="col-md-8 selectContainer">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-fw fa-address-book"></i></span>
-                                        <select class="form-control" id="n_tipo" name="n_tipo">
-                                            <option value="">Seleccione</option>
-                                            <option value="Detectivo">Detectivo</option>
-                                            <option value="Preventivo">Preventivo</option>
-                                            <option value="Correctivo">Correctivo</option>
-                                        </select>
+                            <div class="widget text-left m-b-25 display-block">
+                                <h2 class="h4"> Tipo de Control</h2>
+                                <div class="form-group">
+                                    <label for="n_tipo" class="col-md-3 control-label">Tipo:</label>
+                                    <div class="col-md-8 selectContainer">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-fw fa-address-book"></i></span>
+                                            <select class="form-control" id="n_tipo" name="n_tipo">
+                                                <option value="">Seleccione</option>
+                                                <option value="Detectivo">Detectivo</option>
+                                                <option value="Preventivo">Preventivo</option>
+                                                <option value="Correctivo">Correctivo</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="n_funcionalidad_tipo" class="col-md-3 control-label">Funcionalidad:</label>
+                                    <div class="col-md-8 selectContainer">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-fw fa-id-card"></i></span>
+                                            <select class="form-control" id="n_funcionalidad_tipo" name="n_funcionalidad_tipo">
+                                                <option value="">Seleccione</option>
+                                                <option value="Adecuado">Adecuado</option>
+                                                <option value="Inadecuado">Inadecuado</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-
-                            <div class="form-group">
-                                <label for="n_funcionalidad_tipo" class="col-md-3 control-label">Funcionalidad:</label>
-                                <div class="col-md-8 selectContainer">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-fw fa-id-card"></i></span>
-                                        <select class="form-control" id="n_funcionalidad_tipo" name="n_funcionalidad_tipo">
-                                            <option value="">Seleccione</option>
-                                            <option value="Adecuado">Adecuado</option>
-                                            <option value="Inadecuado">Inadecuado</option>
-                                        </select>
+                            <div class="widget text-left m-b-25 display-block">
+                                <h2 class="h4"> Frecuencia del Control</h2>
+                                <div class="form-group">
+                                    <label for="n_funcionalidad_frecuencia" class="col-md-3 control-label">Funcionalidad:</label>
+                                    <div class="col-md-8 selectContainer">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-fw fa-user"></i></span>
+                                            <select name="n_funcionalidad_frecuencia" id="n_funcionalidad_frecuencia" class="form-control" required>
+                                                <option value="">Seleccione</option>
+                                                <option value="Adecuado">Adecuado</option>
+                                                <option value="Inadecuado">Inadecuado</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                                <div class="form-group">
+                                    <label for="n_periodicidad" class="col-md-3 control-label">Periodicidad:</label>
+                                    <div class="col-md-8 selectContainer">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-fw fa-drivers-license"></i></span>
+                                            <select class="form-control" id="n_periodicidad" name="n_periodicidad">
+                                                <option value="">Seleccione</option>
+                                                <option value="Diario">Diario</option>
+                                                <option value="Semanal">Semanal</option>
+                                                <option value="Quincenal">Quincenal</option>
+                                                <option value="Mensual">Mensual</option>
+                                                <option value="Bimestral">Bimestral</option>
+                                                <option value="Trimestral">Trimestral</option>
+                                                <option value="Semestral">Semestral</option>
+                                                <option value="Anual">Anual</option>
+                                                <option value="Esporádico/Sorpresivo">Esporádico/Sorpresivo</option>
+                                                <option value="Cuando se requiera">Cuando se requiera</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>                            
+                            </div>                            
+                        </fieldset>
+                        <!--  fin seccion izquierda form---->
 
+                        <!--  inicio seccion derecha form---->
+                        <fieldset>
                             <div class="form-group">
                                 <label for="n_naturaleza_control" class="col-md-3 control-label">Naturaleza del Control:</label>
                                 <div class="col-md-8 selectContainer">
@@ -114,46 +157,6 @@
                                             <option value="Manual">Manual</option>
                                             <option value="Automático">Automático</option>
                                             <option value="Dependiente de T.I">Dependiente de T.I</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="n_periodicidad" class="col-md-3 control-label">Periodicidad:</label>
-                                <div class="col-md-8 selectContainer">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-fw fa-drivers-license"></i></span>
-                                        <select class="form-control" id="n_periodicidad" name="n_periodicidad">
-                                            <option value="">Seleccione</option>
-                                            <option value="Diario">Diario</option>
-                                            <option value="Semanal">Semanal</option>
-                                            <option value="Quincenal">Quincenal</option>
-                                            <option value="Mensual">Mensual</option>
-                                            <option value="Bimestral">Bimestral</option>
-                                            <option value="Trimestral">Trimestral</option>
-                                            <option value="Semestral">Semestral</option>
-                                            <option value="Anual">Anual</option>
-                                            <option value="Esporádico/Sorpresivo">Esporádico/Sorpresivo</option>
-                                            <option value="Cuando se requiera">Cuando se requiera</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>                            
-                        </fieldset>
-                        <!--  fin seccion izquierda form---->
-
-                        <!--  inicio seccion derecha form---->
-                        <fieldset>
-                            <div class="form-group">
-                                <label for="n_funcionalidad_frecuencia" class="col-md-3 control-label">Funcionalidad:</label>
-                                <div class="col-md-8 selectContainer">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-fw fa-user"></i></span>
-                                        <select name="n_funcionalidad_frecuencia" id="n_funcionalidad_frecuencia" class="form-control" required>
-                                            <option value="">Seleccione</option>
-                                            <option value="Adecuado">Adecuado</option>
-                                            <option value="Inadecuado">Inadecuado</option>
                                         </select>
                                     </div>
                                 </div>
