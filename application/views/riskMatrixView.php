@@ -108,6 +108,14 @@
                                             </select>
                                         </div>
                                     </div>
+<!--                                    <div class="form-group">
+                                        <label for="cmbRiesgoDescripcion" class="col-sm-2 control-label">Descripción Riesgo</label>
+                                        <div class="col-sm-10">
+                                            <select class="form-control" id="cmbRiesgoDescripcion" name="cmbRiesgoDescripcion" disabled>
+                                                <option value=""></option>
+                                            </select>
+                                        </div>
+                                    </div>-->
                                     <div id="tiposDeActividad">                                        
                                     </div>
                                     <div class="form-group">
