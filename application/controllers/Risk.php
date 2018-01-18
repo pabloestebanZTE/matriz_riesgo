@@ -86,6 +86,16 @@ class Risk extends CI_Controller {
         if ($v) {
             $answer["duplicar"] = true;
         }
+        $c = strpos($this->request->url, "controlsView") != false;
+        if ($v || $c) {
+            //Consultamos el consecutivo...
+            $count = (new DB())
+                    ->select("select count(k_id) as count from control where k_id_plataforma = "
+                            . $response->data->k_id_plataforma)
+                    ->first();
+            $consecutivo = "R" . ($count->count + 1);
+            $answer["consecutivo"] = $consecutivo;
+        }
         $this->load->view('riskView', $answer);
     }
 

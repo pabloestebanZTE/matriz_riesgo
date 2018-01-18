@@ -130,6 +130,16 @@ class Utils extends CI_Controller {
         $this->json($response);
     }
 
+    function getConsecutivoRiesgo() {
+        $count = (new DB())
+                ->select("select count(k_id) as count from riesgo where k_id_plataforma = "
+                        . $this->request->idPlataforma)
+                ->first();
+        $consecutivo = "R" . ($count->count + 1);
+        $response = (new Response(EMessages::SUCCESS))->setData($consecutivo);
+        $this->json($response);
+    }
+
     function getRiskById() {
         $response = new Response(EMessages::QUERY);
         $data = (new RiesgoModel())->where("k_id_riesgo", "=", $this->request->id)->first();
