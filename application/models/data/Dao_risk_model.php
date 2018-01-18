@@ -563,13 +563,15 @@ class Dao_risk_model extends CI_Model {
         try {
             $db = new DB();
             $idControl = $request->idControl;
-            $datos = $db->select("SELECT ri.k_id_riesgo, ri.n_riesgo, pl.n_nombre, ce.k_id_control_especifico 
-                                FROM control_especifico ce
-                                INNER JOIN causa ca ON ce.k_id_causa = ca.k_id_causa
-                                INNER JOIN riesgo_especifico re ON ca.k_id_riesgo_especifico = re.k_id_riesgo_especifico
-                                INNER JOIN riesgo ri ON ri.k_id_riesgo = re.k_id_riesgo
-                                INNER JOIN plataforma pl ON pl.k_id_plataforma = re.k_id_plataforma
-                                WHERE ce.k_id_control = '$idControl'")->get();
+            $sql = "select re.*, p.n_nombre, r.nombre_riesgo, r.n_riesgo, ce.k_id_control_especifico from riesgo_especifico re inner join causa cc
+                    on cc.k_id_riesgo_especifico = re.k_id_riesgo_especifico 
+                    inner join riesgo r on r.k_id_riesgo = re.k_id_riesgo 
+                    inner join control_especifico ce on ce.k_id_causa = cc.k_id_causa 
+                    inner join control c on c.k_id_control = ce.k_id_control 
+                    inner join plataforma p on p.k_id_plataforma = re.k_id_plataforma 
+                    where c.nombre_control  = '$idControl' group by re.k_id_riesgo_especifico";
+
+            $datos = $db->select($sql)->get();
             $response = new Response(EMessages::SUCCESS);
             $response->setData($datos);
             return $response;
