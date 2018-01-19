@@ -33,3 +33,4 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 =======
 /nbproject/private/
 /nbproject/private/
+application/config/db.php
