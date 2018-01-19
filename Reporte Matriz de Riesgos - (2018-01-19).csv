@@ -1,5 +1,0 @@
-﻿Plataforma,"Zona Geográfica","Mapa proceso",Proceso,Servicios,Objetivo,ID,Responsable,Riesgo,"Descripción del Riesgo","Tipo de Actividad","Tipo de Evento (Nivel 1), Tipo de Evento (nivel 2)",Probabilidad,Impacto,"Severidad del Riesgo Inherente"
-﻿MSS,ZONA1,21342314,21341234,12341234,R3,"R3-MSS Responsable","R3-MSS Nombre","R3-MSS Descripción","[""OT""]","1. Fraude Interno","1.1. Actividades no autorizadas",Ocasional,Significativo,Moderado
-﻿MSS,ZONA1,41234123,41234123,41234123,R1,"John Buitrago","R1 Nombre","R1 Descripción","[""MANTENIMIENTO""]","5. Daños a activos físicos","5.1. Desastres y otros eventos",Probable,Bajo,Moderado
-﻿RSS,ZONA1,123412341234,12341234,1234123421,R1,"RSS - R1 Responsbale","RSS-R1 Nombre","Descripción RSS-R1","[""MANTENIMIENTO""]","2. Fraude Externo","2.1. Hurto y Fraude",Ocasional,Bajo,Bajo
-﻿MSS,ZONA1,41234,12341234,12341234,R1,"John Buitrago","R1 Nombre","R1 Descripción","[""OT""]","5. Daños a activos físicos","5.1. Desastres y otros eventos",Ocasional,Alto,Alto
