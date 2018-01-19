@@ -139,9 +139,26 @@
                     });
                 }
 
-                var plataformas = <?= $plataformas; ?>
+                var plataformas = <?= $plataformas; ?>;
+                var consecutivo = "<?= isset($consecutivo) ? $consecutivo : null; ?>";
+                if (consecutivo) {
+                    $('#nombre_riesgo').attr('placeholder', consecutivo).val(consecutivo);
+                }
+
                 //Listamos las plataformas...
                 dom.llenarCombo($('#k_id_plataforma'), plataformas, {text: "n_nombre", value: "k_id_plataforma"});
+
+
+
+                $('#k_id_plataforma').on('change', function () {
+                    app.post('Utils/getConsecutivoRiesgo',
+                            {idPlataforma: $('#k_id_plataforma').val()}
+                    )
+                            .success(function (response) {
+                                $('#nombre_riesgo').attr('placeholder', response.data).val(response.data);
+                            })
+                            .send();
+                });
             });
         </script>
     </script>

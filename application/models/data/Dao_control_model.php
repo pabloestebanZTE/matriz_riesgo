@@ -59,6 +59,19 @@ class Dao_control_model extends CI_Model {
         }
     }
 
+    public function findByIdUnic($id) {
+        try {
+            $cm = new ControlModel();
+            $datos = $cm->where("k_id", "=", $id)
+                    ->first();
+            $response = new Response(EMessages::SUCCESS);
+            $response->setData($datos);
+            return $response;
+        } catch (ZolidException $ex) {
+            return $ex;
+        }
+    }
+
     public function updateControl($request) {
         try {
             $cm = new ControlModel();

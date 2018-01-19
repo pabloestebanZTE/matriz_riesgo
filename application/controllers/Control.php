@@ -55,7 +55,7 @@ class Control extends CI_Controller {
         $v = strpos($this->request->url, "duplicarControl") != false;
         $id = $this->request->idControl;
         $vm = new Dao_control_model();
-        $response = $vm->findById($id);
+        $response = $vm->findByIdUnic($id);
         $answer['control'] = json_encode($response->data);
         //Consultamos las plataformas...
         $plataformaModel = new PlataformaModel();

@@ -383,6 +383,19 @@ class Dao_risk_model extends CI_Model {
         }
     }
 
+    public function findByIdUnic($id) {
+        try {
+            $user = new RiesgoModel();
+            $datos = $user->where("k_id", "=", $id)
+                    ->first();
+            $response = new Response(EMessages::SUCCESS);
+            $response->setData($datos);
+            return $response;
+        } catch (ZolidException $ex) {
+            return $ex;
+        }
+    }
+
     public function listAllRisk($request) {
         $model = new RiesgoEspecificoModel();
         $data = $model->get();
@@ -550,14 +563,15 @@ class Dao_risk_model extends CI_Model {
         try {
             $db = new DB();
             $idControl = $request->idControl;
-            $datos = $db->select("SELECT ri.k_id_riesgo, ri.n_riesgo, pl.n_nombre, ce.k_id_control_especifico 
-                                FROM control_especifico ce
-                                INNER JOIN causa ca ON ce.k_id_causa = ca.k_id_causa
-                                INNER JOIN riesgo_especifico re ON ca.k_id_riesgo_especifico = re.k_id_riesgo_especifico
-                                INNER JOIN riesgo ri ON ri.k_id_riesgo = re.k_id_riesgo
-                                INNER JOIN plataforma pl ON pl.k_id_plataforma = re.k_id_plataforma
-                                WHERE ce.k_id_control = '$idControl'")->get();
-//            echo $db->getSql();
+            $sql = "select re.*, p.n_nombre, r.nombre_riesgo, r.n_riesgo, ce.k_id_control_especifico from riesgo_especifico re inner join causa cc
+                    on cc.k_id_riesgo_especifico = re.k_id_riesgo_especifico 
+                    inner join riesgo r on r.k_id_riesgo = re.k_id_riesgo 
+                    inner join control_especifico ce on ce.k_id_causa = cc.k_id_causa 
+                    inner join control c on c.k_id_control = ce.k_id_control 
+                    inner join plataforma p on p.k_id_plataforma = re.k_id_plataforma 
+                    where c.nombre_control  = '$idControl' group by re.k_id_riesgo_especifico";
+
+            $datos = $db->select($sql)->get();
             $response = new Response(EMessages::SUCCESS);
             $response->setData($datos);
             return $response;
@@ -706,6 +720,25 @@ class Dao_risk_model extends CI_Model {
         }
     }
 
+    public function updateTratamiento($request) {
+        try {
+            $valid = new Validator();
+            //Se limpia el objeto de posibles cadenas vacias...
+            foreach ($request->all() as $key => $value) {
+                if ((!is_object($value)) && (!$valid->required(null, $value))) {
+                    $request->{$key} = DB::NULLED;
+                }
+            }
+            $response = new Response(EMessages::UPDATE);
+            $request->create_at = Hash::getDate();
+            (new TratamientoRiesgosModel())->where("k_id_tratamiento", "=", $request->id_tratamiento)
+                    ->update($request->all());
+            return $response;
+        } catch (ZolidException $ex) {
+            return $ex;
+        }
+    }
+
     public function listRiskByIdPlataform($id) {
         try {
             $risk = new RiesgoModel();
@@ -729,6 +762,8 @@ class Dao_risk_model extends CI_Model {
                     ->where("k_id_probabilidad", "=", $riesgoEspecifico->k_id_probabilidad)
                     ->where("k_id_impacto", "=", $riesgoEspecifico->k_id_impacto)
                     ->first();
+
+            $riesgoEspecifico->k_id_plataforma = (new PlataformaModel())->where("k_id_plataforma", "=", $riesgoEspecifico->k_id_plataforma)->first();
         } else {
             return new Response(EMessages::ERROR_QUERY);
         }
@@ -741,11 +776,50 @@ class Dao_risk_model extends CI_Model {
                     ->where("k_id_probabilidad", "=", $dato->k_id_probabilidad_riesgo_residual)
                     ->where("k_id_impacto", "=", $dato->k_id_impacto_riesgo_residual)
                     ->first();
-            
-//            echo $tempModel->getSQL();
         }
         $response->setData($datos);
         return $response;
+    }
+
+    function getTratamientoById($request) {
+        $response = new Response(EMessages::QUERY);
+        $tratamientoModel = new TratamientoRiesgosModel();
+        $riesgoEspecifico = new RiesgoEspecificoModel();
+        $tratamiento = $tratamientoModel->where("k_id_tratamiento", "=", $request->id)->first();
+        if ($tratamiento) {
+            //Consultamos el riesgo...
+            $tratamiento->k_id_riesgo_especifico = $riesgoEspecifico->where("k_id_riesgo_especifico", "=", $tratamiento->k_id_riesgo_especifico)->first();
+            //Consultamos el riesgo inherente...
+            $riesgoTempModel = new RefProbabilidadImpactoModel();
+            $riesgoInherente = $riesgoTempModel
+                    ->where("k_id_probabilidad", "=", $tratamiento->k_id_riesgo_especifico->k_id_probabilidad)
+                    ->where("k_id_impacto", "=", $tratamiento->k_id_riesgo_especifico->k_id_impacto)
+                    ->first();
+            //Consultamos el riesgo residual...
+            $riesgoTempModel = new RefProbabilidadImpactoModel();
+            $riesgoResidual = $riesgoTempModel
+                    ->where("k_id_probabilidad", "=", $tratamiento->k_id_probabilidad_riesgo_residual)
+                    ->where("k_id_impacto", "=", $tratamiento->k_id_impacto_riesgo_residual)
+                    ->first();
+        }
+        $comboxDAO = new Dao_combox_model();
+
+        //Organizamos el objeto que vamos a retornar...
+        $tratamiento = [
+            "record" => [
+                "riesgo" => (new RiesgoModel())->where("k_id_riesgo", "=", $tratamiento->k_id_riesgo_especifico->k_id_riesgo)->first(),
+                "riesgo_especifico" => $tratamiento->k_id_riesgo_especifico,
+                "riesgo_inherente" => $riesgoInherente,
+                "riesgo_residual" => $riesgoResidual,
+                "cmpl_riesgo_residual" => [
+                    "k_id_probabilidad" => $tratamiento->k_id_probabilidad_riesgo_residual,
+                    "k_id_impacto" => $tratamiento->k_id_impacto_riesgo_residual,
+                ]
+            ],
+            "riesgos" => $comboxDAO->getListComboxById(1)->data,
+            "tratamiento" => $tratamiento
+        ];
+        return $tratamiento;
     }
 
 }
