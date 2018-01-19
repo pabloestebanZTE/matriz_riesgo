@@ -102,7 +102,7 @@ var vista = {
             }
             vista.addGrid(registro);
             //Creamos el punto...
-            var htmlPoint = '<div class="point" data-value="1"><span class="title">' + registro.k_id_riesgo + '</span></div>';
+            var htmlPoint = '<div class="point" data-value="1"><span class="title">' + registro.nombre_riesgo + '</span></div>';
             point.append(htmlPoint);
         }
     },

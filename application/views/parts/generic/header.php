@@ -44,7 +44,7 @@
                         </div>
                         <ul class="m-t-20">
                             <li>
-                                <a href="<?= URL::to('Matriz/generalRisksMatrixView') ?>"><i class="fa fa-fw fa-home"></i>&nbsp;&nbsp;Home</a>
+                                <a href="<?= URL::to('Matriz/generalRisksMatrixView') ?>"><i class="fa fa-fw fa-home"></i>&nbsp;&nbsp;Matriz</a>
                             </li>
                             <li>
                                 <a href="<?= URL::to('Matriz/listPlataforms') ?>"><i class="fa fa-fw fa-home"></i>&nbsp;&nbsp;Plataformas</a>

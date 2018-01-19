@@ -7,8 +7,14 @@
     <body data-base="<?= URL::base() ?>">
         <?php $this->load->view('parts/generic/header'); ?>
         <div class="container autoheight">
-            <div class='tab-content' id='tab3'><br><br>
-                <div class="container">
+            <div class='tab-content' id='tab3'>
+                <div class="">
+                    <nav class="breadcrumb m-t-20">
+                        <a class="breadcrumb-item" href="<?= URL::to("Matriz/generalRisksMatrixView") ?>">Home</a>
+                        <span class="breadcrumb-item" >Módulos</span>                        
+                        <a class="breadcrumb-item" href="<?= URL::to("Matriz/listPlataforms"); ?>">Lista Plataformas</a>
+                        <span class="breadcrumb-item" ><?= isset($_GET["id"]) ? "Editar" : "Registrar" ?></span>
+                    </nav>
                     <form class="well form-horizontal" action="Risk/insertPlataform" data-action-update="Risk/updatePlataform" method="post"  id="risks" >
                         <div class="alert alert-success alert-dismissable hidden">
                             <a href="#" class="close" >&times;</a>

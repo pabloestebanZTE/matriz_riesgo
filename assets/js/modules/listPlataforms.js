@@ -8,20 +8,24 @@
 var vista = {
     init: function () {
         vista.events();
-        vista.listPlataforms();        
+        vista.listPlataforms();
     },
     events: function () {
-
-    },    
+    },
     listPlataforms: function () {
-        app.post('Risk/listPlataforms').success(function (response) {
-            var data = app.parseResponse(response);
-            if (data) {
-                vista.fillTable(data);
-            } else {
-                vista.fillTable([]);
-            }
-        }).error(function () {
+        var alert = dom.printAlert('Consultando registros, por favor espere', 'loading', $('#principalAlert'));
+        app.post('Risk/listPlataforms')
+                .complete(function () {
+                    alert.hide();
+                })
+                .success(function (response) {
+                    var data = app.parseResponse(response);
+                    if (data) {
+                        vista.fillTable(data);
+                    } else {
+                        vista.fillTable([]);
+                    }
+                }).error(function () {
 
         }).send();
     },

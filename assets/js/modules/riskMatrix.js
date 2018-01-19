@@ -40,7 +40,12 @@ var vista = {
         vista.addTipoActividad().select2({width: '100%'});
     },
     onChangeRisk: function () {
-        if ($('#cmbPlataforma').val().trim() != "") {
+        var cmb = $('#cmbPlataforma');
+        if (cmb.val().trim() != "") {
+            if (cmb.attr('data-val') == cmb.val()) {
+                return;
+            }
+            cmb.attr('data-val', cmb.val());
             app.post('Risk/listRiskByIdPlataform', {
                 id: $('#cmbPlataforma').val()
             }).success(function (response) {
@@ -395,7 +400,7 @@ var vista = {
     onChangeCmbTipoEventoNivel1: function () {
         if ($('#cmbTipoEventoNivel1').val().trim("") === "") {
             return;
-            
+
         }
         var cmb = $('#cmbTipoEventoNivel2');
         app.get('Utils/getListComboxCmbTipoEventoNvl2', {
