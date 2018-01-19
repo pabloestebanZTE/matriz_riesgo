@@ -13,14 +13,14 @@ class Dao_control_model extends CI_Model {
     public function insertControl($request) {
         try {
             $cvm = new ControlModel();
-            //Verificamos que no exista un control con le mismo nombre en la misma plataforma...
+            //Verificamos que no exista un control con el mismo nombre en la misma plataforma...
             $exist = $cvm->where("k_id_plataforma", "=", $request->k_id_plataforma)
-                    ->where("nombre_control", "=", $request->nombre_control)
+                    ->where("k_id_control", "=", $request->nombre_control . "-" . $request->k_id_plataforma)
                     ->exist();
             if ($exist) {
                 return (new Response(EMessages::ERROR))->setMessage("Ya existe un control con el mismo id para esta plataforma.");
             }
-            $request->k_id_control = $request->nombre_control;
+            $request->k_id_control = $request->nombre_control . "-" . $request->k_id_plataforma;
             $datos = $cvm->insert($request->all());
             $response = new Response(EMessages::SUCCESS);
             $response->setData($datos);
@@ -92,13 +92,14 @@ class Dao_control_model extends CI_Model {
             $cm = new ControlModel();
             //Verificamos que no exista un control con le mismo nombre en la misma plataforma...
             $exist = $cm->where("k_id_plataforma", "=", $request->k_id_plataforma)
-                    ->where("nombre_control", "=", $request->nombre_control)
+                    ->where("k_id_control", "=", $request->nombre_control . "-" . $request->k_id_plataforma)
                     ->where("k_id", "!=", $request->k_id_registro)
                     ->exist();
             if ($exist) {
                 return (new Response(EMessages::ERROR))->setMessage("Ya existe un control con el mismo id para esta plataforma.");
             }
             $id = $request->k_id_registro;
+            $request->k_id_control = $request->nombre_control . "-" . $request->k_id_plataforma;
             $args = $request->all();
             $cm = new ControlModel();
             $datos = $cm->where("k_id", "=", $id)
