@@ -17,7 +17,7 @@ class Dao_calificacion_model extends CI_Model {
             $request->total_ejecucion = $request->n_pe1 + $request->n_pe2 + $request->n_pe3 + $request->n_pe4;
             $request->total_calificacion = $request->total_disenio + $request->total_ejecucion;
             if ($request->total_calificacion <= 100 && $request->total_calificacion >= 76) {
-                $request->niveles_disminuye = 2;
+                $request->niveles_disminuye = 1;
             } else {
                 if ($request->total_calificacion <= 75 && $request->total_calificacion >= 51) {
                     $request->niveles_disminuye = 1;

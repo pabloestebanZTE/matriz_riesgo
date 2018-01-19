@@ -302,7 +302,7 @@
                 var total_calificacion = total_disenio + total_ejecucion;
                 var niveles_disminuye = 0;
                 if (parseInt(total_calificacion) <= 100 && parseInt(total_calificacion) >= 76) {
-                    niveles_disminuye = 2;
+                    niveles_disminuye = 1;
                 } else {
                     if (parseInt(total_calificacion) <= 75 && parseInt(total_calificacion) >= 51) {
                         niveles_disminuye = 1;
