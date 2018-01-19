@@ -12,7 +12,7 @@
                     <a class="breadcrumb-item" href="<?= URL::to("Matriz/generalRiskMatrixView") ?>">Home</a>
                     <span class="breadcrumb-item" >Módulos</span>                        
                     <a class="breadcrumb-item" href="<?= URL::to("Matriz/listTratamiento"); ?>">Administración de Tratamientos</a>
-                    <span class="breadcrumb-item" >Editar</span>
+                    <span class="breadcrumb-item" ><?= isset($editar) ? "Editar" : "Crear nuevo" ?></span>
                 </nav>
                 <div class="">
                     <form class="well form-horizontal" action="Risk/insertTratamiento" method="post"  id="formTratamiento" name="controls">
@@ -102,7 +102,7 @@
                                 <div class="col-md-8 selectContainer">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-fw fa-calendar"></i></span>
-                                        <input type="date" class="form-control" name="fecha_inicio" />
+                                        <input type="date" class="form-control" name="fecha_inicio" data-callback="dom.formatDateForPrint" />
                                     </div>
                                 </div>
                             </div>
@@ -111,7 +111,7 @@
                                 <div class="col-md-8 selectContainer">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-fw fa-calendar"></i></span>
-                                        <input type="date" class="form-control" name="fecha_fin" />
+                                        <input type="date" class="form-control" name="fecha_fin" data-callback="dom.formatDateForPrint" />
                                     </div>
                                 </div>
                             </div>

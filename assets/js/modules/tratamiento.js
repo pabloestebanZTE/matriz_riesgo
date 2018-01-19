@@ -7,6 +7,19 @@ var vista = {
         dom.submit($('#formTratamiento'), function () {
             location.href = app.urlTo('Matriz/listTratamiento');
         });
+        $('#cmbRiesgos').on('change', function () {
+            app.post('Utils/getRiskById', {id: $(this).val()}).success(function (response) {
+                var data = app.parseResponse(response);
+                if (data) {
+                    $('#txtDescripcionRiesgo').val(data.n_riesgo_descripcion);
+                } else {
+                    $('#txtDescripcionRiesgo').val("");
+                }
+//                $('#txtDescripcionRiesgo').val(response.data.);
+            }).error(function () {
+                $('#txtDescripcionRiesgo').val("");
+            }).send();
+        });
     },
     get: function () {
         dom.llenarCombo($('#cmbRiesgos'), formData.riesgos, {text: "text", value: "value"});
@@ -31,6 +44,11 @@ var vista = {
         }
         form.find('#k_id_probabilidad_riesgo_residual').val(formData.record.cmpl_riesgo_residual.k_id_probabilidad);
         form.find('#k_id_impacto_riesgo_residual').val(formData.record.cmpl_riesgo_residual.k_id_impacto);
+        if (formData.tratamiento) {
+            form.attr('action', 'Risk/updateTratamiento');
+            form.append('<input type="hidden" name="id_tratamiento" value="' + formData.tratamiento.k_id_tratamiento + '" />');
+            form.fillForm(formData.tratamiento);
+        }
     }
 };
 

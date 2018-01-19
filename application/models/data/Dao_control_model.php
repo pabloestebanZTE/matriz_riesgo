@@ -35,9 +35,24 @@ class Dao_control_model extends CI_Model {
             $db = new DB();
             $datos = $db->select("SELECT co.*, count(coe.k_id_control) k_control_asinado
                                 FROM control co
-                                LEFT JOIN control_especifico coe ON co.k_id_control = coe.k_id_control 
-                                " . (($request->idPlataforma != "-1") ? "WHERE co.k_id_plataforma =  $request->idPlataforma" : "") . "
+                                LEFT JOIN control_especifico coe ON co.k_id_control = coe.k_id_control                                 
                                  GROUP BY co.k_id_control")->get();
+            $response = new Response(EMessages::SUCCESS);
+            $response->setData($datos);
+            return $response;
+        } catch (ZolidException $ex) {
+            return $ex;
+        }
+    }
+
+    public function getAllControls($request) {
+        try {
+            $controlModel = new ControlModel();
+            if ($request->idPlataforma != "-1") {
+                $datos = $controlModel->where("k_id_plataforma", "=", $request->idPlataforma)->get();
+            } else {
+                $datos = $controlModel->get();
+            }
             $response = new Response(EMessages::SUCCESS);
             $response->setData($datos);
             return $response;
@@ -50,6 +65,19 @@ class Dao_control_model extends CI_Model {
         try {
             $cm = new ControlModel();
             $datos = $cm->where("k_id_control", "=", $id)
+                    ->first();
+            $response = new Response(EMessages::SUCCESS);
+            $response->setData($datos);
+            return $response;
+        } catch (ZolidException $ex) {
+            return $ex;
+        }
+    }
+
+    public function findByIdUnic($id) {
+        try {
+            $cm = new ControlModel();
+            $datos = $cm->where("k_id", "=", $id)
                     ->first();
             $response = new Response(EMessages::SUCCESS);
             $response->setData($datos);

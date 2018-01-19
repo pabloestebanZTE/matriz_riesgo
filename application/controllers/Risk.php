@@ -64,7 +64,7 @@ class Risk extends CI_Controller {
     public function findRiskById() {
         $id = $this->request->idRiesgo;
         $dao = new Dao_risk_model();
-        $response = $dao->findById($id);
+        $response = $dao->findByIdUnic($id);
         $answer['riesgo'] = json_encode($response->data);
         //Consultamos las plataformas...
         $plataformaModel = new PlataformaModel();
@@ -77,7 +77,7 @@ class Risk extends CI_Controller {
         $v = strpos($this->request->url, "duplicarRiesgo") != false;
         $id = $this->request->idRiesgo;
         $dao = new Dao_risk_model();
-        $response = $dao->findById($id);
+        $response = $dao->findByIdUnic($id);
         $answer['riesgo'] = json_encode($response->data);
         //Consultamos las plataformas...
         $plataformaModel = new PlataformaModel();
@@ -85,6 +85,16 @@ class Risk extends CI_Controller {
         $answer['plataformas'] = json_encode($data);
         if ($v) {
             $answer["duplicar"] = true;
+        }
+        $c = strpos($this->request->url, "controlsView") != false;
+        if ($v || $c) {
+            //Consultamos el consecutivo...
+            $count = (new DB())
+                    ->select("select count(k_id) as count from control where k_id_plataforma = "
+                            . $response->data->k_id_plataforma)
+                    ->first();
+            $consecutivo = "R" . ($count->count + 1);
+            $answer["consecutivo"] = $consecutivo;
         }
         $this->load->view('riskView', $answer);
     }
@@ -125,6 +135,12 @@ class Risk extends CI_Controller {
         $this->json($resposne);
     }
 
+    public function listRiskByIdPlataform() {
+        $dao = new Dao_risk_model();
+        $resposne = $dao->listRiskByIdPlataform($this->request->id);
+        $this->json($resposne);
+    }
+
     public function insertPlataform() {
         $dao = new Dao_risk_model();
         $response = $dao->insertPlataform($this->request);
@@ -146,6 +162,18 @@ class Risk extends CI_Controller {
     public function insertTratamiento() {
         $dao = new Dao_risk_model();
         $response = $dao->insertTratamiento($this->request);
+        $this->json($response);
+    }
+
+    public function updateTratamiento() {
+        $dao = new Dao_risk_model();
+        $response = $dao->updateTratamiento($this->request);
+        $this->json($response);
+    }
+
+    public function getListTratamientoByMatriz() {
+        $dao = new Dao_risk_model();
+        $response = $dao->getListTratamientosByIdMatriz($this->request);
         $this->json($response);
     }
 

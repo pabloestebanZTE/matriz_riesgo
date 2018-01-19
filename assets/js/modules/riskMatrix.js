@@ -27,12 +27,29 @@ var vista = {
         $('.list-group-item').on('click', function () {
             $('#cmbPlataforma').trigger('change');
         });
+        $('#cmbPlataforma').on('change', vista.onChangeRisk);
+        $('#cmbRiesgoId').on('change', vista.onChangeDescriptionRisk);
     },
     onChangeCmbPlataforma: function () {
         $('.txt-plataforma').val($('#cmbPlataforma option:selected').text());
     },
+    onChangeDescriptionRisk: function () {
+        $("#cmbRiesgoDescripcion").val($('#cmbRiesgoId').val()).trigger('change.select2');
+    },
     onClickBtnAddActividad: function () {
         vista.addTipoActividad().select2({width: '100%'});
+    },
+    onChangeRisk: function () {
+        if ($('#cmbPlataforma').val().trim() != "") {
+            app.post('Risk/listRiskByIdPlataform', {
+                id: $('#cmbPlataforma').val()
+            }).success(function (response) {
+                dom.llenarCombo($('#cmbRiesgoId'), response.data, {text: "n_riesgo", value: "k_id_riesgo"});
+                dom.llenarCombo($('#cmbRiesgoDescripcion'), response.data, {text: "n_riesgo_descripcion", value: "k_id_riesgo"});
+            }).error(function () {
+                swal("Error inesperado", "Lo sentimos, se ha producido un error inesperado.", "error");
+            }).send();
+        }
     },
     onClickBtnRemoveActividad: function () {
         var btn = $(this);
@@ -61,6 +78,9 @@ var vista = {
                 + '<option value="INCIDENCIAS/EVENTOS" ' + ((value == "INCIDENCIAS/EVENTOS") ? 'selected="selected"' : '') + '>INCIDENCIAS/EVENTOS</option>'
                 + '<option value="FACTURACIÓN" ' + ((value == "FACTURACIÓN") ? 'selected="selected"' : '') + '>FACTURACIÓN</option>'
                 + '<option value="APROVISIONAMIENTO" ' + ((value == "APROVISIONAMIENTO") ? 'selected="selected"' : '') + '>APROVISIONAMIENTO</option>'
+                + '<option value="CONTROL DE ACCESSO" ' + ((value == "CONTROL DE ACCESSO") ? 'selected="selected"' : '') + '>CONTROL DE ACCESSO</option>'
+                + '<option value="ADMINISTRATIVO" ' + ((value == "ADMINISTRATIVO") ? 'selected="selected"' : '') + '>ADMINISTRATIVO</option>'
+                + '<option value="SEGURIDAD" ' + ((value == "SEGURIDAD") ? 'selected="selected"' : '') + '>SEGURIDAD</option>'
                 + '</select>'
                 + '<div class="input-group-btn">'
                 + '<button type="button" class="btn-add-actividad btn btn-primary" title="Agregar" >'
@@ -375,6 +395,7 @@ var vista = {
     onChangeCmbTipoEventoNivel1: function () {
         if ($('#cmbTipoEventoNivel1').val().trim("") === "") {
             return;
+            
         }
         var cmb = $('#cmbTipoEventoNivel2');
         app.get('Utils/getListComboxCmbTipoEventoNvl2', {

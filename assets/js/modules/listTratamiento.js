@@ -9,14 +9,24 @@ var vista = {
     init: function () {
         vista.events();
         vista.listRisk();
+        $('#cmbPlataformas').on('selectfilled', function () {
+            vista.listRisk();
+        });
     },
     events: function () {
         dom.submit($('#formTratamiento'), function () {
             location.href = app.urlTo('Matriz/listTratamiento');
         });
+
+        $('#cmbPlataformas').on('change', function () {
+            vista.listRisk();
+        });
     },
     listRisk: function () {
-        app.post('Risk/getListRisk')
+        $('#cmbPlataformas').find('option:eq(1)').prop('selected', true).trigger('change.select2');
+        app.post('Risk/listRiskByIdPlataform', {
+            id: $('#cmbPlataformas').val()
+        })
                 .success(function (response) {
                     console.log(response);
                     var data = app.parseResponse(response);
@@ -78,7 +88,8 @@ var vista = {
                 ));
     },
     getButtons: function (obj) {
-        return '<a href="' + app.urlTo('Matriz/tratamiento?id=' + obj.k_id_riesgo_especifico) + '" class="btn btn-default btn-xs"><i class="fa fa-fw fa-check-square"></i></a>';
+        return '<a href="' + app.urlTo('Matriz/tratamiento?id=' + obj.k_id_riesgo_especifico) + '" class="btn btn-default btn-xs"><i class="fa fa-fw fa-check-square"></i></a>'
+                + '<a href="' + app.urlTo('Matriz/riskTratamientos?id=' + obj.k_id_riesgo_especifico) + '" class="btn btn-default btn-xs"><i class="fa fa-fw fa-list"></i></a>';
     }
 };
 

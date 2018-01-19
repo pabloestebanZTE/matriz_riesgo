@@ -56,7 +56,7 @@
                                 <a href="<?= URL::to('Matriz/generalRisksView') ?>"><i class="fa fa-fw fa-home"></i>&nbsp;&nbsp;Riesgos</a>
                             </li>                            
                             <li>
-                                <a href="<?= URL::to('Reports/downloadReportMatriz') ?>"><i class="fa fa-fw fa-home"></i>&nbsp;&nbsp;Exportar Informe</a>
+                                <a href="<?= URL::to('DownloadReport/matrizRiesgo') ?>"><i class="fa fa-fw fa-home"></i>&nbsp;&nbsp;Exportar Informe</a>
                             </li>
                             <li>
                                 <a href="<?= URL::to('Matriz/listTratamiento') ?>"><i class="fa fa-fw fa-asterisk"></i>&nbsp;&nbsp;Tratamiento</a>

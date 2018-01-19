@@ -129,8 +129,24 @@ class Matriz extends CI_Controller {
         $this->load->view('tratamiento', ["dataForm" => json_encode($dao->getFormData($this->request))]);
     }
 
+    public function editarTratamiento() {
+        $id = $this->request->id;
+        if (!$id) {
+            Redirect::to(URL::to("Matriz/listTratamiento"));
+            return;
+        }
+        $dao = new Dao_risk_model();
+//        $json = (new TratamientoRiesgosModel())->where("k_id_tratamiento", "=", $id)->first();
+        $this->load->view('tratamiento', ["dataForm" => json_encode($dao->getTratamientoById($this->request))]);
+    }
+
     public function listTratamiento() {
         $this->load->view('listTratamiento');
+    }
+
+    public function riskTratamientos() {
+        $dao = new Dao_risk_model();
+        $this->load->view("riskTratamientos");
     }
 
 }
