@@ -4,6 +4,7 @@ class PlataformaModel extends Model {
 
     protected $k_id_plataforma;
     protected $n_nombre;
+    protected $n_responsable;
     
     //Los campos que desea ocultar para que no se reflejen en la vista.    
     protected $table = "plataforma";
@@ -26,6 +27,12 @@ class PlataformaModel extends Model {
     }
     public function getNNombre() {
         return $this->n_nombre;
+    }
+    public function setNResponsable($n_responsable) {
+        $this->n_responsable = $n_responsable;
+    }
+    public function getNResponsable() {
+        return $this->n_responsable;
     }
 
 

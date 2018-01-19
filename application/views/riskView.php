@@ -27,7 +27,7 @@
                                 <div class="col-md-8 selectContainer">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-fw fa-globe"></i></span>
-                                        <select class="form-control" id="k_id_plataforma" name="k_id_plataforma">
+                                        <select class="form-control" id="k_id_plataforma" name="k_id_plataforma" required>
                                             <option>Seleccione</option>
                                         </select>
                                     </div>

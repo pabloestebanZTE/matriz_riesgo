@@ -557,6 +557,7 @@ class Dao_risk_model extends CI_Model {
                                 INNER JOIN riesgo ri ON ri.k_id_riesgo = re.k_id_riesgo
                                 INNER JOIN plataforma pl ON pl.k_id_plataforma = re.k_id_plataforma
                                 WHERE ce.k_id_control = '$idControl'")->get();
+//            echo $db->getSql();
             $response = new Response(EMessages::SUCCESS);
             $response->setData($datos);
             return $response;

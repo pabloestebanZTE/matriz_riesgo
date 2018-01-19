@@ -17,6 +17,16 @@ var dom = {
             dom.fillCombox();
         } catch (e) {
         }
+        dom.events();
+    },
+    events: function () {
+        var onChangeSelect2 = function () {
+            var select = $(this);
+            var spanText = select.find('#select2-cmbCodControl-container');
+//            spanText[0].
+        };
+        $(document).on('change', 'select.select2-hidden-accessible', onChangeSelect2);
+        $(document).on('change.select2', 'select.select2-hidden-accessible', onChangeSelect2);
     },
     fillCombox: function () {
         var comboxs = $('[data-combox]');
@@ -555,7 +565,7 @@ var dom = {
         cmb.on('selectfilled', function () {
             console.log("SELEECT FILL COMBNO", cmb, value);
             cmb.val(cmb.attr('data-value')).trigger('change.select2');
-            cmb.off('selectfilled'); 
+            cmb.off('selectfilled');
         });
     }
 };

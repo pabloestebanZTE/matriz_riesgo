@@ -108,14 +108,14 @@
                                             </select>
                                         </div>
                                     </div>
-<!--                                    <div class="form-group">
-                                        <label for="cmbRiesgoDescripcion" class="col-sm-2 control-label">Descripción Riesgo</label>
-                                        <div class="col-sm-10">
-                                            <select class="form-control" id="cmbRiesgoDescripcion" name="cmbRiesgoDescripcion" disabled>
-                                                <option value=""></option>
-                                            </select>
-                                        </div>
-                                    </div>-->
+                                    <!--                                    <div class="form-group">
+                                                                            <label for="cmbRiesgoDescripcion" class="col-sm-2 control-label">Descripción Riesgo</label>
+                                                                            <div class="col-sm-10">
+                                                                                <select class="form-control" id="cmbRiesgoDescripcion" name="cmbRiesgoDescripcion" disabled>
+                                                                                    <option value=""></option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>-->
                                     <div id="tiposDeActividad">                                        
                                     </div>
                                     <div class="form-group">
@@ -228,25 +228,33 @@
                                                         <!--<span class="icon-control"><i class="fa fa-fw fa-tag"></i></span>-->
                                                         <div class="content-control p-r-15">
                                                             <!--<div class="col-md-6">-->
-                                                            <label class="small">Control <span id="numControl">1:</span></label>
-                                                            <div class="input-group">
-                                                                <select class="form-control input-sm notDisabled cmb-control" id="cmbCodControl" >
-                                                                    <option value="">Seleccione</option>
-                                                                </select>
-                                                                <div class="input-group-btn">
-                                                                    <button type="button" class="btn btn-primary btn-sm btn-add-control" title="Agregar control"><i class="fa fa-fw fa-plus"></i></button>
-                                                                    <button type="button" class="btn btn-danger btn-sm btn-remove-control" title="Remover causa"><i class="fa fa-fw fa-minus"></i></button>
+                                                            <div class="row">
+                                                                <div class="col-xs-12">
+                                                                    <label class="small">Control <span id="numControl">1:</span></label>
+                                                                    <div class="input-group-custom display-block">
+                                                                        <div class="select-section">
+                                                                            <select class="form-control input-sm notDisabled cmb-control" id="cmbCodControl" >
+                                                                                <option value="">Seleccione</option>
+                                                                            </select>
+                                                                        </div>
+                                                                        <div class="input-group-btn">
+                                                                            <button type="button" class="btn btn-primary btn-sm btn-add-control" title="Agregar control"><i class="fa fa-fw fa-plus"></i></button>
+                                                                            <button type="button" class="btn btn-danger btn-sm btn-remove-control" title="Remover causa"><i class="fa fa-fw fa-minus"></i></button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>                                                            
+                                                                <!--</div>-->
+                                                                <!--<div class="col-md-6">-->
+                                                                <div class="col-xs-12">
+                                                                    <div class="display-block with-300 m-t-10">
+                                                                        <label class="small">Factor de riesgo:</label>
+                                                                        <select class="form-control input-sm notDisabled cmb-factor-riesgo" id="cmbFactorRiesgo" name="cmbFactorRiesgo" >
+                                                                            <option value="">Seleccione</option>
+                                                                        </select>
+                                                                    </div>
                                                                 </div>
+                                                                <!--</div>-->
                                                             </div>
-                                                            <!--</div>-->
-                                                            <!--<div class="col-md-6">-->
-                                                            <div class="display-block with-300 m-t-10">
-                                                                <label class="small">Factor de riesgo:</label>
-                                                                <select class="form-control input-sm notDisabled cmb-factor-riesgo" id="cmbFactorRiesgo" name="cmbFactorRiesgo" >
-                                                                    <option value="">Seleccione</option>
-                                                                </select>
-                                                            </div>
-                                                            <!--</div>-->
                                                         </div>
                                                     </div>
                                                 </div>

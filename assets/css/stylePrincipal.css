@@ -1001,3 +1001,14 @@ table{
 .breadcrumb{
     box-shadow: 0px 0px 2px #555;    
 }
+
+.input-group-custom .select-section{
+    max-width: 87%;
+    display: inline-block;
+    margin: 0px !important;
+    min-width: 87%;
+}
+.input-group-custom .input-group-btn{  
+    display: inline-block;
+    position: absolute;
+}
