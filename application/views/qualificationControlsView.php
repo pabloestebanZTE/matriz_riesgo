@@ -212,20 +212,20 @@
                                 </h2>
                                 <fieldset class="col-md-6 control-label">
                                     <div class="form-group">
-                                        <label for="n_pe1" class="col-md-3 control-label">Total Diseño</label>
+                                        <label for="totalDisenio" class="col-md-3 control-label">Total Diseño</label>
                                         <div class="col-md-8 selectContainer">
                                             <div class="input-group">
                                                 <span class="input-group-addon"><i class="fa fa-fw fa-pencil"></i></span>
-                                                <input type='text' name="n_pe1" id="n_pe1" class="form-control">
+                                                <input type='text' name="totalDisenio" id="totalDisenio" class="form-control">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="n_pe2" class="col-md-3 control-label">Total Ejecución</label>
+                                        <label for="totalEjecucion" class="col-md-3 control-label">Total Ejecución</label>
                                         <div class="col-md-8 selectContainer">
                                             <div class="input-group">
                                                 <span class="input-group-addon"><i class="fa fa-fw fa-pencil"></i></span>
-                                                <input type='text' name="n_pe2" id="n_pe2" class="form-control">
+                                                <input type='text' name="totalEjecucion" id="totalEjecucion" class="form-control">
                                             </div>
                                         </div>
                                     </div>
@@ -235,21 +235,21 @@
                                 <!--  inicio seccion derecha form---->
                                 <fieldset>
                                     <div class="form-group">
-                                        <label for="n_pe3" class="col-md-3 control-label">Total Calificación</label>
+                                        <label for="totalCalificacion" class="col-md-3 control-label">Total Calificación</label>
                                         <div class="col-md-8 inputGroupContainer">
                                             <div class="input-group">
                                                 <span class="input-group-addon"><i class="fa fa-fw fa-pencil"></i></span>
-                                                <input type='text' name="n_pe3" id="n_pe3" class="form-control">
+                                                <input type='text' name="totalCalificacion" id="totalCalificacion" class="form-control">
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="n_pe4" class="col-md-3 control-label">Niveles Disminuye</label>
+                                        <label for="nivelesDisminuye" class="col-md-3 control-label">Niveles Disminuye</label>
                                         <div class="col-md-8 inputGroupContainer">
                                             <div class="input-group">
                                                 <span class="input-group-addon"><i class="fa fa-fw fa-pencil"></i></span>
-                                                <input type='text' name="n_pe4" id="n_pe4" class="form-control">
+                                                <input type='text' name="nivelesDisminuye" id="nivelesDisminuye" class="form-control">
                                             </div>
                                         </div>
                                     </div>
