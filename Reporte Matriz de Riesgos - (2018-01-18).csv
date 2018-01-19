@@ -1,6 +1,0 @@
-﻿Plataforma,"Zona Geográfica","Mapa proceso",Proceso,Servicios,Objetivo,ID,Responsable,Riesgo,"Descripción del Riesgo","Tipo de Actividad","Tipo de Evento (Nivel 1), Tipo de Evento (nivel 2)",Probabilidad,Impacto,"Severidad del Riesgo Inherente"
-﻿"a actualizado",ZONA1,2134123,asdfasdfasdfasdfasfasf,fasdfasdf,a233,41242341234,a2,sdfasdfasdfasdfsadf,"[""OT""]","2. Fraude Externo","2.2. Vulnerabilidad  de los sistemas",Frecuente,Significativo,Alto
-﻿b,ZONA1,,,,a233,41242341234,a2,sdfasdfasdfasdfsadf,"[""OT""]","1. Fraude Interno","1.1. Actividades no autorizadas",Ocasional,Alto,Alto
-﻿"a actualizado",ZONA1,,,,a233,41242341234,a2,sdfasdfasdfasdfsadf,"[""OT""]","1. Fraude Interno","1.1. Actividades no autorizadas",Ocasional,Extremo,Extremo
-﻿c,ZONA2,,,,c,,c,1234123,"[""MANTENIMIENTO""]","2. Fraude Externo","2.2. Vulnerabilidad  de los sistemas",Alta,Insignificante,Bajo
-﻿c,ZONA1,,,,b,,b,12341234,"[""OT""]","2. Fraude Externo","2.1. Hurto y Fraude",Ocasional,Insignificante,Bajo

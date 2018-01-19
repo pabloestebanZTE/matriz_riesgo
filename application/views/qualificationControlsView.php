@@ -21,7 +21,7 @@
                                 <div class="col-md-6">
                                     <label for="k_id_control" class="col-sm-4 control-label">No. Control</label>
                                     <div class="col-sm-8">
-                                        <input type="text" class="form-control" id="k_id_control" name="k_id_control" disabled/>
+                                        <input type="text" class="form-control" id="k_id_control" name="nombre_control" disabled/>
                                         <input type="hidden" class="form-control" id="k_id_control_especifico" name="k_id_control_especifico"/>
                                         <input type="hidden" class="form-control" id="k_id_calificacion" name="k_id_calificacion"/>
                                     </div>
