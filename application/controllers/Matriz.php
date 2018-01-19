@@ -111,8 +111,7 @@ class Matriz extends CI_Controller {
             $data = $plataformModel->where("k_id_plataforma", "=", $id)->first();
             $formData = json_encode($data);
         }
-        return $this->load->view('newPlataforma', ["formData" => $formData]);
-//        $this->load->view('newPlataforma');
+        return $this->load->view('adminPlataform', ["formData" => $formData]);
     }
 
     public function listPlataforms() {

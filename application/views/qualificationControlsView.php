@@ -21,7 +21,7 @@
                                 <div class="col-md-6">
                                     <label for="k_id_control" class="col-sm-4 control-label">No. Control</label>
                                     <div class="col-sm-8">
-                                        <input type="text" class="form-control" id="k_id_control" name="k_id_control" disabled/>
+                                        <input type="text" class="form-control" id="k_id_control" name="nombre_control" disabled/>
                                         <input type="hidden" class="form-control" id="k_id_control_especifico" name="k_id_control_especifico"/>
                                         <input type="hidden" class="form-control" id="k_id_calificacion" name="k_id_calificacion"/>
                                     </div>
@@ -44,7 +44,7 @@
                                             <div class="input-group">
                                                 <span class="input-group-addon"><i class="fa fa-fw fa-pencil"></i></span>
                                                 <!--<input type='text' name="n_pd1" id="n_pd1" class="form-control">-->
-                                                <select name="n_pd1" id="n_pd1" class="form-control">
+                                                <select name="n_pd1" id="n_pd1" class="form-control" onchange="realizarCalificacion()">
                                                     <?php
                                                     for ($i = 0; $i <= 8; $i++) {
                                                         echo '<option value="' . $i . '">' . $i . '</option>';
@@ -60,7 +60,7 @@
                                             <div class="input-group">
                                                 <span class="input-group-addon"><i class="fa fa-fw fa-pencil"></i></span>
                                                 <!--<input type='text' name="n_pd2" id="n_pd2" class="form-control">-->
-                                                <select name="n_pd2" id="n_pd2" class="form-control">
+                                                <select name="n_pd2" id="n_pd2" class="form-control" onchange="realizarCalificacion()">
                                                     <?php
                                                     for ($i = 0; $i <= 8; $i++) {
                                                         echo '<option value="' . $i . '">' . $i . '</option>';
@@ -81,7 +81,7 @@
                                             <div class="input-group">
                                                 <span class="input-group-addon"><i class="fa fa-fw fa-pencil"></i></span>
                                                 <!--<input type='text' name="n_pd3" id="n_pd3" class="form-control">-->
-                                                <select name="n_pd3" id="n_pd3" class="form-control">
+                                                <select name="n_pd3" id="n_pd3" class="form-control" onchange="realizarCalificacion()">
                                                     <?php
                                                     for ($i = 0; $i <= 8; $i++) {
                                                         echo '<option value="' . $i . '">' . $i . '</option>';
@@ -98,7 +98,7 @@
                                             <div class="input-group">
                                                 <span class="input-group-addon"><i class="fa fa-fw fa-pencil"></i></span>
                                                 <!--<input type='text' name="n_pd4" id="n_pd4" class="form-control">-->
-                                                <select name="n_pd4" id="n_pd4" class="form-control">
+                                                <select name="n_pd4" id="n_pd4" class="form-control" onchange="realizarCalificacion()">
                                                     <?php
                                                     for ($i = 0; $i <= 8; $i++) {
                                                         echo '<option value="' . $i . '">' . $i . '</option>';
@@ -115,7 +115,7 @@
                                             <div class="input-group">
                                                 <span class="input-group-addon"><i class="fa fa-fw fa-pencil"></i></span>
                                                 <!--<input type='text' name="n_pd5" id="n_pd5" class="form-control">-->
-                                                <select name="n_pd5" id="n_pd5" class="form-control">
+                                                <select name="n_pd5" id="n_pd5" class="form-control" onchange="realizarCalificacion()">
                                                     <?php
                                                     for ($i = 0; $i <= 8; $i++) {
                                                         echo '<option value="' . $i . '">' . $i . '</option>';
@@ -140,7 +140,7 @@
                                             <div class="input-group">
                                                 <span class="input-group-addon"><i class="fa fa-fw fa-pencil"></i></span>
                                                 <!--<input type='text' name="n_pe1" id="n_pe1" class="form-control">-->
-                                                <select name="n_pe1" id="n_pe1" class="form-control">
+                                                <select name="n_pe1" id="n_pe1" class="form-control" onchange="realizarCalificacion()">
                                                     <?php
                                                     for ($i = 0; $i <= 15; $i++) {
                                                         echo '<option value="' . $i . '">' . $i . '</option>';
@@ -156,7 +156,7 @@
                                             <div class="input-group">
                                                 <span class="input-group-addon"><i class="fa fa-fw fa-pencil"></i></span>
                                                 <!--<input type='text' name="n_pe2" id="n_pe2" class="form-control">-->
-                                                <select name="n_pe2" id="n_pe2" class="form-control">
+                                                <select name="n_pe2" id="n_pe2" class="form-control" onchange="realizarCalificacion()">
                                                     <?php
                                                     for ($i = 0; $i <= 15; $i++) {
                                                         echo '<option value="' . $i . '">' . $i . '</option>';
@@ -177,7 +177,7 @@
                                             <div class="input-group">
                                                 <span class="input-group-addon"><i class="fa fa-fw fa-pencil"></i></span>
                                                 <!--<input type='text' name="n_pe3" id="n_pe3" class="form-control">-->
-                                                <select name="n_pe3" id="n_pe3" class="form-control">
+                                                <select name="n_pe3" id="n_pe3" class="form-control" onchange="realizarCalificacion()">
                                                     <?php
                                                     for ($i = 0; $i <= 15; $i++) {
                                                         echo '<option value="' . $i . '">' . $i . '</option>';
@@ -194,13 +194,62 @@
                                             <div class="input-group">
                                                 <span class="input-group-addon"><i class="fa fa-fw fa-pencil"></i></span>
                                                 <!--<input type='text' name="n_pe4" id="n_pe4" class="form-control">-->
-                                                <select name="n_pe4" id="n_pe4" class="form-control">
+                                                <select name="n_pe4" id="n_pe4" class="form-control" onchange="realizarCalificacion()">
                                                     <?php
                                                     for ($i = 0; $i <= 15; $i++) {
                                                         echo '<option value="' . $i . '">' . $i . '</option>';
                                                     }
                                                     ?>
                                                 </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                            <div class="widget bg-gray m-t-25 display-block">
+                                <h2 class="h4" style="text-align: center;">
+                                    <i class="fa fa-fw fa-question-circle"></i> Calificación
+                                </h2>
+                                <fieldset class="col-md-6 control-label">
+                                    <div class="form-group">
+                                        <label for="totalDisenio" class="col-md-3 control-label">Total Diseño</label>
+                                        <div class="col-md-8 selectContainer">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-fw fa-pencil"></i></span>
+                                                <input type='text' name="totalDisenio" id="totalDisenio" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="totalEjecucion" class="col-md-3 control-label">Total Ejecución</label>
+                                        <div class="col-md-8 selectContainer">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-fw fa-pencil"></i></span>
+                                                <input type='text' name="totalEjecucion" id="totalEjecucion" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <!--  fin seccion izquierda form---->
+
+                                <!--  inicio seccion derecha form---->
+                                <fieldset>
+                                    <div class="form-group">
+                                        <label for="totalCalificacion" class="col-md-3 control-label">Total Calificación</label>
+                                        <div class="col-md-8 inputGroupContainer">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-fw fa-pencil"></i></span>
+                                                <input type='text' name="totalCalificacion" id="totalCalificacion" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="nivelesDisminuye" class="col-md-3 control-label">Niveles Disminuye</label>
+                                        <div class="col-md-8 inputGroupContainer">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-fw fa-pencil"></i></span>
+                                                <input type='text' name="nivelesDisminuye" id="nivelesDisminuye" class="form-control">
                                             </div>
                                         </div>
                                     </div>
@@ -246,6 +295,26 @@
                     location.href = app.urlTo('Matriz/generalControlsView');
                 });
             });
+            
+            function realizarCalificacion() {
+                var total_disenio = parseInt($('#n_pd1').val()) + parseInt($('#n_pd2').val()) + parseInt($('#n_pd3').val()) + parseInt($('#n_pd4').val()) + parseInt($('#n_pd5').val());
+                var total_ejecucion = parseInt($('#n_pe1').val()) + parseInt($('#n_pe2').val()) + parseInt($('#n_pe3').val()) + parseInt($('#n_pe4').val());
+                var total_calificacion = total_disenio + total_ejecucion;
+                var niveles_disminuye = 0;
+                if (parseInt(total_calificacion) <= 100 && parseInt(total_calificacion) >= 76) {
+                    niveles_disminuye = 1;
+                } else {
+                    if (parseInt(total_calificacion) <= 75 && parseInt(total_calificacion) >= 51) {
+                        niveles_disminuye = 1;
+                    } else {
+                        niveles_disminuye = 0;
+                    }
+                }
+                $('#totalDisenio').val(total_disenio);
+                $('#totalEjecucion').val(total_ejecucion);
+                $('#totalCalificacion').val(total_calificacion);
+                $('#nivelesDisminuye').val(niveles_disminuye);
+            }
         </script>
     </body>
 </html>

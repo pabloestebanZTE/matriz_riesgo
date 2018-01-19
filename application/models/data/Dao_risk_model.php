@@ -13,11 +13,11 @@ class Dao_risk_model extends CI_Model {
             $riesgo = new RiesgoModel();
             //Verificamos que no exista un control con le mismo nombre en la misma plataforma...
             $exist = $riesgo->where("k_id_plataforma", "=", $request->k_id_plataforma)
-                            ->where("nombre_riesgo", "=", $request->nombre_riesgo)->exist();
+                            ->where("k_id_riesgo", "=", $request->nombre_riesgo . "-" . $request->k_id_plataforma)->exist();
             if ($exist) {
                 return (new Response(EMessages::ERROR))->setMessage("Ya existe un riesgo con el mismo id para esta plataforma.");
             }
-            $request->k_id_riesgo = $request->nombre_riesgo;
+            $request->k_id_riesgo = $request->nombre_riesgo . "-" . $request->k_id_plataforma;
             $riesgo = new RiesgoModel();
             $datos = $riesgo->insert($request->all());
             $response = new Response(EMessages::SUCCESS);
@@ -634,12 +634,11 @@ class Dao_risk_model extends CI_Model {
 //                . "riesgo.k_id_riesgo = riesgo_especifico.k_id_riesgo WHERE k_id_plataforma = ")->get();
         $list = null;
         if ($typeFilter == "NONE") {
-            $list = $daoRisk
-                            ->join("riesgo", "riesgo.k_id_riesgo", "=", "riesgo_especifico.k_id_riesgo")
+            $list = $daoRisk->join("riesgo", "riesgo.k_id_riesgo", "=", "riesgo_especifico.k_id_riesgo")
                             ->where("riesgo.k_id_plataforma", "=", $request->id)
-                            ->select("riesgo.n_riesgo", "riesgo_especifico.*")->get();
+                            ->select("riesgo.n_riesgo", "riesgo.nombre_riesgo", "riesgo_especifico.*")->get();
         } else if ($typeFilter == "WITHCONTROL") {
-            $list = (new DB())->select("select re.*, r.n_riesgo from riesgo_especifico re inner join 
+            $list = (new DB())->select("select re.*, r.n_riesgo, r.nombre_riesgo from riesgo_especifico re inner join 
                                         causa c on re.k_id_riesgo_especifico = c.k_id_riesgo_especifico 
                                         inner join control_especifico ce on ce.k_id_causa = c.k_id_causa 
                                         inner join riesgo r on r.k_id_riesgo = re.k_id_riesgo 

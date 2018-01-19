@@ -184,7 +184,7 @@
             Zolid By ZTE Colombia | All Right Reserved
         </div>
         <?php $this->load->view('parts/generic/scripts'); ?>
-        <script type="text/javascript" src="<?= URL::to("assets/js/modules/mapa_x_plataforma.js?v=1.2"); ?>"></script>
+        <script type="text/javascript" src="<?= URL::to("assets/js/modules/mapa_x_plataforma.js?v=".time()); ?>"></script>
         <!-- CUSTOM SCRIPT   -->
     </body>
 </html>
