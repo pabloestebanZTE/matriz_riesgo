@@ -131,7 +131,7 @@
                                     <div class="col-md-8 selectContainer">
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="fa fa-fw fa-user"></i></span>
-                                            <select name="n_funcionalidad_frecuencia" id="n_funcionalidad_frecuencia" class="form-control" required>
+                                            <select name="n_funcionalidad_frecuencia" id="n_funcionalidad_frecuencia" class="form-control" >
                                                 <option value="">Seleccione</option>
                                                 <option value="Adecuado">Adecuado</option>
                                                 <option value="Inadecuado">Inadecuado</option>

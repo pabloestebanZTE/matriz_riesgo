@@ -46,7 +46,7 @@
                                                 <!--<input type='text' name="n_pd1" id="n_pd1" class="form-control">-->
                                                 <select name="n_pd1" id="n_pd1" class="form-control">
                                                     <?php
-                                                    for ($i = 1; $i <= 8; $i++) {
+                                                    for ($i = 0; $i <= 8; $i++) {
                                                         echo '<option value="' . $i . '">' . $i . '</option>';
                                                     }
                                                     ?>
@@ -62,7 +62,7 @@
                                                 <!--<input type='text' name="n_pd2" id="n_pd2" class="form-control">-->
                                                 <select name="n_pd2" id="n_pd2" class="form-control">
                                                     <?php
-                                                    for ($i = 1; $i <= 8; $i++) {
+                                                    for ($i = 0; $i <= 8; $i++) {
                                                         echo '<option value="' . $i . '">' . $i . '</option>';
                                                     }
                                                     ?>
@@ -83,7 +83,7 @@
                                                 <!--<input type='text' name="n_pd3" id="n_pd3" class="form-control">-->
                                                 <select name="n_pd3" id="n_pd3" class="form-control">
                                                     <?php
-                                                    for ($i = 1; $i <= 8; $i++) {
+                                                    for ($i = 0; $i <= 8; $i++) {
                                                         echo '<option value="' . $i . '">' . $i . '</option>';
                                                     }
                                                     ?>
@@ -100,7 +100,7 @@
                                                 <!--<input type='text' name="n_pd4" id="n_pd4" class="form-control">-->
                                                 <select name="n_pd4" id="n_pd4" class="form-control">
                                                     <?php
-                                                    for ($i = 1; $i <= 8; $i++) {
+                                                    for ($i = 0; $i <= 8; $i++) {
                                                         echo '<option value="' . $i . '">' . $i . '</option>';
                                                     }
                                                     ?>
@@ -117,7 +117,7 @@
                                                 <!--<input type='text' name="n_pd5" id="n_pd5" class="form-control">-->
                                                 <select name="n_pd5" id="n_pd5" class="form-control">
                                                     <?php
-                                                    for ($i = 1; $i <= 8; $i++) {
+                                                    for ($i = 0; $i <= 8; $i++) {
                                                         echo '<option value="' . $i . '">' . $i . '</option>';
                                                     }
                                                     ?>
@@ -142,7 +142,7 @@
                                                 <!--<input type='text' name="n_pe1" id="n_pe1" class="form-control">-->
                                                 <select name="n_pe1" id="n_pe1" class="form-control">
                                                     <?php
-                                                    for ($i = 1; $i <= 15; $i++) {
+                                                    for ($i = 0; $i <= 15; $i++) {
                                                         echo '<option value="' . $i . '">' . $i . '</option>';
                                                     }
                                                     ?>
@@ -158,7 +158,7 @@
                                                 <!--<input type='text' name="n_pe2" id="n_pe2" class="form-control">-->
                                                 <select name="n_pe2" id="n_pe2" class="form-control">
                                                     <?php
-                                                    for ($i = 1; $i <= 15; $i++) {
+                                                    for ($i = 0; $i <= 15; $i++) {
                                                         echo '<option value="' . $i . '">' . $i . '</option>';
                                                     }
                                                     ?>
@@ -179,7 +179,7 @@
                                                 <!--<input type='text' name="n_pe3" id="n_pe3" class="form-control">-->
                                                 <select name="n_pe3" id="n_pe3" class="form-control">
                                                     <?php
-                                                    for ($i = 1; $i <= 15; $i++) {
+                                                    for ($i = 0; $i <= 15; $i++) {
                                                         echo '<option value="' . $i . '">' . $i . '</option>';
                                                     }
                                                     ?>
@@ -196,7 +196,7 @@
                                                 <!--<input type='text' name="n_pe4" id="n_pe4" class="form-control">-->
                                                 <select name="n_pe4" id="n_pe4" class="form-control">
                                                     <?php
-                                                    for ($i = 1; $i <= 15; $i++) {
+                                                    for ($i = 0; $i <= 15; $i++) {
                                                         echo '<option value="' . $i . '">' . $i . '</option>';
                                                     }
                                                     ?>

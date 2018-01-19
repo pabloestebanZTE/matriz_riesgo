@@ -54,7 +54,7 @@ $(function () {
                         {title: "Macro proceso", data: "n_macro_proceso"},
                         {title: "Objetivo", data: "n_objetivo"},
                         {title: "Responsable", data: "n_responsable"},
-                        {title: "Riesgo", data: "k_id_riesgo.n_riesgo"},
+                        {title: "Riesgo", data: "k_id_riesgo.nombre_riesgo"},
                         {title: "Probabilidad", data: "k_id_probabilidad.n_descripcion"},
                         {title: "Tipo evento 2", data: "k_id_tipo_evento_2.n_descripcion", visible: false},
                         {title: "Impacto", data: "k_id_impacto.n_descripcion"},
