@@ -27,7 +27,7 @@
                                 <div class="col-md-8 selectContainer">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-fw fa-globe"></i></span>
-                                        <select class="form-control" id="k_id_plataforma" name="k_id_plataforma">
+                                        <select class="form-control" id="k_id_plataforma" name="k_id_plataforma" required>
                                             <option>Seleccione</option>
                                         </select>
                                     </div>
@@ -106,19 +106,6 @@
                             <div class="widget text-left m-b-25 display-block">
                                 <h2 class="h4"> Frecuencia del Control</h2>
                                 <div class="form-group">
-                                    <label for="n_funcionalidad_frecuencia" class="col-md-3 control-label">Funcionalidad:</label>
-                                    <div class="col-md-8 selectContainer">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><i class="fa fa-fw fa-user"></i></span>
-                                            <select name="n_funcionalidad_frecuencia" id="n_funcionalidad_frecuencia" class="form-control" required>
-                                                <option value="">Seleccione</option>
-                                                <option value="Adecuado">Adecuado</option>
-                                                <option value="Inadecuado">Inadecuado</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
                                     <label for="n_periodicidad" class="col-md-3 control-label">Periodicidad:</label>
                                     <div class="col-md-8 selectContainer">
                                         <div class="input-group">
@@ -138,7 +125,20 @@
                                             </select>
                                         </div>
                                     </div>
-                                </div>                            
+                                </div>
+                                <div class="form-group">
+                                    <label for="n_funcionalidad_frecuencia" class="col-md-3 control-label">Funcionalidad:</label>
+                                    <div class="col-md-8 selectContainer">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-fw fa-user"></i></span>
+                                            <select name="n_funcionalidad_frecuencia" id="n_funcionalidad_frecuencia" class="form-control" required>
+                                                <option value="">Seleccione</option>
+                                                <option value="Adecuado">Adecuado</option>
+                                                <option value="Inadecuado">Inadecuado</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>                            
                         </fieldset>
                         <!--  fin seccion izquierda form---->

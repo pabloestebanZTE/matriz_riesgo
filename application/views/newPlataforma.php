@@ -25,6 +25,15 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label for="n_responsable" class="col-md-3 control-label">Responsable plataforma:</label>
+                                <div class="col-md-8 selectContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-fw fa-globe"></i></span>
+                                        <input type='text' name="n_responsable" id="n_responsable" class="form-control" >
+                                    </div>
+                                </div>
+                            </div>
                         </fieldset>
                         <!--  fin seccion izquierda form -->                       
                         <!-- Button -->

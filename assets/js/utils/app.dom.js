@@ -17,6 +17,16 @@ var dom = {
             dom.fillCombox();
         } catch (e) {
         }
+        dom.events();
+    },
+    events: function () {
+        var onChangeSelect2 = function () {
+            var select = $(this);
+            var spanText = select.find('#select2-cmbCodControl-container');
+//            spanText[0].
+        };
+        $(document).on('change', 'select.select2-hidden-accessible', onChangeSelect2);
+        $(document).on('change.select2', 'select.select2-hidden-accessible', onChangeSelect2);
     },
     fillCombox: function () {
         var comboxs = $('[data-combox]');
