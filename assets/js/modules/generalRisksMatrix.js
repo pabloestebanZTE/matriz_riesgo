@@ -49,7 +49,7 @@ $(function () {
             }
             ini.tablaPrincipal = $('#tablaPrincipal').DataTable(dom.configTable(data,
                     [
-                        {title: "Plataforma", data: "k_id_zona_geografica.n_nombre", visible: false},
+                        {title: "Plataforma", data: "k_id_plataforma.n_nombre"},
                         {title: "Zona Geográfica", data: "k_id_zona_geografica.n_nombre"},
                         {title: "Macro proceso", data: "n_macro_proceso"},
                         {title: "Objetivo", data: "n_objetivo"},
