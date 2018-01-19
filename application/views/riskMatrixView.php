@@ -5,6 +5,12 @@
     <body data-base="<?= URL::base() ?>">
         <?php $this->load->view('parts/generic/header'); ?>
         <div class="container autoheight">
+            <nav class="breadcrumb m-t-20 m-b-0">
+                <a class="breadcrumb-item" href="<?= URL::to("Matriz/generalRisksMatrixView") ?>">Home</a>
+                <span class="breadcrumb-item" >Módulos</span>                        
+                <a class="breadcrumb-item" href="<?= URL::to("Matriz/generalRisksMatrixView"); ?>">Administración de Matrices</a>
+                <span class="breadcrumb-item" ><?= (strpos(URL::getFull(), "id=") != false ? "Editar" : "Registro nuevo") ?></span>
+            </nav>
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 bhoechie-tab-container">
                     <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 bhoechie-tab-menu">
