@@ -64,7 +64,7 @@ class Risk extends CI_Controller {
     public function findRiskById() {
         $id = $this->request->idRiesgo;
         $dao = new Dao_risk_model();
-        $response = $dao->findById($id);
+        $response = $dao->findByIdUnic($id);
         $answer['riesgo'] = json_encode($response->data);
         //Consultamos las plataformas...
         $plataformaModel = new PlataformaModel();
