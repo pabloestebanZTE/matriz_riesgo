@@ -43,7 +43,7 @@
                                     <div class="form-group">
                                         <label for="cmbPlataforma" class="col-sm-2 control-label">Plataforma</label>
                                         <div class="col-sm-10">
-                                            <select class="form-control" id="cmbPlataforma" name="riesgo_especifico.k_id_plataforma" >
+                                            <select class="form-control" id="cmbPlataforma" name="riesgo_especifico.k_id_plataforma" required>
                                                 <option value="">Seleccione</option>
                                             </select>
                                         </div>
@@ -207,7 +207,7 @@
                                 <form class="m-b-20 content-center well form-horizontal" id="form3">
                                     <!--<div class="widget bg-gray text-left m-t-25 display-block">-->
                                     <h2 class="h4"><i class="fa fa-fw fa-check-square-o"></i> Causas y controles.</h2>
-                                    <p class="muted m-b-0">Por favor, verifique los procesos a continuación y complete el checklist según sea el caso.</p>
+                                    <p class="muted m-b-0"></p>
                                     <div class="form-group">
                                         <label for="" class="col-sm-2 control-label">Plataforma</label>
                                         <div class="col-sm-10">
