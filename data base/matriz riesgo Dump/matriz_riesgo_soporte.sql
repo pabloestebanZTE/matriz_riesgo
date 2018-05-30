@@ -24,6 +24,7 @@ DROP TABLE IF EXISTS `soporte`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `soporte` (
   `k_id_soporte` int(11) NOT NULL AUTO_INCREMENT,
+  `k_id_riesgo_especifico` int(11) DEFAULT NULL,
   `k_id_probabilidad` int(11) DEFAULT NULL,
   `k_id_impacto` int(11) DEFAULT NULL,
   `k_tipo` int(11) DEFAULT NULL,
@@ -31,9 +32,11 @@ CREATE TABLE `soporte` (
   PRIMARY KEY (`k_id_soporte`),
   KEY `fk_fk_so_impacto` (`k_id_impacto`),
   KEY `fk_fk_so_probabilidad` (`k_id_probabilidad`),
+  KEY `k_id_riesgo_especifico` (`k_id_riesgo_especifico`),
+  CONSTRAINT `FK_soporte_riesgo_especifico` FOREIGN KEY (`k_id_riesgo_especifico`) REFERENCES `riesgo_especifico` (`k_id_riesgo_especifico`),
   CONSTRAINT `fk_fk_so_impacto` FOREIGN KEY (`k_id_impacto`) REFERENCES `impacto` (`k_id_impacto`),
   CONSTRAINT `fk_fk_so_probabilidad` FOREIGN KEY (`k_id_probabilidad`) REFERENCES `probabilidad` (`k_id_probabilidad`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,6 +45,7 @@ CREATE TABLE `soporte` (
 
 LOCK TABLES `soporte` WRITE;
 /*!40000 ALTER TABLE `soporte` DISABLE KEYS */;
+INSERT INTO `soporte` VALUES (1,1,3,NULL,1,'3. Puede ocurrir en algún momento. Eventualidad con frecuencia moderada. (doce veces al año)'),(2,1,NULL,3,2,'3.1 CONTROL: Existen algunos controles pero no son los suficientes.'),(3,1,NULL,3,2,'3.2 OPERACIONAL: Interrupción de las operaciones de 2 a 4 horas');
 /*!40000 ALTER TABLE `soporte` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -54,4 +58,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-12-21  9:06:19
+-- Dump completed on 2017-12-28 10:11:45

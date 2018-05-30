@@ -6,6 +6,9 @@ class Matriz extends CI_Controller {
 
     function __construct() {
         parent::__construct();
+        if (!Auth::check()) {
+            Redirect::to(URL::base());
+        }
     }
 
     private function validUser($request) {
@@ -48,15 +51,23 @@ class Matriz extends CI_Controller {
     }
 
     public function controlsView() {
-        $this->load->view('controlsView');
+        //Consultamos las plataformas...
+        $plataformaModel = new PlataformaModel();
+        $data = $plataformaModel->get();
+        $this->load->view('controlsView', ["plataformas" => json_encode($data)]);
     }
 
     public function generalControlsView() {
-        $this->load->view('generalControlsView');
+        $plataformaModel = new PlataformaModel();
+        $data = $plataformaModel->get();
+        $this->load->view('generalControlsView', ["plataformas" => json_encode($data)]);
     }
 
     public function riskView() {
-        $this->load->view('riskView');
+        //Consultamos las plataformas...
+        $plataformaModel = new PlataformaModel();
+        $data = $plataformaModel->get();
+        $this->load->view('riskView', ["plataformas" => json_encode($data)]);
     }
 
     public function generalRisksMatrixView() {
@@ -68,21 +79,75 @@ class Matriz extends CI_Controller {
     }
 
     public function riskMatrixView() {
-        $this->load->view('riskMatrixView');
+        //Consultamos la información de los select...
+        $dao = new Dao_risk_model();
+        $this->load->view('riskMatrixView', ["dataForm" => json_encode($dao->getFormData($this->request))]);
     }
 
     public function generalRisksView() {
-        $this->load->view('generalRisksView');
-    }
-
-    public function qualificationControlsView() {
-        $this->load->view('qualificationControlsView');
+        //Consultamos las plataformas...
+        $plataformaModel = new PlataformaModel();
+        $data = $plataformaModel->get();
+        $this->load->view('generalRisksView', ["plataformas" => json_encode($data)]);
     }
 
     public function gridView() {
         $this->load->view('gridView');
     }
 
-}
+    public function gridRiesgosInherentes() {
+        $this->load->view('gridRiesgosInherentes');
+    }
 
+    public function gridRiesgosResiduales() {
+        $this->load->view('gridRiesgosResiduales');
+    }
+
+    public function adminPlataform() {
+        $plataformModel = new PlataformaModel();
+        $id = $this->request->id;
+        $formData = null;
+        if ($id) {
+            $data = $plataformModel->where("k_id_plataforma", "=", $id)->first();
+            $formData = json_encode($data);
+        }
+        return $this->load->view('adminPlataform', ["formData" => $formData]);
+    }
+
+    public function listPlataforms() {
+        $this->load->view('listPlataforms');
+    }
+
+    public function tratamiento() {
+        $id = $this->request->id;
+        if (!$id) {
+            Redirect::to(URL::to("Matriz/listTratamiento"));
+            return;
+        }
+        $dao = new Dao_risk_model();
+        $this->load->view('tratamiento', ["dataForm" => json_encode($dao->getFormData($this->request))]);
+    }
+
+    public function editarTratamiento() {
+        $id = $this->request->id;
+        if (!$id) {
+            Redirect::to(URL::to("Matriz/listTratamiento"));
+            return;
+        }
+        $dao = new Dao_risk_model();
+//        $json = (new TratamientoRiesgosModel())->where("k_id_tratamiento", "=", $id)->first();
+        $this->load->view('tratamiento', ["dataForm" => json_encode($dao->getTratamientoById($this->request))]);
+    }
+
+    public function listTratamiento() {
+        $this->load->view('listTratamiento');
+    }
+
+    public function riskTratamientos() {
+        $dao = new Dao_risk_model();
+        $this->load->view("riskTratamientos");
+    }
+
+}
 ?>
+

@@ -3,11 +3,11 @@
 class ControlEspecificoModel extends Model {
 
     protected $k_id_control_especifico;
-    protected $k_id_riesgo_especifico;
     protected $k_id_control;
     protected $k_id_causa;
     protected $k_id_factor_riesgo;
     protected $k_id_calificacion;
+    protected $n_state;
     
     //Los campos que desea ocultar para que no se reflejen en la vista.    
     protected $table = "control_especifico";
@@ -24,12 +24,6 @@ class ControlEspecificoModel extends Model {
     }
     public function getKIdControlEspecifico() {
         return $this->k_id_control_especifico;
-    }
-    public function setKIdRiesgoEspecifico($k_id_riesgo_especifico) {
-        $this->k_id_riesgo_especifico = $k_id_riesgo_especifico;
-    }
-    public function getKIdRiesgoEspecifico() {
-        return $this->k_id_riesgo_especifico;
     }
     public function setKIdControl($k_id_control) {
         $this->k_id_control = $k_id_control;
@@ -54,6 +48,12 @@ class ControlEspecificoModel extends Model {
     }
     public function getKIdCalificacion() {
         return $this->k_id_calificacion;
+    }
+    public function setNState($n_state) {
+        $this->n_state = $n_state;
+    }
+    public function getNState() {
+        return $this->n_state;
     }
 
 

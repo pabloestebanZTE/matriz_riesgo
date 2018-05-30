@@ -24,9 +24,13 @@ DROP TABLE IF EXISTS `causa`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `causa` (
   `k_id_causa` int(11) NOT NULL AUTO_INCREMENT,
+  `k_id_riesgo_especifico` int(11) DEFAULT NULL,
   `n_nombre` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`k_id_causa`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `n_state` varchar(50) NOT NULL DEFAULT 'ACTIVE',
+  PRIMARY KEY (`k_id_causa`),
+  KEY `k_id_riesgo_especifico` (`k_id_riesgo_especifico`),
+  CONSTRAINT `FK_causa_riesgo_especifico` FOREIGN KEY (`k_id_riesgo_especifico`) REFERENCES `riesgo_especifico` (`k_id_riesgo_especifico`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -35,6 +39,7 @@ CREATE TABLE `causa` (
 
 LOCK TABLES `causa` WRITE;
 /*!40000 ALTER TABLE `causa` DISABLE KEYS */;
+INSERT INTO `causa` VALUES (1,1,'Falta de Comunicación','ACTIVE'),(2,1,'Carencia de sentido de pertenecia por la empresa','ACTIVE');
 /*!40000 ALTER TABLE `causa` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -47,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-12-21  9:06:16
+-- Dump completed on 2017-12-28 10:11:43

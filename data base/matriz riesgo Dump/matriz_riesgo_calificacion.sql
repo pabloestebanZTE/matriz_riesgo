@@ -38,7 +38,7 @@ CREATE TABLE `calificacion` (
   `total_calificacion` int(11) DEFAULT NULL,
   `niveles_disminuye` int(11) DEFAULT NULL,
   PRIMARY KEY (`k_id_calificacion`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -47,6 +47,7 @@ CREATE TABLE `calificacion` (
 
 LOCK TABLES `calificacion` WRITE;
 /*!40000 ALTER TABLE `calificacion` DISABLE KEYS */;
+INSERT INTO `calificacion` VALUES (1,8,8,3,8,8,15,15,15,15,35,60,95,2);
 /*!40000 ALTER TABLE `calificacion` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -59,4 +60,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-12-21  9:06:13
+-- Dump completed on 2017-12-28 10:11:41

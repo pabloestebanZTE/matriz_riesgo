@@ -29,6 +29,23 @@ class Utils extends CI_Controller {
         $this->json($response);
     }
 
+    function getSeveridad() {
+        $request = $this->request;
+        $model = new RefProbabilidadImpactoModel();
+        $data = $model->where("k_id_probabilidad", "=", $request->idProbabilidad)
+                        ->where("k_id_impacto", "=", $request->idImpacto)->first();
+        $response = new Response(EMessages::QUERY);
+        $response->setData($data);
+        $this->json($response);
+    }
+
+    function prueba() {
+        for ($i = 0; $i < 26; $i++) {
+            echo $this->addMonth($i);
+            echo "<br/>";
+        }
+    }
+
     function getOnTime() {
         $onTimeTypes = ["Y", "N", "Y"];
         $i = rand(0, 2);
@@ -36,14 +53,14 @@ class Utils extends CI_Controller {
     }
 
     function addMonth($i) {
-        $fecha = date('01/01/2017');
-        $nuevafecha = strtotime('+' . $i . ' month', strtotime($fecha));
+        $fecha = date('12/01/2017');
+        $nuevafecha = strtotime('+' . $i . ' day', strtotime($fecha));
         $nuevafecha = date('Y-m-d H:i:s', $nuevafecha);
         return $nuevafecha;
     }
 
     function insertKPI($idTicket, $user) {
-        for ($i = 0; $i < 13; $i++) {
+        for ($i = 0; $i < 26; $i++) {
             echo $i;
             $kpi = [];
             $kpi["k_id_onair"] = $idTicket;
@@ -94,13 +111,40 @@ class Utils extends CI_Controller {
         ini_set('memory_limit', '-1');
         set_time_limit(-1);
         $users = DB::table("user")->isNotNull("n_role_user")->get();
-        $idTickets = 500;
+        $idTickets = 700;
         foreach ($users as $user) {
 //            $idTicket = rand(1, 500);
             $idTickets[] = $idTicket;
             $this->insertKPI($idTickets, $user->k_id_user);
             $idTickets++;
         }
+    }
+
+    function getConsecutivoControl() {
+        $count = (new DB())
+                ->select("select count(k_id) as count from control where k_id_plataforma = "
+                        . $this->request->idPlataforma)
+                ->first();
+        $consecutivo = "C" . ($count->count + 1);
+        $response = (new Response(EMessages::SUCCESS))->setData($consecutivo);
+        $this->json($response);
+    }
+
+    function getConsecutivoRiesgo() {
+        $count = (new DB())
+                ->select("select count(k_id) as count from riesgo where k_id_plataforma = "
+                        . $this->request->idPlataforma)
+                ->first();
+        $consecutivo = "R" . ($count->count + 1);
+        $response = (new Response(EMessages::SUCCESS))->setData($consecutivo);
+        $this->json($response);
+    }
+
+    function getRiskById() {
+        $response = new Response(EMessages::QUERY);
+        $data = (new RiesgoModel())->where("k_id_riesgo", "=", $this->request->id)->first();
+        $response->setData($data);
+        $this->json($response);
     }
 
 }

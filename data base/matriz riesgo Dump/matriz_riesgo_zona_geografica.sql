@@ -26,7 +26,7 @@ CREATE TABLE `zona_geografica` (
   `k_id_zona_geografica` int(11) NOT NULL AUTO_INCREMENT,
   `n_nombre` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`k_id_zona_geografica`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -35,6 +35,7 @@ CREATE TABLE `zona_geografica` (
 
 LOCK TABLES `zona_geografica` WRITE;
 /*!40000 ALTER TABLE `zona_geografica` DISABLE KEYS */;
+INSERT INTO `zona_geografica` VALUES (1,'zona 1'),(2,'zona 2');
 /*!40000 ALTER TABLE `zona_geografica` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -47,4 +48,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-12-21  9:06:17
+-- Dump completed on 2017-12-28 10:11:44

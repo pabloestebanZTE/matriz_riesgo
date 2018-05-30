@@ -5,7 +5,7 @@
  */
 
 var dom = {
-    //Para agregar todas las interacciones del dom genericas.
+//Para agregar todas las interacciones del dom genericas.
     init: function () {
         try {
             $('body').on('click', '.alert .close', function () {
@@ -17,6 +17,16 @@ var dom = {
             dom.fillCombox();
         } catch (e) {
         }
+        dom.events();
+    },
+    events: function () {
+        var onChangeSelect2 = function () {
+            var select = $(this);
+            var spanText = select.find('#select2-cmbCodControl-container');
+//            spanText[0].
+        };
+        $(document).on('change', 'select.select2-hidden-accessible', onChangeSelect2);
+        $(document).on('change.select2', 'select.select2-hidden-accessible', onChangeSelect2);
     },
     fillCombox: function () {
         var comboxs = $('[data-combox]');
@@ -108,6 +118,7 @@ var dom = {
                 cmb.select2({width: "100%"});
             }
             cmb.trigger('select2fill');
+            cmb.trigger('selectfilled');
         }, 10);
     },
     /**
@@ -243,9 +254,7 @@ var dom = {
         var state = obj.i_state;
         var percentValue = obj.i_percent;
         var today = obj.today;
-
         var interval = null;
-
         if (typeof callback === "function" && (state == "CHANGE_FASE")) {
             location.reload();
         }
@@ -319,7 +328,6 @@ var dom = {
         var refresh = function () {
             var mathTime = (1000 * 60);
             today += mathTime;
-
             var v = dom.betweenHours(new Date('01/01/2017 06:00'), new Date('01/01/2017 18:00'), new Date(today));
 //            var hrs = 0;
 //            var hour = formatDate(new Date(today), 'HH');
@@ -337,13 +345,11 @@ var dom = {
             timeRecord -= mathTime;
             parseTimer(timeRecord, element, progressElement, percentValue);
         };
-
         //Número de tiempos al límite...
         if (element) {
             element.html('<i class="fa fa-fw fa-refresh fa-spin"></i> --:--');
         }
         parseTimer(time, element, progressElement, percentValue);
-
         //Creamos el intervalo a un minuto...
         interval = window.setInterval(function () {
             refresh();
@@ -386,6 +392,13 @@ var dom = {
     scrollTop: function () {
         $("html, body").animate({scrollTop: 0}, "slow");
     },
+    /**
+     * 
+     * @param {type} form
+     * @param {type} callback
+     * @param {type} clearForm
+     * @returns {undefined}
+     */
     submitDirect: function (form, callback, clearForm) {
         form.find('fieldset').prop('disabled', true);
         form.find('button[type="submit"] i.fa-save').attr('class', 'fa fa-fw fa-refresh fa-spin');
@@ -394,7 +407,8 @@ var dom = {
         dom.printAlert("Enviando, por favor espere...", 'loading', form.find('.alert'));
         var uri = form.attr('action');
         if (form.attr('data-action') == "FOR_UPDATE") {
-            uri = form.attr('data-action-updated');
+            uri = form.attr('data-action-update');
+            console.log(uri);
         }
         ajax = app.post(uri, obj);
         ajax.complete(function () {
@@ -472,13 +486,18 @@ var dom = {
     configTable: function (data, columns, onDraw) {
         return {
             data: data,
+            dom: 'Bfrtip',
             columns: columns,
+            dom: 'Bfrtip',
+            buttons: [
+                'colvis'
+            ],
             "language": {
                 "url": app.urlbase + "assets/plugins/datatables/lang/es.json"
             },
             columnDefs: [{
                     defaultContent: "",
-                    targets: 0,
+                    targets: -1,
                     orderable: false,
                 }],
             order: [[1, 'asc']],
@@ -528,19 +547,51 @@ var dom = {
     formatDate(dateString, method) {
         if (dateString && dateString.trim() != "") {
             if (method === "month") {
-                //dateString, outputFormat, inputFormat...            
+//dateString, outputFormat, inputFormat...            
                 return formatDate(dateString, 'dd/NNN/yyyy', 'yyyy/MM/dd');
             } else if (method === "fillForm") {
-                //dateString, outputFormat, inputFormat...            
+//dateString, outputFormat, inputFormat...            
                 return formatDate(dateString, 'dd/MM/yyyy', 'yyyy/MM/dd');
             } else if (method === "getFormData") {
-                //dateString, outputFormat, inputFormat...
+//dateString, outputFormat, inputFormat...
                 return formatDate(dateString, 'yyyy-MM-dd', 'dd/MM/yyyy');
             }
         } else {
             return "Indefinido";
         }
-    }
+    },
+    fillCombo: function (cmb, value) {
+        cmb.attr('data-value', value);
+        cmb.on('selectfilled', function () {
+            console.log("SELEECT FILL COMBNO", cmb, value);
+            cmb.val(cmb.attr('data-value')).trigger('change.select2');
+            cmb.off('selectfilled');
+        });
+    },
+    formatDateForPrint(dateString, method) {
+        if (dateString && dateString.trim() != "") {
+            if (method === "fillForm") {
+                //dateString, outputFormat, inputFormat...            
+                return formatDate(dateString, "yyyy-MM-dd", "yyyy-MM-dd");
+            } else if (method === "getFormData") {
+                return dateString;
+            }
+        } else {
+            return "Indefinido";
+        }
+    },
+    formatDateTimeForPrint(dateString, method) {
+        if (dateString && dateString.trim() != "") {
+            if (method === "fillForm") {
+                //dateString, outputFormat, inputFormat...            
+                return formatDate(dateString, "yyyy-MM-ddThh:mm", "yyyy-MM-dd HH:mm");
+            } else if (method === "getFormData") {
+                return dateString;
+            }
+        } else {
+            return "Indefinido";
+        }
+    },
 };
 $(function () {
     dom.init();

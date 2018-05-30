@@ -8,18 +8,20 @@ INSERT INTO `ref_combox` (`k_id_combox`,`n_value`,`n_text`,`n_table`,`n_sql`,`d_
 INSERT INTO `ref_combox` (`k_id_combox`,`n_value`,`n_text`,`n_table`,`n_sql`,`d_created_at`) VALUES (5,'k_id_plataforma','n_nombre','plataforma',NULL,'2017-12-19 11:53:24');
 INSERT INTO `ref_combox` (`k_id_combox`,`n_value`,`n_text`,`n_table`,`n_sql`,`d_created_at`) VALUES (6,'k_id_control','n_descripcion','control',NULL,'2017-12-19 12:07:00');
 INSERT INTO `ref_combox` (`k_id_combox`,`n_value`,`n_text`,`n_table`,`n_sql`,`d_created_at`) VALUES (7,'k_id_tipo_evento_1','n_descripcion','tipo_evento_1',NULL,'2017-12-20 10:06:05');
+INSERT INTO `ref_combox` (`k_id_combox`,`n_value`,`n_text`,`n_table`,`n_sql`,`d_created_at`) VALUES (8,'k_id_zona_geografica','n_nombre','zona_geografica',NULL,'2017-12-27 10:25:11');
 
 
 /*Table tipo_evento_1 */
 INSERT INTO `tipo_evento_1` (`k_id_tipo_evento_1`,`n_descripcion`) VALUES (1,'1. Fraude Interno');
 INSERT INTO `tipo_evento_1` (`k_id_tipo_evento_1`,`n_descripcion`) VALUES (2,'2. Fraude Externo');
 INSERT INTO `tipo_evento_1` (`k_id_tipo_evento_1`,`n_descripcion`) VALUES (3,'3. Relaciones Laborales');
-INSERT INTO `tipo_evento_1` (`k_id_tipo_evento_1`,`n_descripcion`) VALUES (4,'5. Daños a activos físicos');
-INSERT INTO `tipo_evento_1` (`k_id_tipo_evento_1`,`n_descripcion`) VALUES (5,'6. Fallas tecnológicas');
-INSERT INTO `tipo_evento_1` (`k_id_tipo_evento_1`,`n_descripcion`) VALUES (6,'7. Ejecución y administración de procesos');
-INSERT INTO `tipo_evento_1` (`k_id_tipo_evento_1`,`n_descripcion`) VALUES (7,'8. Lavado de Activos');
-INSERT INTO `tipo_evento_1` (`k_id_tipo_evento_1`,`n_descripcion`) VALUES (8,'9. Reputacional');
-INSERT INTO `tipo_evento_1` (`k_id_tipo_evento_1`,`n_descripcion`) VALUES (9,'10. Legal');
+INSERT INTO `tipo_evento_1` (`k_id_tipo_evento_1`,`n_descripcion`) VALUES (4,'4. Clientes');
+INSERT INTO `tipo_evento_1` (`k_id_tipo_evento_1`,`n_descripcion`) VALUES (5,'5. Daños a activos físicos');
+INSERT INTO `tipo_evento_1` (`k_id_tipo_evento_1`,`n_descripcion`) VALUES (6,'6. Fallas tecnológicas');
+INSERT INTO `tipo_evento_1` (`k_id_tipo_evento_1`,`n_descripcion`) VALUES (7,'7. Ejecución y administración de procesos');
+INSERT INTO `tipo_evento_1` (`k_id_tipo_evento_1`,`n_descripcion`) VALUES (8,'8. Lavado de Activos');
+INSERT INTO `tipo_evento_1` (`k_id_tipo_evento_1`,`n_descripcion`) VALUES (9,'9. Reputacional');
+INSERT INTO `tipo_evento_1` (`k_id_tipo_evento_1`,`n_descripcion`) VALUES (10,'10. Legal');
 
 
 /*Table tipo_evento_2 */
@@ -68,3 +70,32 @@ INSERT INTO `impacto` (`k_id_impacto`,`n_descripcion`) VALUES (2,'Alto');
 INSERT INTO `impacto` (`k_id_impacto`,`n_descripcion`) VALUES (3,'Significativo');
 INSERT INTO `impacto` (`k_id_impacto`,`n_descripcion`) VALUES (4,'Bajo');
 INSERT INTO `impacto` (`k_id_impacto`,`n_descripcion`) VALUES (5,'Insignificante');
+
+/*Table ref_probabilidad_impacto */
+INSERT INTO `ref_probabilidad_impacto` (`k_⁯id_ref`, `k_id_probabilidad`, `k_id_impacto`, `n_calificacion`, `n_color`, `n_text_color`) VALUES
+	(1, 5, 5, 'Bajo', '#ADFF2F', '#000000'),
+	(2, 5, 4, 'Bajo', '#ADFF2F', '#000000'),
+	(3, 5, 3, 'Moderado', '#0000FF', '#FFFFFF'),
+	(4, 5, 2, 'Alto', '#FFFF00', '#000000'),
+	(5, 5, 1, 'Extremo', '#FF0000', '#FFFFFF'),
+	(6, 4, 5, 'Bajo', '#ADFF2F', '#000000'),
+	(7, 4, 4, 'Bajo', '#ADFF2F', '#000000'),
+	(8, 4, 3, 'Moderado', '#0000FF', '#FFFFFF'),
+	(9, 4, 2, 'Alto', '#FFFF00', '#000000'),
+	(10, 4, 1, 'Extremo', '#FF0000', '#FFFFFF'),
+	(11, 3, 5, 'Bajo', '#ADFF2F', '#000000'),
+	(12, 3, 4, 'Moderado', '#0000FF', '#FFFFFF'),
+	(13, 3, 3, 'Moderado', '#0000FF', '#FFFFFF'),
+	(14, 3, 2, 'Alto', '#FFFF00', '#000000'),
+	(15, 3, 1, 'Extremo', '#FF0000', '#FFFFFF'),
+	(16, 2, 5, 'Bajo', '#ADFF2F', '#000000'),
+	(17, 2, 4, 'Moderado', '#0000FF', '#FFFFFF'),
+	(18, 2, 3, 'Alto', '#FFFF00', '#000000'),
+	(19, 2, 2, 'Alto', '#FFFF00', '#000000'),
+	(20, 2, 1, 'Extremo', '#FF0000', '#FFFFFF'),
+	(21, 1, 5, 'Bajo', '#ADFF2F', '#000000'),
+	(22, 1, 4, 'Moderado', '#0000FF', '#FFFFFF'),
+	(23, 1, 3, 'Alto', '#FFFF00', '#000000'),
+	(24, 1, 2, 'Extremo', '#FF0000', '#FFFFFF'),
+	(25, 1, 1, 'Extremo', '#FF0000', '#FFFFFF');
+

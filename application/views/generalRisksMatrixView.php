@@ -9,7 +9,7 @@
                 <p id="text" class="m-b-0 p-b-0"></p>
             </div>
             <div class='tab-content contentPrincipal' id='tab1'>
-                <div class='container'>
+                <div class='container'>                    
                     <form class= 'well form-horizontal' action='' method='post'  id='' name='' enctype= 'multipart/form-data'>
                         <fieldset>
                             <div class="row">
@@ -35,6 +35,6 @@
         </div>
         <?php $this->load->view('parts/generic/scripts'); ?>
         <!-- CUSTOM SCRIPT   -->
-        <script src="<?= URL::to('assets/js/modules/generalRisksMatrix.js') ?>" type="text/javascript"></script>
+        <script src="<?= URL::to('assets/js/modules/generalRisksMatrix.js?v=' . time()) ?>" type="text/javascript"></script>
     </body>
 </html>

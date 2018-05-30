@@ -10,6 +10,8 @@ class DB extends PDO {
     private $sql;
     private $query;
 
+    const NULLED = "NULLED";
+
     public function __construct($table = null) {
         $this->init($table);
     }
@@ -63,6 +65,7 @@ class DB extends PDO {
         } else {
             //Agregue los parámetros que se van a seleccionar a la consulta.
             $this->sql .= "SELECT ";
+            $params = $params[0];
             $max = count($params);
             for ($i = 0; $i < $max; $i++) {
                 $param = $params[$i];
@@ -86,13 +89,13 @@ class DB extends PDO {
     }
 
     public function isNull($key) {
-        $this->wheres .= (strpos($this->wheres, "WHERE")) ? " OR " : " WHERE ";
+        $this->wheres .= (strpos($this->wheres, "WHERE")) ? " AND " : " WHERE ";
         $this->wheres .= "$key is NULL";
         return $this;
     }
 
     public function isNotNull($key) {
-        $this->wheres .= (strpos($this->wheres, "WHERE")) ? " OR " : " WHERE ";
+        $this->wheres .= (strpos($this->wheres, "WHERE")) ? " AND " : " WHERE ";
         $this->wheres .= "$key is NOT NULL";
         return $this;
     }
@@ -254,17 +257,19 @@ class DB extends PDO {
     }
 
     private function run($obj) {
-//        $sth = $this->prepare($this->sql);
+        $sth = $this->prepare($this->sql);
         $this->query = $this->sql;
         foreach ($obj as $key => $value) {
+            if ($value === DB::NULLED) {
+                $value = NULL;
+            }
             $this->query = str_replace(":$key", (($value) ? (($value && is_string($value)) ? "\"$value\"" : $value) : "NULL"), $this->query);
-//            $sth->bindValue(":$key", $value);
+            $sth->bindValue(":$key", $value);
         }
-        $sth = $this->prepare($this->query);
         $sth->execute();
     }
 
-    function getSql() {
+    public function getSql() {
         return $this->query;
     }
 

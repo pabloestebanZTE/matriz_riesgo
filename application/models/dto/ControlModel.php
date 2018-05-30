@@ -2,7 +2,10 @@
 
 class ControlModel extends Model {
 
+    protected $k_id;
     protected $k_id_control;
+    protected $nombre_control;
+    protected $k_id_plataforma;
     protected $n_descripcion;
     protected $n_asignacion;
     protected $n_cargo;
@@ -29,11 +32,29 @@ class ControlModel extends Model {
         $this->class = get_class($this);
     }
     
-        public function setKIdControl($k_id_control) {
+        public function setKId($k_id) {
+        $this->k_id = $k_id;
+    }
+    public function getKId() {
+        return $this->k_id;
+    }
+    public function setKIdControl($k_id_control) {
         $this->k_id_control = $k_id_control;
     }
     public function getKIdControl() {
         return $this->k_id_control;
+    }
+    public function setNombreControl($nombre_control) {
+        $this->nombre_control = $nombre_control;
+    }
+    public function getNombreControl() {
+        return $this->nombre_control;
+    }
+    public function setKIdPlataforma($k_id_plataforma) {
+        $this->k_id_plataforma = $k_id_plataforma;
+    }
+    public function getKIdPlataforma() {
+        return $this->k_id_plataforma;
     }
     public function setNDescripcion($n_descripcion) {
         $this->n_descripcion = $n_descripcion;
