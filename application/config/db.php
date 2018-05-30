@@ -23,7 +23,7 @@ return [
       | you may use many connections at once using the Database library.
       |
      */
-    'default' => 'jj',
+    'default' => 'mysqlLocalhost',
     /*
       |--------------------------------------------------------------------------
       | Database Connections
@@ -44,7 +44,7 @@ return [
             'driver' => 'mysql',
             'host' => 'zte-col.cws6f2qsxddy.us-west-2.rds.amazonaws.com',
             'port' => '3306',
-            'database' => 'on_air',
+            'database' => 'matriz_riesgo',
             'username' => 'AdminZTE',
             'password' => 'a4b3c2d1',
             'charset' => 'utf8',
